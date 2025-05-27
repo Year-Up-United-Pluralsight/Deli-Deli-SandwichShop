@@ -3,7 +3,7 @@ package com.pluralsight.sandwich;
 import com.pluralsight.javainterfaces.*;
 import com.pluralsight.toppings.*;
 
-public class BLT extends Sandwich implements customizeToppings{
+public class BLT extends Sandwich implements customizeToppings, isMenuItem{
 
     private int size;
 
@@ -20,7 +20,14 @@ public class BLT extends Sandwich implements customizeToppings{
 
     }
 
+    @Override
+    public int getSize() {
+        return size;
+    }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     @Override
     public void removeTopping(Toppings topping) {
@@ -32,11 +39,11 @@ public class BLT extends Sandwich implements customizeToppings{
         super.getRegularToppings().replaceAll(regularToppings -> replacedTopping);
     }
 
-    @Override
-    public void replaceBread(Bread replacedBread) {
-        super.getBreadType().replaceAll(bread -> replacedBread);
-
-    }
+//    @Override
+//    public void replaceBread(Bread replacedBread) {
+//        super.getBreadType().replaceAll(bread -> replacedBread);
+//
+//    }
 
     @Override
     public void removeSauce(Sauce sauce) {

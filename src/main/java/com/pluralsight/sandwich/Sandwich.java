@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
+public class Sandwich implements isToasted, addToCheckOut, isMenuItem {
     private int size;
-    private List<Bread> breadType = new ArrayList<>();
+    private Bread breadType;
     private List<Meat> meats = new ArrayList<>();
     private List<Cheese> cheeses = new ArrayList<>();
     private List<RegularToppings> regularToppings = new ArrayList<>();
@@ -19,12 +19,16 @@ public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
     private boolean checkedOut;
 
 
+    public Sandwich(int size) {
+        this.size = size;
+
+    }
 
     public int getSize() {
         return size;
     }
 
-    public List<Bread> getBreadType() {
+    public Bread getBreadType() {
         return breadType;
     }
 
@@ -56,10 +60,6 @@ public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
         return checkedOut;
     }
 
-    public Sandwich(int size) {
-        this.size = size;
-
-    }
 
 
     public void addSauce(Sauce sauce) {
@@ -68,16 +68,25 @@ public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
 
     }
 
+    public void replaceBread(Bread replacedBread){
+
+        if(breadType != null){
+            price -= breadType.getPrice(size);
+        }
+        this.breadType = replacedBread;
+        price += replacedBread.getPrice(size);
+
+    }
+
     public void addBread(Bread bread) {
 
-        breadType.add(bread);
         this.price += bread.getPrice(size);
 
 
     }
 
-    public void addTopping(Toppings topping) {
-        if (topping instanceof Meat) {
+public void addTopping(Toppings topping) {
+    if (topping instanceof Meat) {
             meats.add((Meat) topping);
 
         } else if (topping instanceof Cheese) {
@@ -97,6 +106,11 @@ public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
 
         return price;
 
+
+    }
+
+    @Override
+    public void description() {
 
     }
 
@@ -125,7 +139,7 @@ public class Sandwich implements isToasted, isCheckedOut, addToCheckOut {
         if(this.checkedOut){
             size = 0;
             price = 0.0;
-            breadType = new ArrayList<>();
+            breadType = null;
             meats = new ArrayList<>();
             cheeses = new ArrayList<>();
             regularToppings = new ArrayList<>();

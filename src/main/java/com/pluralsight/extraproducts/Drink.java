@@ -1,12 +1,11 @@
 package com.pluralsight.extraproducts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.pluralsight.javainterfaces.*;
 
-public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
+public class Drink implements chooseSize, isMenuItem, addToCheckOut{
 
     private String size;
     private  String name;
@@ -19,25 +18,39 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
     public Drink(String name) {
         this.name = name;
         this.size = getSize();
-        this.price = getPrice("");
+
 
 
     }
 
-    public double getPrice(String size) {
+    public static List<Drink> getDrinkFlavor(){
+        List<Drink> drinkFlavor = new ArrayList<>();
 
-        if(size != null) {
-            switch (size.toLowerCase()) {
-                case "small":
-                    return 2.00;
-                case "medium":
-                    return 2.50;
-                case "large":
-                    return 3.00;
-            }
-        }
-        return price;
+        drinkFlavor.add((new Drink("Grape")));
+        drinkFlavor.add(new Drink("Lemon"));
+        drinkFlavor.add((new Drink("Mango")));
+        drinkFlavor.add((new Drink("pineapple")));
+
+
+        return drinkFlavor;
+
     }
+
+
+//    public double getPrice(String size) {
+//
+////        if(size != null) {
+////            switch (size.toLowerCase()) {
+////                case "small":
+////                    return 2.00;
+////                case "medium":
+////                    return 2.50;
+////                case "large":
+////                    return 3.00;
+////            }
+////        }
+////        return price;
+//    }
 
     @Override
     public void setSize(String size) {
@@ -47,18 +60,7 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
         }
     }
 
-    public static List<Drink> getDrinkFlavor(){
-        List<Drink> drinkFlavor = new ArrayList<>();
 
-            drinkFlavor.add((new Drink("Grape")));
-            drinkFlavor.add(new Drink("Lemon"));
-            drinkFlavor.add((new Drink("Mango")));
-            drinkFlavor.add((new Drink("pineapple")));
-
-
-        return drinkFlavor;
-
-    }
 
     public String getName() {
         return name;
@@ -74,15 +76,14 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
 
     @Override
     public String toString() {
-        this.price = getPrice(size);
-        return String.format( "A size %s %s flavor drink: $%.2f", size,name,price);
+//        this.price = getPrice();
+        return String.format( "A size %s %s flavor drink: $%.2f", size,name,getPrice());
     }
 
     @Override
     public void setCheckedOut(boolean checkedOut) {
         this.checkedOut = checkedOut;
         if(checkedOut){
-            drinkFlavor = new ArrayList<>();
             price = 0.0;
             size = "";
             name = "";
@@ -95,4 +96,26 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
     public void addingToCheckOut(boolean addCheckOut) {
         this.addToCheckout = addCheckOut;
     }
+
+    @Override
+    public double getPrice() {
+        if(size != null) {
+            switch (size.toLowerCase()) {
+                case "small":
+                    return 2.00;
+                case "medium":
+                    return 2.50;
+                case "large":
+                    return 3.00;
+            }
+        }
+        return price;
+    }
+
+    @Override
+    public void description() {
+        System.out.println("These are Drinks");
+    }
+
+
 }

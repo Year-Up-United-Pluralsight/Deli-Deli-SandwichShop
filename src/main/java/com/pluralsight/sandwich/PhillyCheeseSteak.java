@@ -2,14 +2,14 @@ package com.pluralsight.sandwich;
 import com.pluralsight.javainterfaces.*;
 import com.pluralsight.toppings.*;
 
+import java.util.List;
+
 
 public class PhillyCheeseSteak extends Sandwich implements customizeToppings {
 
-
-
     public PhillyCheeseSteak() {
         super(8);
-        super.addBread(new Bread("White"));
+        Bread bread = new Bread("White");
         super.addTopping(new Meat("Steak"));
         super.addTopping(new Cheese("American"));
 //        super.addTopping(new RegularToppings("Peppers"));
@@ -28,11 +28,11 @@ public class PhillyCheeseSteak extends Sandwich implements customizeToppings {
 
     }
 
-    @Override
-    public void replaceBread(Bread replacedBread) {
-        super.getBreadType().replaceAll(bread -> replacedBread);
-
-    }
+//    @Override
+//    public void replaceBread(Bread replacedBread) {
+//        super.getBreadType().replaceAll(bread -> replacedBread);
+//
+//    }
 
     @Override
     public void removeSauce(Sauce sauce) {

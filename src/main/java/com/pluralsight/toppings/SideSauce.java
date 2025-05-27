@@ -24,10 +24,6 @@ public class SideSauce extends Sauce{
     }
 
 
-    @Override
-    public List<Sauce> getSauce() {
-        return super.getSauce();
-    }
 
     @Override
     public String getName() {
