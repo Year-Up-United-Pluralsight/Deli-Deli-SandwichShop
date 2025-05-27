@@ -2,6 +2,7 @@ package com.pluralsight.filemanager;
 
 import com.pluralsight.extraproducts.Chip;
 import com.pluralsight.extraproducts.Drink;
+import com.pluralsight.extraproducts.Order;
 import com.pluralsight.sandwich.BLT;
 import com.pluralsight.sandwich.Sandwich;
 import com.pluralsight.toppings.Cheese;
@@ -10,11 +11,14 @@ import com.pluralsight.toppings.Cheese;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 public class FileManager {
+
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
 
@@ -22,7 +26,7 @@ public class FileManager {
     private LocalDateTime fileName = LocalDateTime.now();
 
     private String formattedDate = fileName.format(dateTimeFormatter) + ".txt";
-
+    private final Order order = new Order("Name", LocalDateTime.now());
 
     public String getFormattedDate() {
         return formattedDate;
@@ -40,37 +44,35 @@ public class FileManager {
     }
 
 
-    public void saveReceipt(Sandwich sandwich,BLT bltSandwich, Chip chip, Drink drink){
+    public void saveReceipt(List<Sandwich> sandwich, List<BLT> bltSandwich, List<Chip> chip, List<Drink> drink){
 
         try {BufferedWriter bw = new BufferedWriter(new FileWriter((formattedDate), true));
 
-            double total = 0;
-            if(sandwich != null) {
-                bw.write(sandwich + "\n");
-                total += sandwich.getPrice();
-            }
+//            double total = 0;
+//            if(!order.){
+//                bw.write(sandwich + "\n");
+//
+//
+//            }
+//
+//            if(order.getBltList() != null){
+//                bw.write(bltSandwich + "\n");
+//
+//            }
+//
+//            if(order.getChipList() != null){
+//                bw.write(chip + "\n");
+//
+//            }
+//            if(order.getDrinkList() != null){
+//                bw.write(drink + "\n");
+//
+//            }
+//
+//            if(order.getPrice() != -1){
+                bw.write(String.format("\ntotal amount paid: $%.2f", order.);
 
-            if(bltSandwich != null){
-                bw.write(bltSandwich + "\n");
-                total += bltSandwich.getPrice();
-            }
-
-
-            if(!chip.getName().equals(" ")){
-                bw.write(chip + "\n");
-                total += chip.getPrice();
-            }
-
-            if(drink != null && drink.getSize() != null) {
-                bw.write(drink + "\n");
-                total += drink.getPrice(" ");
-
-            }
-
-
-            if(total != -1){
-                bw.write(String.format("\ntotal amount paid: $%.2f",total));
-            }
+//            }
 
             bw.close();
 

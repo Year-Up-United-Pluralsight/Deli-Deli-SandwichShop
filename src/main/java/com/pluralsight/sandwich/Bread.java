@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Bread{
 
-    private String name;
+    private final String name;
     private final double price;
 
 

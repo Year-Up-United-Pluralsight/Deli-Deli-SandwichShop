@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.pluralsight.javainterfaces.*;
 
-public class Chip implements isCheckedOut, addToCheckOut{
+public class Chip implements addToCheckOut, isMenuItem{
 
     private String name;
     private double price;
@@ -26,8 +26,14 @@ public class Chip implements isCheckedOut, addToCheckOut{
         this.name = name;
     }
 
+    @Override
     public double getPrice() {
         return price = 1.50;
+    }
+
+    @Override
+    public void description() {
+        System.out.println("These are bags of Chips");
     }
 
     public void setPrice(double price) {
