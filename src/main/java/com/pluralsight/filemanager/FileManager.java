@@ -3,6 +3,7 @@ package com.pluralsight.filemanager;
 import com.pluralsight.extraproducts.Chip;
 import com.pluralsight.extraproducts.Drink;
 import com.pluralsight.extraproducts.Order;
+import com.pluralsight.javainterfaces.isMenuItem;
 import com.pluralsight.sandwich.BLT;
 import com.pluralsight.sandwich.Sandwich;
 import com.pluralsight.toppings.Cheese;
@@ -44,35 +45,43 @@ public class FileManager {
     }
 
 
-    public void saveReceipt(List<Sandwich> sandwich, List<BLT> bltSandwich, List<Chip> chip, List<Drink> drink){
+    public void saveReceipt(List<isMenuItem> menuItemList){
 
         try {BufferedWriter bw = new BufferedWriter(new FileWriter((formattedDate), true));
 
+
+
+
+            if(menuItemList != null){
+                bw.write(menuItemList + "\n");
+
+
+            }
 //            double total = 0;
-//            if(!order.){
+//            if(sandwich != null ){
 //                bw.write(sandwich + "\n");
 //
 //
 //            }
 //
-//            if(order.getBltList() != null){
+//            if(bltSandwich != null){
 //                bw.write(bltSandwich + "\n");
 //
 //            }
 //
-//            if(order.getChipList() != null){
+//            if(chip != null){
 //                bw.write(chip + "\n");
 //
 //            }
-//            if(order.getDrinkList() != null){
+//            if(drink != null){
 //                bw.write(drink + "\n");
 //
 //            }
-//
-//            if(order.getPrice() != -1){
-                bw.write(String.format("\ntotal amount paid: $%.2f", order.);
 
-//            }
+            if(order.getTotal() != -1){
+                bw.write(String.format("\ntotal amount paid: $%.2f", order.getTotal()));
+
+            }
 
             bw.close();
 

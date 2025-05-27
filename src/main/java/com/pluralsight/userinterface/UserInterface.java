@@ -14,6 +14,7 @@ import com.pluralsight.sandwich.PhillyCheeseSteak;
 import com.pluralsight.sandwich.Sandwich;
 import com.pluralsight.toppings.*;
 
+import java.awt.*;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class UserInterface {
     private Drink drink = new Drink("");
     private Chip chips = new Chip(" ");
     private final Order order = new Order("name", LocalDateTime.now());
+    private Bread bread;
 
 
     public void init() {
@@ -170,6 +172,7 @@ public class UserInterface {
                    }
                }
 
+               order.addItem(bltSandwich);
 //              order.addBltToOrder(bltSandwich);
 
 
@@ -208,6 +211,7 @@ public class UserInterface {
 //                    sandwich.setToasted(false);
                 }
 
+                order.addItem(pcs);
 //                order.addSandwichToOrder(pcs);
                 newOrder = false;
 
@@ -491,6 +495,8 @@ public class UserInterface {
 
     private void orderSandwich() {
 
+        String customerName = console.promptForString("What is your name?: ");
+        Order order = new Order(customerName, LocalDateTime.now());
 
         int size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
        Sandwich sandwich = new Sandwich(size);
@@ -502,8 +508,9 @@ public class UserInterface {
         addSauceToSandwich(sandwich);
         toastSandwich(sandwich);
 
-//        order.addSandwichToOrder(sandwich);
-        System.out.println(sandwich);
+        order.addItem(sandwich);
+
+        System.out.println("A sandwich for : " + customerName + "\n" + sandwich);
 
 
     }
@@ -867,7 +874,7 @@ public class UserInterface {
                     System.out.println("Not a valid number");
 
                 } else if (confirmation == 1) {
-//                    fileManager.saveReceipt(order.,order.getBltList(),order.getChipList(), order.getDrinkList());
+                    fileManager.saveReceipt(order.getMenuItems());
 //                    order.clearOrder();
                     checkingOut = false;
 

@@ -56,6 +56,13 @@ public class Order  {
     }
 
 
+public List<isMenuItem> getMenuItems(){
+
+        return menuItems;
+
+
+}
+
 
 
 

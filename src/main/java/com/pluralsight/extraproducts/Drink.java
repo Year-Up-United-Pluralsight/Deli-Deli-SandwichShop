@@ -37,21 +37,6 @@ public class Drink implements chooseSize, isMenuItem, addToCheckOut{
     }
 
 
-//    public double getPrice(String size) {
-//
-////        if(size != null) {
-////            switch (size.toLowerCase()) {
-////                case "small":
-////                    return 2.00;
-////                case "medium":
-////                    return 2.50;
-////                case "large":
-////                    return 3.00;
-////            }
-////        }
-////        return price;
-//    }
-
     @Override
     public void setSize(String size) {
         if (size.equalsIgnoreCase("small") || size.equalsIgnoreCase("medium") || size.equalsIgnoreCase("large")) {
