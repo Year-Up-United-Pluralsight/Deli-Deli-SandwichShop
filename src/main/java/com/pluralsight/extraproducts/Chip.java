@@ -10,13 +10,12 @@ public class Chip implements isCheckedOut, addToCheckOut{
     private double price;
     private boolean checkedOut;
     private boolean addToCheckOut;
-    private List<Chip> chips;
+
 
 
     public Chip(String name) {
         this.name = name;
         this.price = getPrice();
-        this.chips = new ArrayList<>();
     }
 
     public String getName() {
@@ -35,7 +34,14 @@ public class Chip implements isCheckedOut, addToCheckOut{
         this.price = price;
     }
 
-    public List<Chip> getChips() {
+    public static List<Chip> getChips() {
+        List<Chip> chips = new ArrayList<>();
+
+            chips.add((new Chip("Lays")));
+            chips.add((new Chip("Frito")));
+            chips.add((new Chip("Doritos")));
+            chips.add((new Chip("Cheetos")));
+
 
 
         return chips;

@@ -6,8 +6,6 @@ import java.util.List;
 
 public class Bread{
 
-    private final List<Bread> breads;
-
     private String name;
     private final double price;
 
@@ -15,16 +13,15 @@ public class Bread{
     public Bread(String name) {
         this.name = name;
         this.price = getPrice(4);
-       this.breads = new ArrayList<>();
     }
 
-    public List<Bread> getBreadTypes() {
+    public static List<Bread> getBreadTypes() {
 
-//            breads.add(new Bread("Wheat"));
-//            breads.add(new Bread("Rye"));
-//            breads.add(new Bread("Sourdough"));
-//            breads.add(new Bread("White"));
-
+        List<Bread> breads =  new ArrayList<>();
+        breads.add(new Bread("Wheat"));
+        breads.add(new Bread("Rye"));
+        breads.add(new Bread("Sourdough"));
+        breads.add(new Bread("White"));
 
         return breads;
     }

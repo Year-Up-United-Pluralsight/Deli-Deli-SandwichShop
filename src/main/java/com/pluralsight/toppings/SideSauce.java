@@ -5,14 +5,21 @@ import java.util.List;
 
 public class SideSauce extends Sauce{
 
-    List<SideSauce> sideSauces = new ArrayList<>();
+
     public SideSauce(String name) {
         super(name);
     }
 
 
-    public List<SideSauce> getSideSauces(){
-        return sideSauces;
+    public static List<SideSauce> getSideSauces(){
+        List<SideSauce> sideSaucesList = new ArrayList<>();
+
+            sideSaucesList.add(new SideSauce("au jus"));
+            sideSaucesList.add(new SideSauce("sauce"));
+
+
+
+        return sideSaucesList;
 
     }
 

@@ -7,26 +7,25 @@ import com.pluralsight.javainterfaces.isExtra;
 public class Cheese extends Toppings implements isExtra  {
 
     private boolean extra ;
-    private final List<Cheese> cheeseToppings;
+
 
     public Cheese(String name) {
         super(name);
         this.price = getPrice(4);
-        this.cheeseToppings = new ArrayList<>();
     }
 
 
 
-    public List<Cheese> getCheeseToppings(){
+    public static List<Cheese> getCheeseToppings(){
+        List<Cheese> cheeseToppings = new ArrayList<>();
 
-//        if(cheeseToppings != null){
-//            cheeseToppings.add(new Cheese("American"));
-//            cheeseToppings.add(new Cheese("Provolone"));
-//            cheeseToppings.add(new Cheese("Cheddar"));
-//            cheeseToppings.add(new Cheese("Swiss"));
-//        }
+            cheeseToppings.add(new Cheese("American"));
+            cheeseToppings.add(new Cheese("Provolone"));
+            cheeseToppings.add(new Cheese("Cheddar"));
+            cheeseToppings.add(new Cheese("Swiss"));
 
-        return this.cheeseToppings;
+
+        return cheeseToppings;
 
     }
 

@@ -10,25 +10,25 @@ import java.util.List;
 public class Meat extends Toppings implements isExtra  {
 
     private boolean extra;
-    private final  List<Meat> meatTopping;
+
 
     public Meat(String name) {
         super(name);
         this.price = getPrice(4);
-        this.meatTopping = new ArrayList<>();
+
 
     }
 
-    public List<Meat> getMeatTopping() {
+    public static List<Meat> getMeatTopping() {
+        List<Meat> meatTopping = new ArrayList<>();
 
+            meatTopping.add(new Meat("Steak"));
+            meatTopping.add(new Meat("Ham"));
+            meatTopping.add(new Meat("Salami"));
+            meatTopping.add(new Meat("Roast Beef"));
+            meatTopping.add(new Meat("Chicken"));
+            meatTopping.add(new Meat("Bacon"));
 
-//            meatTopping.add(new Meat("Steak"));
-//            meatTopping.add(new Meat("Ham"));
-//            meatTopping.add(new Meat("Salami"));
-//            meatTopping.add(new Meat("Roast Beef"));
-//            meatTopping.add(new Meat("Chicken"));
-//            meatTopping.add(new Meat("Bacon"));
-//
 
         return meatTopping;
     }

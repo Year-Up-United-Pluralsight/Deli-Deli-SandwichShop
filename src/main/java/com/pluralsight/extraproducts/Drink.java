@@ -15,14 +15,12 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
     private double price;
 
 
-    private List<Drink> drinkFlavor;
-
 
     public Drink(String name) {
         this.name = name;
         this.size = getSize();
         this.price = getPrice("");
-        this.drinkFlavor = new ArrayList<>();
+
 
     }
 
@@ -49,7 +47,15 @@ public class Drink implements chooseSize, isCheckedOut, addToCheckOut{
         }
     }
 
-    public List<Drink> getDrinkFlavor(){
+    public static List<Drink> getDrinkFlavor(){
+        List<Drink> drinkFlavor = new ArrayList<>();
+
+            drinkFlavor.add((new Drink("Grape")));
+            drinkFlavor.add(new Drink("Lemon"));
+            drinkFlavor.add((new Drink("Mango")));
+            drinkFlavor.add((new Drink("pineapple")));
+
+
         return drinkFlavor;
 
     }

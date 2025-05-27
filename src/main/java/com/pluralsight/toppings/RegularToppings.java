@@ -6,7 +6,7 @@ import java.util.List;
 
 public class RegularToppings extends Toppings {
 
-    private final List<RegularToppings> regularToppings = new ArrayList<>();
+
 
     public RegularToppings(String name) {
         super(name);
@@ -14,19 +14,19 @@ public class RegularToppings extends Toppings {
     }
 
 
-    public List<RegularToppings> getRegularToppings() {
+    public static List<RegularToppings> getRegularToppings() {
 
+        List<RegularToppings> regularToppings = new ArrayList<>();
 
-
-//            regularToppings.add(new RegularToppings("Lettuce"));
-//            regularToppings.add(new RegularToppings("Peppers"));
-//            regularToppings.add(new RegularToppings("Onions"));
-//            regularToppings.add(new RegularToppings("Tomatoes"));
-//            regularToppings.add(new RegularToppings("Jalapenos"));
-//            regularToppings.add(new RegularToppings("Cucumbers"));
-//            regularToppings.add(new RegularToppings("Pickles"));
-//            regularToppings.add(new RegularToppings("Guacamole"));
-//            regularToppings.add(new RegularToppings("Mushrooms"));
+            regularToppings.add(new RegularToppings("Lettuce"));
+            regularToppings.add(new RegularToppings("Peppers"));
+            regularToppings.add(new RegularToppings("Onions"));
+            regularToppings.add(new RegularToppings("Tomatoes"));
+            regularToppings.add(new RegularToppings("Jalapenos"));
+            regularToppings.add(new RegularToppings("Cucumbers"));
+            regularToppings.add(new RegularToppings("Pickles"));
+            regularToppings.add(new RegularToppings("Guacamole"));
+            regularToppings.add(new RegularToppings("Mushrooms"));
 
 
             return regularToppings;

@@ -13,12 +13,14 @@ import com.pluralsight.sandwich.PhillyCheeseSteak;
 import com.pluralsight.sandwich.Sandwich;
 import com.pluralsight.toppings.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserInterface {
 
     private final Console console = new Console();
+    private FileManager fileManager;
     private Sandwich sandwich;
     private final Bread bread = new Bread("Default");
     private final Meat meat = new Meat("Default");
@@ -28,92 +30,23 @@ public class UserInterface {
     private final SideSauce sideSauce = new SideSauce("Default");
     private Drink drink = new Drink("");
     private Chip chips = new Chip(" ");
-    private FileManager fileManager;
     private BLT bltSandwich = null;
     private PhillyCheeseSteak pcs = null;
 
 
-    List<Bread> breadTypes = bread.getBreadTypes();
-    List<Meat> meatTypes = meat.getMeatTopping();
-    List<Cheese> cheeseTypes = cheese.getCheeseToppings();
-    List<RegularToppings> regularTypes = regularToppings.getRegularToppings();
-    List<Sauce> saucesList = sauce.getSauce();
-    List<SideSauce> sideSaucesList = sideSauce.getSideSauces();
-    List<Drink> drinkList = drink.getDrinkFlavor();
-    List<Chip> chipList = chips.getChips();
+//    List<Bread> breadTypes = Bread.getBreadTypes();
+//    List<Meat> meatTypes = meat.getMeatTopping();
+//    List<Cheese> cheeseTypes = cheese.getCheeseToppings();
+//    List<RegularToppings> regularTypes = regularToppings.getRegularToppings();
+//    List<Sauce> saucesList = sauce.getSauce();
+//    List<SideSauce> sideSaucesList = sideSauce.getSideSauces();
+//    List<Drink> drinkList = drink.getDrinkFlavor();
+//    List<Chip> chipList = chips.getChips();
 
 
 
     public void init() {
         fileManager = new FileManager();
-
-        if (cheeseTypes != null) {
-            cheeseTypes.add(new Cheese("American"));
-            cheeseTypes.add(new Cheese("Provolone"));
-            cheeseTypes.add(new Cheese("Cheddar"));
-            cheeseTypes.add(new Cheese("Swiss"));
-        }
-
-        if (meatTypes != null) {
-            meatTypes.add(new Meat("Steak"));
-            meatTypes.add(new Meat("Ham"));
-            meatTypes.add(new Meat("Salami"));
-            meatTypes.add(new Meat("Roast Beef"));
-            meatTypes.add(new Meat("Chicken"));
-            meatTypes.add(new Meat("Bacon"));
-        }
-
-        if (breadTypes != null) {
-            breadTypes.add(new Bread("Wheat"));
-            breadTypes.add(new Bread("Rye"));
-            breadTypes.add(new Bread("Sourdough"));
-            breadTypes.add(new Bread("White"));
-        }
-
-        if (regularTypes != null) {
-
-            regularTypes.add(new RegularToppings("Lettuce"));
-            regularTypes.add(new RegularToppings("Peppers"));
-            regularTypes.add(new RegularToppings("Onions"));
-            regularTypes.add(new RegularToppings("Tomatoes"));
-            regularTypes.add(new RegularToppings("Jalapeños"));
-            regularTypes.add(new RegularToppings("Cucumbers"));
-            regularTypes.add(new RegularToppings("Pickles"));
-            regularTypes.add(new RegularToppings("Guacamole"));
-            regularTypes.add(new RegularToppings("Mushrooms"));
-
-            regularTypes.add(new RegularToppings("Lettuce/Tomatoes Combo"));
-
-
-        }
-
-        if (saucesList != null) {
-            saucesList.add(new Sauce("Mayo"));
-            saucesList.add(new Sauce("Mustard"));
-            saucesList.add(new Sauce("Ketchup"));
-            saucesList.add(new Sauce("Ranch"));
-            saucesList.add(new Sauce("Thousand Islands"));
-            saucesList.add(new Sauce("Vinaigrette"));
-        }
-
-        if (sideSaucesList != null) {
-            sideSaucesList.add(new SideSauce("au jus"));
-            sideSaucesList.add(new SideSauce("sauce"));
-        }
-
-        if (drinkList != null) {
-            drinkList.add((new Drink("Grape")));
-            drinkList.add(new Drink("Lemon"));
-            drinkList.add((new Drink("Mango")));
-            drinkList.add((new Drink("pineapple")));
-        }
-
-        if (chipList != null) {
-            chipList.add((new Chip("Lays")));
-            chipList.add((new Chip("Frito")));
-            chipList.add((new Chip("Doritos")));
-            chipList.add((new Chip("Cheetos")));
-        }
 
 
         userInterface();
@@ -213,7 +146,7 @@ public class UserInterface {
             newSandwich = console.promptForInt(defaults);
 
             if (newSandwich == 1) {
-                bltSandwich = new BLT(8);
+               BLT bltSandwich = new BLT(8);
                 if (!changeBreadForBLT(bltSandwich)) {
                     return;
                 }
@@ -259,7 +192,7 @@ public class UserInterface {
 
 
             } else if (newSandwich == 2) {
-                pcs = new PhillyCheeseSteak();
+                PhillyCheeseSteak pcs = new PhillyCheeseSteak();
                 if(!changeBreadForPCS(pcs)) {
                     return;
                 }
@@ -293,11 +226,11 @@ public class UserInterface {
 
 
 
-    private boolean changeBreadForBLT(Sandwich sandwich) {
+    private boolean changeBreadForBLT(BLT bltSandwich) {
 
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
 
-        Bread selectedBread = breadOptions.selectOption("Adding white Bread", breadTypes, new Bread("White"));
+        Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), new Bread("White"));
         if (selectedBread == null) {
             System.out.println("exiting..");
             clearOrder();
@@ -309,10 +242,10 @@ public class UserInterface {
             return true;
         }
     }
-    private boolean addOrChangeMeatForBLT(Sandwich sandwich){
+    private boolean addOrChangeMeatForBLT(BLT bltSandwich){
 
         OptionChoice<Meat> meatOptions = new OptionChoice<>();
-        Meat selectedMeat = meatOptions.selectOption("Adding Bacon", meatTypes, new Meat("Bacon"));
+        Meat selectedMeat = meatOptions.selectOption("Adding Bacon", Meat.getMeatTopping(), new Meat("Bacon"));
         if(selectedMeat == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -324,7 +257,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
-        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , meatTypes);
+        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , Meat.getMeatTopping());
 
         if(newlyAddedMeat != null){
             bltSandwich.addTopping(newlyAddedMeat);
@@ -334,9 +267,9 @@ public class UserInterface {
         return true;
 
     }
-    private boolean addOrChangeCheeseForBLT(Sandwich sandwich){
+    private boolean addOrChangeCheeseForBLT(BLT bltSandwich){
         OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
-        Cheese selectedCheese = cheeseOptions.selectOption("Adding Cheddar Cheese", cheeseTypes, new Cheese("Cheddar"));
+        Cheese selectedCheese = cheeseOptions.selectOption("Adding Cheddar Cheese", Cheese.getCheeseToppings(), new Cheese("Cheddar"));
         if(selectedCheese == null){
             System.out.println("exiting...");
             clearOrder();
@@ -347,7 +280,7 @@ public class UserInterface {
         }
 
         AddToOptionChoice<Cheese> addCheese = new AddToOptionChoice<>();
-        Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , cheeseTypes);
+        Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , Cheese.getCheeseToppings());
         if(newlyAddedCheese != null) {
             bltSandwich.addTopping(newlyAddedCheese);
 
@@ -358,10 +291,10 @@ public class UserInterface {
 
 
     }
-    private boolean addOrChangeRegToppings1ForBLT(Sandwich sandwich){
+    private boolean addOrChangeRegToppings1ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption("Adding Lettuce", regularTypes, new RegularToppings("Lettuce"));
+        RegularToppings selectRegular = regularOptions.selectOption("Adding Lettuce", RegularToppings.getRegularToppings(), new RegularToppings("Lettuce"));
         if(selectRegular == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -374,7 +307,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
-        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", regularTypes);
+        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", RegularToppings.getRegularToppings());
         if(newlyAddedReg != null){
             bltSandwich.addTopping(newlyAddedReg);
         }
@@ -382,10 +315,10 @@ public class UserInterface {
         return true;
 
     }
-    private boolean addOrChangeRegToppings2ForBLT(Sandwich sandwich){
+    private boolean addOrChangeRegToppings2ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> secondTopping = new OptionChoice<>();
-        RegularToppings selectSecondTopping = secondTopping.selectOption("Adding Tomatoes", regularTypes, new RegularToppings("Tomato"));
+        RegularToppings selectSecondTopping = secondTopping.selectOption("Adding Tomatoes", RegularToppings.getRegularToppings(), new RegularToppings("Tomato"));
         if(selectSecondTopping == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -400,7 +333,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<RegularToppings> addSecondRegTopping = new AddToOptionChoice<>();
-        RegularToppings newlyAddedSecondRegTopping = addSecondRegTopping.toCollection("Do you want to " , regularTypes);
+        RegularToppings newlyAddedSecondRegTopping = addSecondRegTopping.toCollection("Do you want to " , RegularToppings.getRegularToppings());
         if(newlyAddedSecondRegTopping != null){
 
             bltSandwich.addTopping(newlyAddedSecondRegTopping);
@@ -410,10 +343,10 @@ public class UserInterface {
         return true;
 
     }
-    private boolean addOrChangeSauceOptionsForBLT(Sandwich sandwich){
+    private boolean addOrChangeSauceOptionsForBLT(BLT bltSandwich){
 
         OptionChoice<Sauce> sauceOption = new OptionChoice<>();
-        Sauce selctSauce = sauceOption.selectOption("Adding Ranch", saucesList, new Sauce("Ranch"));
+        Sauce selctSauce = sauceOption.selectOption("Adding Ranch", Sauce.getSauce(), new Sauce("Ranch"));
         if(selctSauce == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -425,7 +358,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
-        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", saucesList);
+        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", Sauce.getSauce());
         if(newlyAddedSauce != null){
             bltSandwich.addSauce(newlyAddedSauce);
 
@@ -440,10 +373,10 @@ public class UserInterface {
 
 
 
-    private boolean changeBreadForPCS(Sandwich sandwich){
+    private boolean changeBreadForPCS(PhillyCheeseSteak pcs){
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
 
-        Bread selectedBread = breadOptions.selectOption("Adding white Bread", breadTypes, new Bread("White"));
+        Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), new Bread("White"));
         if (selectedBread == null) {
             System.out.println("exiting..");
             clearOrder();
@@ -458,10 +391,10 @@ public class UserInterface {
 
 
     }
-    private boolean addOrChangeMeatForPCS(Sandwich sandwich){
+    private boolean addOrChangeMeatForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Meat> meatOptions = new OptionChoice<>();
-        Meat selectedMeat = meatOptions.selectOption("Adding Steak", meatTypes, new Meat("Steak"));
+        Meat selectedMeat = meatOptions.selectOption("Adding Steak", Meat.getMeatTopping(), new Meat("Steak"));
         if(selectedMeat == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -473,7 +406,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
-        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , meatTypes);
+        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , Meat.getMeatTopping());
 
         if(newlyAddedMeat != null){
             pcs.addTopping(newlyAddedMeat);
@@ -483,10 +416,10 @@ public class UserInterface {
         return true;
 
     }
-    private boolean addOrChangeCheeseForPCS(Sandwich sandwich){
+    private boolean addOrChangeCheeseForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
-        Cheese selectedCheese = cheeseOptions.selectOption("Adding American Cheese", cheeseTypes, new Cheese("American"));
+        Cheese selectedCheese = cheeseOptions.selectOption("Adding American Cheese", Cheese.getCheeseToppings(), new Cheese("American"));
         if(selectedCheese == null){
             System.out.println("exiting...");
             clearOrder();
@@ -497,7 +430,7 @@ public class UserInterface {
         }
 
         AddToOptionChoice<Cheese> addCheese = new AddToOptionChoice<>();
-        Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , cheeseTypes);
+        Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , Cheese.getCheeseToppings());
         if(newlyAddedCheese != null) {
             pcs.addTopping(newlyAddedCheese);
 //            sandwich.addTopping(newlyAddedCheese);
@@ -508,10 +441,10 @@ public class UserInterface {
 
 
     }
-    private boolean addOrChangeRegToppingForPCS(Sandwich sandwich){
+    private boolean addOrChangeRegToppingForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", regularTypes, new RegularToppings("Peppers"));
+        RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", RegularToppings.getRegularToppings(), new RegularToppings("Peppers"));
         if(selectRegular == null){
             System.out.println("exiting...");
             clearOrder();
@@ -522,7 +455,7 @@ public class UserInterface {
         }
 
         AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
-        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", regularTypes);
+        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", RegularToppings.getRegularToppings());
         if(newlyAddedReg != null){
             pcs.addTopping(newlyAddedReg);
 //            sandwich.addTopping(newlyAddedReg);
@@ -532,10 +465,10 @@ public class UserInterface {
 
 
     }
-    private boolean addOrChangeSauceForPCS(Sandwich sandwich){
+    private boolean addOrChangeSauceForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Sauce> sauceOption = new OptionChoice<>();
-        Sauce selctSauce = sauceOption.selectOption("Adding Mayo", saucesList, new Sauce("Mayo"));
+        Sauce selctSauce = sauceOption.selectOption("Adding Mayo", Sauce.getSauce(), new Sauce("Mayo"));
         if(selctSauce == null) {
             System.out.println("exiting...");
             clearOrder();
@@ -547,7 +480,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
-        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", saucesList);
+        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", Sauce.getSauce());
         if(newlyAddedSauce != null){
             pcs.addSauce(newlyAddedSauce);
 //            sandwich.addSauce(newlyAddedSauce);
@@ -568,7 +501,7 @@ public class UserInterface {
 
 
         int size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
-        sandwich = new Sandwich(size);
+       Sandwich sandwich = new Sandwich(size);
 
         addBreadToSandwich(sandwich);
         addMeatToSandwich(sandwich);
@@ -588,13 +521,13 @@ public class UserInterface {
 
         int numbering = 1;
 
-        for (Bread b : bread.getBreadTypes()) {
+        for (Bread b : Bread.getBreadTypes()) {
             System.out.println(numbering + ". " + b);
             numbering++;
         }
 
         int chosenBread = console.promptForInt("Which bread do you want?: ");
-        Bread selectedBread = breadTypes.get(chosenBread - 1);
+        Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
 
 
         sandwich.addBread(selectedBread);
@@ -611,7 +544,7 @@ public class UserInterface {
 
             int numbering2 = 1;
 
-            for (Meat meat : meat.getMeatTopping()) {
+            for (Meat meat : Meat.getMeatTopping()) {
                 System.out.println(numbering2 + " " + meat);
                 numbering2++;
 
@@ -625,13 +558,13 @@ public class UserInterface {
                 continue;
             }
 
-            Meat m = meatTypes.get(meaty - 1);
+            Meat m = Meat.getMeatTopping().get(meaty - 1);
 
 
             int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes): ");
 
             if (extra == 1) {
-                for (Meat meat : meat.getMeatTopping())
+                for (Meat meat : Meat.getMeatTopping())
                     meat.setExtra(true);
             }
             sandwich.addTopping(m);
@@ -648,7 +581,7 @@ public class UserInterface {
             int numbering3 = 1;
 
 
-            for (Cheese cheese : cheese.getCheeseToppings()) {
+            for (Cheese cheese : Cheese.getCheeseToppings()) {
                 System.out.println(numbering3 + " " + cheese);
                 numbering3++;
             }
@@ -658,15 +591,15 @@ public class UserInterface {
             if (che == 0) {
                 addCheese = false;
                 continue;
-            } else if(che > cheeseTypes.size()){
+            } else if(che >Cheese.getCheeseToppings().size()){
                 System.out.println("Not a valid input");
             }
-            Cheese c = cheeseTypes.get(che - 1);
+            Cheese c = Cheese.getCheeseToppings().get(che - 1);
 
 
             int extraCheese = console.promptForInt("Do you want extra " + c + " cheese?(1 for yes): ");
             if (extraCheese == 1) {
-                for (Cheese cheese : cheese.getCheeseToppings()) {
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
                     cheese.setExtra(true);
                 }
             }
@@ -683,7 +616,7 @@ public class UserInterface {
 
         while (normalToppings) {
             int numbering4 = 1;
-            for (RegularToppings regular : regularToppings.getRegularToppings()) {
+            for (RegularToppings regular : RegularToppings.getRegularToppings()) {
                 System.out.println(numbering4 + " " + regular);
                 numbering4++;
             }
@@ -694,12 +627,12 @@ public class UserInterface {
 
                 if (regular == 0) {
                     break;
-                } else if (regular < 1 || regular > regularTypes.size()) {
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
                     System.out.println("Not a valid input");
                     continue;
                 }
 
-                RegularToppings normal = regularTypes.get(regular - 1);
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
 
                 sandwich.addTopping(normal);
                 normalT.add(normal);
@@ -741,7 +674,7 @@ public class UserInterface {
                 addingSauce = false;
                 continue;
             }
-            Sauce s = saucesList.get(addASauce - 1);
+            Sauce s = Sauce.getSauce().get(addASauce - 1);
 
             sandwich.addSauce(s);
         }
@@ -752,7 +685,7 @@ public class UserInterface {
         while (addingSideSauce) {
             int numbering6 = 1;
 
-            for (SideSauce side : sideSauce.getSideSauces()) {
+            for (SideSauce side : SideSauce.getSideSauces()) {
                 System.out.println(numbering6 + " " + side.getName());
             }
             int addSideSauce = console.promptForInt("Which side sauce do you want to add?: ");
@@ -762,7 +695,7 @@ public class UserInterface {
                 continue;
             }
 
-            SideSauce ss = sideSaucesList.get(addSideSauce - 1);
+            SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
 
 
             if (addSideSauce >= 1) {
@@ -806,7 +739,7 @@ public class UserInterface {
         while (addDrink) {
             System.out.println("Here are the drinks:");
             int drinkNumber = 1;
-            for (Drink d : drinkList) {
+            for (Drink d : Drink.getDrinkFlavor()) {
                 System.out.println(drinkNumber + " " + d.getName());
                 drinkNumber++;
             }
@@ -814,11 +747,11 @@ public class UserInterface {
 
             if (chooseDrink == 0) {
                 addDrink = false;
-            } else if (chooseDrink > drinkList.size()) {
+            } else if (chooseDrink > Drink.getDrinkFlavor().size()) {
                 System.out.println("Invalid..please try again");
                 continue;
             } else {
-                drink = drinkList.get(chooseDrink - 1);
+                drink = Drink.getDrinkFlavor().get(chooseDrink - 1);
                 addDrink = false;
             }
 
@@ -857,7 +790,7 @@ public class UserInterface {
             System.out.println("Which chip would you like to have?");
             int numberingChip = 1;
 
-            for (Chip c : chipList) {
+            for (Chip c : Chip.getChips()) {
                 System.out.println(numberingChip + " " + c.getName());
                 numberingChip++;
             }
@@ -866,11 +799,11 @@ public class UserInterface {
 
             if (chooseChip == 0) {
                 addChip = false;
-            } else if (chooseChip > chipList.size()) {
+            } else if (chooseChip > Chip.getChips().size()) {
                 System.out.println("Not a valid number please try again");
                 continue;
             } else {
-                chips = chipList.get(chooseChip - 1);
+                chips = Chip.getChips().get(chooseChip - 1);
                 addChip = false;
             }
 

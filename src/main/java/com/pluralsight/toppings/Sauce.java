@@ -5,12 +5,23 @@ import java.util.List;
 
 public class Sauce extends Toppings{
 
-    private final List<Sauce> addedSauce = new ArrayList<>();
+
     public Sauce(String name) {
         super(name);
     }
 
-    public List<Sauce> getSauce(){
+    public static List<Sauce> getSauce(){
+
+        List<Sauce> addedSauce = new ArrayList<>();
+
+            addedSauce.add(new Sauce("Mayo"));
+            addedSauce.add(new Sauce("Mustard"));
+            addedSauce.add(new Sauce("Ketchup"));
+            addedSauce.add(new Sauce("Ranch"));
+            addedSauce.add(new Sauce("Thousand Islands"));
+            addedSauce.add(new Sauce("Vinaigrette"));
+
+
 
         return addedSauce;
 
