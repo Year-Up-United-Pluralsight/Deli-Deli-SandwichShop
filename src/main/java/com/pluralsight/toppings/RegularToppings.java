@@ -22,7 +22,7 @@ public class RegularToppings extends Toppings {
             regularToppings.add(new RegularToppings("Peppers"));
             regularToppings.add(new RegularToppings("Onions"));
             regularToppings.add(new RegularToppings("Tomatoes"));
-            regularToppings.add(new RegularToppings("Jalapenos"));
+            regularToppings.add(new RegularToppings("Jalapeños"));
             regularToppings.add(new RegularToppings("Cucumbers"));
             regularToppings.add(new RegularToppings("Pickles"));
             regularToppings.add(new RegularToppings("Guacamole"));
