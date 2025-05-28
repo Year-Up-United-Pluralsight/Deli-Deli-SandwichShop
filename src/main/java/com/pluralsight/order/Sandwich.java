@@ -1,5 +1,6 @@
-package com.pluralsight.sandwich;
+package com.pluralsight.order;
 import com.pluralsight.javainterfaces.*;
+import com.pluralsight.sandwich.Bread;
 import com.pluralsight.toppings.*;
 
 import java.util.ArrayList;
@@ -7,12 +8,12 @@ import java.util.List;
 
 
 public class Sandwich implements MenuItem {
-    private int size;
+    private final int size;
     private Bread breadType;
-    private List<Meat> meats = new ArrayList<>();
-    private List<Cheese> cheeses = new ArrayList<>();
-    private List<RegularToppings> regularToppings = new ArrayList<>();
-    private List<Sauce> sauceList = new ArrayList<>();
+    private final List<Meat> meats = new ArrayList<>();
+    private final List<Cheese> cheeses = new ArrayList<>();
+    private final List<RegularToppings> regularToppings = new ArrayList<>();
+    private final List<Sauce> sauceList = new ArrayList<>();
     double price;
     private boolean toasted;
 
@@ -26,7 +27,7 @@ public class Sandwich implements MenuItem {
         return size;
     }
 
-    public void setBreadType(Bread breadType) {
+    public void getBreadType(Bread breadType) {
         this.breadType = breadType;
         this.price += breadType.getPrice(size);
 
@@ -112,26 +113,15 @@ public void addTopping(Toppings topping) {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s %s: $%.2f", size, breadType, meats, cheeses, regularToppings, sauceList, toasted ? "Toasted" : "Not Toasted", price);
+        return String.format("A size %s\"  %s  with %s %s %s %s %s: $%.2f", size, breadType, meats, cheeses, regularToppings, sauceList, toasted ? "Toasted" : "Not Toasted", price);
+    }
+
+    public void clear(){
+        Sandwich sandwich = null;
     }
 
 
-
-//    public void checkedOut(){
-//        if(this.checkedOut){
-//            size = 0;
-//            price = 0.0;
-//            breadType = null;
-//            meats = new ArrayList<>();
-//            cheeses = new ArrayList<>();
-//            regularToppings = new ArrayList<>();
-//            sauceList = new ArrayList<>();
-//            toasted = false;
-//
-//
-//        }
-
-    }
+}
 
 
 

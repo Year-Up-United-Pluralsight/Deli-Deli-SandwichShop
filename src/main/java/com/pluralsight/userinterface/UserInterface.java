@@ -2,9 +2,9 @@ package com.pluralsight.userinterface;
 
 import com.pluralsight.console.ColorCodes;
 import com.pluralsight.console.Console;
-import com.pluralsight.extraproducts.Chip;
-import com.pluralsight.extraproducts.Drink;
-import com.pluralsight.extraproducts.Order;
+import com.pluralsight.order.Chip;
+import com.pluralsight.order.Drink;
+import com.pluralsight.order.Order;
 import com.pluralsight.filemanager.FileManager;
 import com.pluralsight.generics.AddToOptionChoice;
 import com.pluralsight.generics.OptionChoice;
@@ -12,7 +12,7 @@ import com.pluralsight.javainterfaces.MenuItem;
 import com.pluralsight.sandwich.BLT;
 import com.pluralsight.sandwich.Bread;
 import com.pluralsight.sandwich.PhillyCheeseSteak;
-import com.pluralsight.sandwich.Sandwich;
+import com.pluralsight.order.Sandwich;
 import com.pluralsight.toppings.*;
 
 
@@ -24,8 +24,8 @@ public class UserInterface {
 
     private final Console console = new Console();
     private FileManager fileManager;
-//    private Drink drink = new Drink("");
-//    private Chip chips = new Chip(" ");
+
+    //Creates an Order
     private Order order = new Order(LocalDateTime.now());
 
 
@@ -33,13 +33,13 @@ public class UserInterface {
     public void init() {
         fileManager = new FileManager();
 
-        DeliDeliSandwichShopStart();
+        welcomeScreen();
 
     }
 
 
     //Sandwich Shop Start
-    private void DeliDeliSandwichShopStart() {
+    private void welcomeScreen() {
 
         String welcomeMessage = """
                 Welcome to Deli-Deli's Sandwich Shop.\s
@@ -53,7 +53,9 @@ public class UserInterface {
             choose = console.promptForInt(welcomeMessage);
             switch (choose) {
                 case 1:
-                    MenuOrders();
+                    menuOrders();
+                    break;
+                case 2:
                     break;
                 default:
                     System.out.println("Quitting...");
@@ -67,7 +69,7 @@ public class UserInterface {
     }
 
     //Menu Orders
-    private void MenuOrders() {
+    private void menuOrders() {
         String orderSelections = """
                 Please select your order\s
                  1. Yes, Let's make a sandwich!\s
@@ -79,9 +81,10 @@ public class UserInterface {
                 Enter here:\s""";
 
         int choose;
+        boolean isTrue = true;
         String customerName = console.promptForString("What is your name?: ");
         order = new Order(customerName, LocalDateTime.now());
-        do {
+        while (isTrue) {
             choose = console.promptForInt(orderSelections);
             switch (choose) {
                 case 1:
@@ -101,27 +104,17 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Are you sure you want to cancel the order?(You cannot undo this)");
-                    int confirmation = console.promptForInt("Press 1 to proceed: ");
+                    int confirmation = console.promptForInt("Press 1 to confirm cancellation: ");
                     if (confirmation == 1) {
                         System.out.println("Order Canceled");
                         order.clearMenuItem();
-                        break;
+                        isTrue = false;
                     } else if (confirmation > 1 | confirmation < 0) {
                         System.out.println("not a valid number");
-
                     }
-
-
             }
-
-
-        } while (choose != 0);
-
-
+        }
     }
-
-
-
     //The order of making a sandwich
     private void orderSandwich() {
 
@@ -141,27 +134,17 @@ public class UserInterface {
 
 
     }
-
-
     // Selects which parts to add to Sandwich Separately
     private void addBreadToSandwich(Sandwich sandwich) {
-
         System.out.println("Here is the lists of bread: ");
-
         int numbering = 1;
-
         for (Bread b : Bread.getBreadTypes()) {
             System.out.println(numbering + ". " + b);
             numbering++;
         }
-
         int chosenBread = console.promptForInt("Which bread do you want?: ");
         Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
-
-
-        sandwich.setBreadType(selectedBread);
-
-
+        sandwich.getBreadType(selectedBread);
     }
     private void addMeatToSandwich(Sandwich sandwich) {
 
@@ -351,8 +334,6 @@ public class UserInterface {
             }
         }
     }
-
-
     //Signature Sandwiches
     private void signatureSandwiches() {
         String defaults = """
@@ -443,8 +424,6 @@ public class UserInterface {
             }
         }
     }
-
-
     //Signature Sandwich BLT Creation
     private boolean changeBreadForBLT(BLT bltSandwich) {
 
@@ -453,7 +432,7 @@ public class UserInterface {
         Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), new Bread("White"));
         if (selectedBread == null) {
             System.out.println("exiting..");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         } else {
             bltSandwich.replaceBread(selectedBread);
@@ -468,7 +447,7 @@ public class UserInterface {
         Meat selectedMeat = meatOptions.selectOption("Adding Bacon", Meat.getMeatTopping(), new Meat("Bacon"));
         if(selectedMeat == null) {
             System.out.println("exiting...");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         }
 
@@ -492,7 +471,7 @@ public class UserInterface {
         Cheese selectedCheese = cheeseOptions.selectOption("Adding Cheddar Cheese", Cheese.getCheeseToppings(), new Cheese("Cheddar"));
         if(selectedCheese == null){
             System.out.println("exiting...");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         } else {
             bltSandwich.replaceCheese(selectedCheese);
@@ -517,7 +496,7 @@ public class UserInterface {
         RegularToppings selectRegular = regularOptions.selectOption("Adding Lettuce", RegularToppings.getRegularToppings(), new RegularToppings("Lettuce"));
         if(selectRegular == null) {
             System.out.println("exiting...");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         }else {
             bltSandwich.addTopping(selectRegular);
@@ -541,7 +520,7 @@ public class UserInterface {
         RegularToppings selectSecondTopping = secondTopping.selectOption("Adding Tomatoes", RegularToppings.getRegularToppings(), new RegularToppings("Tomato"));
         if(selectSecondTopping == null) {
             System.out.println("exiting...");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         } else{
             bltSandwich.addTopping(selectSecondTopping);
@@ -569,7 +548,7 @@ public class UserInterface {
         Sauce selctSauce = sauceOption.selectOption("Adding Ranch", Sauce.getSauce(), new Sauce("Ranch"));
         if(selctSauce == null) {
             System.out.println("exiting...");
-            clearOrder();
+            bltSandwich.clear();
             return false;
         }
 
@@ -589,8 +568,6 @@ public class UserInterface {
 
 
     }
-
-
     //Signature Sandwich PhillyCheeseSteak Creation
     private boolean changeBreadForPCS(PhillyCheeseSteak pcs){
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
@@ -598,11 +575,11 @@ public class UserInterface {
         Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), new Bread("White"));
         if (selectedBread == null) {
             System.out.println("exiting..");
-            clearOrder();
+            pcs.clear();
             return false;
         } else {
             pcs.replaceBread(selectedBread);
-//            sandwich.addBread(selectedBread);
+
 
             return true;
         }
@@ -616,12 +593,12 @@ public class UserInterface {
         Meat selectedMeat = meatOptions.selectOption("Adding Steak", Meat.getMeatTopping(), new Meat("Steak"));
         if(selectedMeat == null) {
             System.out.println("exiting...");
-            clearOrder();
+            pcs.clear();
             return false;
         }
 
         pcs.replaceMeat(selectedMeat);
-//        sandwich.addTopping(selectedMeat);
+
 
 
         AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
@@ -629,7 +606,7 @@ public class UserInterface {
 
         if(newlyAddedMeat != null){
             pcs.addTopping(newlyAddedMeat);
-//            sandwich.addTopping(newlyAddedMeat);
+
         }
 
         return true;
@@ -641,18 +618,18 @@ public class UserInterface {
         Cheese selectedCheese = cheeseOptions.selectOption("Adding American Cheese", Cheese.getCheeseToppings(), new Cheese("American"));
         if(selectedCheese == null){
             System.out.println("exiting...");
-            clearOrder();
+            pcs.clear();
             return false;
         } else {
             pcs.replaceCheese(selectedCheese);
-//            sandwich.addTopping(selectedCheese);
+
         }
 
         AddToOptionChoice<Cheese> addCheese = new AddToOptionChoice<>();
         Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , Cheese.getCheeseToppings());
         if(newlyAddedCheese != null) {
             pcs.addTopping(newlyAddedCheese);
-//            sandwich.addTopping(newlyAddedCheese);
+
         }
 
         return  true;
@@ -666,18 +643,18 @@ public class UserInterface {
         RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", RegularToppings.getRegularToppings(), new RegularToppings("Peppers"));
         if(selectRegular == null){
             System.out.println("exiting...");
-            clearOrder();
+            pcs.clear();
             return false;
         } else {
             pcs.addTopping(selectRegular);
-//            sandwich.addTopping(selectRegular);
+
         }
 
         AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
         RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", RegularToppings.getRegularToppings());
         if(newlyAddedReg != null){
             pcs.addTopping(newlyAddedReg);
-//            sandwich.addTopping(newlyAddedReg);
+
         }
         return true;
 
@@ -690,19 +667,18 @@ public class UserInterface {
         Sauce selctSauce = sauceOption.selectOption("Adding Mayo", Sauce.getSauce(), new Sauce("Mayo"));
         if(selctSauce == null) {
             System.out.println("exiting...");
-            clearOrder();
+            pcs.clear();
             return false;
         }
 
         pcs.replaceSauce(selctSauce);
-//        sandwich.addSauce(selectSauce);
+
 
 
         AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
         Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", Sauce.getSauce());
         if(newlyAddedSauce != null){
             pcs.addSauce(newlyAddedSauce);
-//            sandwich.addSauce(newlyAddedSauce);
         }
 
         return true;
@@ -710,65 +686,80 @@ public class UserInterface {
 
 
     }
-
-
     //Adds extra items
     private void addDrinkToOrder() {
-
         boolean addDrink = true;
 
-
         while (addDrink) {
+
             System.out.println("Here are the drinks:");
+
             int drinkNumber = 1;
+
             for (Drink d : Drink.getDrinkFlavor()) {
+
                 System.out.println(drinkNumber + " " + d.getName());
                 drinkNumber++;
+
             }
+
             int chooseDrink = console.promptForInt("Which drink do you want? (0 to cancel): ");
 
             if (chooseDrink == 0) {
                 break;
+
             } else if (chooseDrink > Drink.getDrinkFlavor().size()) {
+
                 System.out.println("Invalid..please try again");
 
             } else {
-                Drink drink = Drink.getDrinkFlavor().get(chooseDrink - 1);
-                while (true) {
-                    String size = console.promptForString("What size Drink do you want?(Small, Medium, Large):  ");
-                    if (size.equalsIgnoreCase("Small")) {
-                        drink.setSize("small");
-                        break;
-                    } else if (size.equalsIgnoreCase("Medium")) {
-                        drink.setSize("medium");
-                        break;
-                    } else if (size.equalsIgnoreCase("Large")) {
-                        drink.setSize("large");
-                        break;
-                    } else {
-                        System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET);
 
+                Drink drink = Drink.getDrinkFlavor().get(chooseDrink - 1);
+
+                while (true) {
+
+                    String size = console.promptForString("What size Drink do you want?(Small, Medium, Large):  ");
+
+                    if (size.equalsIgnoreCase("Small")) {
+
+                        drink.setSize("small");
+
+                        break;
+
+                    } else if (size.equalsIgnoreCase("Medium")) {
+
+                        drink.setSize("medium");
+
+                        break;
+
+                    } else if (size.equalsIgnoreCase("Large")) {
+
+                        drink.setSize("large");
+
+                        break;
+
+                    } else {
+
+                        System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET);
                     }
                 }
-                addDrink = false;
+                    addDrink = false;
                     System.out.println(drink.getName() + " " + drink);
                     drink.getPrice();
                     order.addItem(drink);
-
-
-
-                }
             }
 
         }
 
-
+    }
 
 
     private void addChipsToOrder() {
+
         boolean addChip = true;
 
         while (addChip) {
+
             System.out.println("Which chip would you like to have?");
             int numberingChip = 1;
 
@@ -781,6 +772,7 @@ public class UserInterface {
 
             if (chooseChip == 0) {
                 break;
+
             } else if (chooseChip > Chip.getChips().size()) {
                 System.out.println("Not a valid number please try again");
 
@@ -805,48 +797,45 @@ public class UserInterface {
     //Check Out
     public void checkOut() {
 
-
         if(order.getMenuItems() != null && order.getTotal() != 0){
+
             for(MenuItem menuItem : order.getMenuItems()){
+
                 System.out.println(menuItem.description());
             }
+
            System.out.printf("The total price is %.2f\n", order.getTotal());
 
         }
 
-            int confirmation;
+        int confirmation;
+
         boolean checkingOut = true;
+
         if(order.getMenuItems() != null && order.getTotal() != 0) {
             while (checkingOut) {
+
                 confirmation = console.promptForInt("Would you like to proceed?( 1 to proceed, 0 to go back): ");
                 if (confirmation > 1) {
+
                     System.out.println("Not a valid number");
 
                 } else if (confirmation == 1) {
+
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
+
                     checkingOut = false;
 
                 } else {
                     checkingOut = false;
                 }
+
             }
+
         }
 
-
-    }
-
-
-
-    //Clear when exiting midway through an order
-    private void clearOrder(){
-        Sandwich sandwich = null;
-       Drink drink = null;
-        BLT bltSandwich = null;
-        PhillyCheeseSteak pcs = null;
-        Chip chips = new Chip(" ");
     }
 
 
 }
-

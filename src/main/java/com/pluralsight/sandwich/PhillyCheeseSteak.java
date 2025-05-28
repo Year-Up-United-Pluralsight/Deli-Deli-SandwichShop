@@ -1,8 +1,7 @@
 package com.pluralsight.sandwich;
 import com.pluralsight.javainterfaces.*;
+import com.pluralsight.order.Sandwich;
 import com.pluralsight.toppings.*;
-
-import java.util.List;
 
 
 public class PhillyCheeseSteak extends Sandwich implements customizeToppings {

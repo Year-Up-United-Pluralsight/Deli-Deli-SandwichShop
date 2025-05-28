@@ -1,6 +1,6 @@
 package com.pluralsight.filemanager;
 
-import com.pluralsight.extraproducts.Order;
+import com.pluralsight.order.Order;
 import com.pluralsight.javainterfaces.MenuItem;
 
 
@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 
 public class FileManager {
@@ -29,19 +28,20 @@ public class FileManager {
                 bw.write("--------------------------------------------\n");
                 bw.write("DELI-DELI SANDWICH SHOP\n");
                 bw.write("--------------------------------------------\n");
-                bw.write("Cashier: IntelliJ\n");
+                bw.write("Cashier: DELI-DELI-MANAGER\n");
 
                 for(MenuItem item : order.getMenuItems()){
-                    bw.write("\n" + item.description() + "\n");
+                    bw.write("\n" + item.description());
                 }
+                bw.write(String.format("\nTOTAL: $%.2f\n", order.getTotal()));
 
 
 
             }
 
             if(order != null && order.getTotal() != 0){
-                bw.write(String.format("\nTotal amount paid $%.2f ordered by -> %s\n", order.getTotal() , order.getCustomerName()));
-                bw.write("Thank you for buying at DELI-DELI SANDWICH SHOP");
+                bw.write(String.format("\nOrdered by -> %s" ,order.getCustomerName()));
+                bw.write("\nThank you for buying at DELI-DELI SANDWICH SHOP");
 
             }
 

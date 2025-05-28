@@ -1,4 +1,4 @@
-package com.pluralsight.extraproducts;
+package com.pluralsight.order;
 
 
 import com.pluralsight.javainterfaces.MenuItem;
@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Order  {
 
-    private  String customerName;
-    private  LocalDateTime orderTime;
-    private  List<MenuItem> menuItems = new ArrayList<>();
+    private final String customerName;
+    private final LocalDateTime orderTime;
+    private final List<MenuItem> menuItems = new ArrayList<>();
 
 
     public Order(String customerName, LocalDateTime orderTime) {
