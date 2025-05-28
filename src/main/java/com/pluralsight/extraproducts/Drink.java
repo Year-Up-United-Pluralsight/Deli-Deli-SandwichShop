@@ -21,6 +21,11 @@ public class Drink implements chooseSize, MenuItem{
 
     }
 
+    public Drink(){
+        this.name = getName();
+        this.size = getSize();
+    }
+
     public static List<Drink> getDrinkFlavor(){
         List<Drink> drinkFlavor = new ArrayList<>();
 
@@ -63,22 +68,6 @@ public class Drink implements chooseSize, MenuItem{
         return String.format( "A size %s %s flavor drink: $%.2f", size,name,getPrice());
     }
 
-//    @Override
-//    public void setCheckedOut(boolean checkedOut) {
-//        this.checkedOut = checkedOut;
-//        if(checkedOut){
-//            price = 0.0;
-//            size = "";
-//            name = "";
-//        }
-
-
-
-
-//    @Override
-//    public void addingToCheckOut(boolean addCheckOut) {
-//        this.addToCheckout = addCheckOut;
-//    }
 
     @Override
     public double getPrice() {

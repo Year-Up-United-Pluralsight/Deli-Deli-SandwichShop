@@ -24,11 +24,8 @@ public class UserInterface {
 
     private final Console console = new Console();
     private FileManager fileManager;
-    private Sandwich sandwich;
-    private BLT bltSandwich;
-    private PhillyCheeseSteak pcs;
-    private Drink drink = new Drink("");
-    private Chip chips = new Chip(" ");
+//    private Drink drink = new Drink("");
+//    private Chip chips = new Chip(" ");
     private Order order = new Order(LocalDateTime.now());
 
 
@@ -125,6 +122,235 @@ public class UserInterface {
 
 
 
+    //The order of making a sandwich
+    private void orderSandwich() {
+
+        int size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
+        Sandwich sandwich = new Sandwich(size);
+
+        addBreadToSandwich(sandwich);
+        addMeatToSandwich(sandwich);
+        addCheeseToSandwich(sandwich);
+        addNormalToppings(sandwich);
+        addSauceToSandwich(sandwich);
+        toastSandwich(sandwich);
+
+        order.addItem(sandwich);
+
+        System.out.println("A sandwich for : " + "\n" + sandwich);
+
+
+    }
+
+
+    // Selects which parts to add to Sandwich Separately
+    private void addBreadToSandwich(Sandwich sandwich) {
+
+        System.out.println("Here is the lists of bread: ");
+
+        int numbering = 1;
+
+        for (Bread b : Bread.getBreadTypes()) {
+            System.out.println(numbering + ". " + b);
+            numbering++;
+        }
+
+        int chosenBread = console.promptForInt("Which bread do you want?: ");
+        Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
+
+
+        sandwich.setBreadType(selectedBread);
+
+
+    }
+    private void addMeatToSandwich(Sandwich sandwich) {
+
+        boolean addMeat = true;
+
+        while (addMeat) {
+
+
+            int numbering2 = 1;
+
+            for (Meat meat : Meat.getMeatTopping()) {
+                System.out.println(numbering2 + " " + meat);
+                numbering2++;
+
+            }
+
+
+            int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+
+            if (meaty == 0) {
+                addMeat = false;
+                continue;
+            }
+
+            Meat m = Meat.getMeatTopping().get(meaty - 1);
+
+
+            int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+
+            if (extra == 1) {
+                for (Meat meat : Meat.getMeatTopping())
+                    meat.setExtra(true);
+            }
+            sandwich.addTopping(m);
+
+
+        }
+    }
+    private void addCheeseToSandwich(Sandwich sandwich) {
+
+        boolean addCheese = true;
+
+        while (addCheese) {
+            int numbering3 = 1;
+
+
+            for (Cheese cheese : Cheese.getCheeseToppings()) {
+                System.out.println(numbering3 + " " + cheese);
+                numbering3++;
+            }
+
+
+            int che = console.promptForInt("Which cheese do you want?: ");
+            if (che == 0) {
+                addCheese = false;
+                continue;
+            } else if(che >Cheese.getCheeseToppings().size()){
+                System.out.println("Not a valid input");
+            }
+            Cheese c = Cheese.getCheeseToppings().get(che - 1);
+
+
+            int extraCheese = console.promptForInt("Do you want extra " + c + " cheese?(1 for yes, 0 for no): ");
+            if (extraCheese == 1) {
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
+                    cheese.setExtra(true);
+                }
+            }
+            sandwich.addTopping(c);
+        }
+
+    }
+    private void addNormalToppings(Sandwich sandwich) {
+
+
+        List<RegularToppings> normalT = new ArrayList<>();
+        boolean normalToppings = true;
+
+        while (normalToppings) {
+            int numbering4 = 1;
+            for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                System.out.println(numbering4 + " " + regular);
+                numbering4++;
+            }
+
+
+            int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+            if (regular == 0) {
+                break;
+            } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                System.out.println("Not a valid input");
+                continue;
+            }
+
+            RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+            sandwich.addTopping(normal);
+            normalT.add(normal);
+
+            System.out.println("Would you like another topping? ");
+            int anotherTopping = console.promptForInt("1 for Yes, 0 for No: ");
+
+            if (anotherTopping == 0) {
+                normalToppings = false;
+
+            } else if (anotherTopping != 1) {
+                System.out.println("Not a valid input");
+
+            }
+
+            System.out.println(normalT);
+        }
+    }
+    private void addSauceToSandwich(Sandwich sandwich) {
+
+        boolean addingSauce = true;
+
+        while (addingSauce) {
+            int numbering5 = 1;
+
+
+            for (Sauce sauces : Sauce.getSauce()) {
+                System.out.println(numbering5 + " " + sauces);
+                numbering5++;
+            }
+
+            int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+            if (addASauce == 0) {
+                addingSauce = false;
+                continue;
+            }
+            Sauce s = Sauce.getSauce().get(addASauce - 1);
+
+            sandwich.addSauce(s);
+        }
+
+
+        boolean addingSideSauce = true;
+
+        while (addingSideSauce) {
+            int numbering6 = 1;
+
+            for (SideSauce side : SideSauce.getSideSauces()) {
+                System.out.println(numbering6 + " " + side.getName());
+            }
+            int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+
+            if (addSideSauce == 0) {
+                addingSideSauce = false;
+                continue;
+            }
+
+            SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+
+
+            if (addSideSauce >= 1) {
+                int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
+                if (another == 0) {
+                    addingSideSauce = false;
+
+                }
+            }
+
+            sandwich.addSauce(ss);
+
+        }
+
+
+    }
+    private void toastSandwich(Sandwich sandwich) {
+
+        boolean check = true;
+
+        while (check) {
+            int toast = console.promptForInt("Would you like the sandwich toasted? (1 for yes, 0 for no): ");
+
+            if (toast == 1) {
+                sandwich.setToasted(true);
+                check = false;
+            } else if (toast == 0) {
+                sandwich.setToasted(false);
+                check = false;
+            } else {
+                System.out.println("Not a valid number");
+            }
+        }
+    }
 
 
     //Signature Sandwiches
@@ -143,7 +369,7 @@ public class UserInterface {
             newSandwich = console.promptForInt(defaults);
 
             if (newSandwich == 1) {
-               BLT bltSandwich = new BLT(8);
+                BLT bltSandwich = new BLT(8);
                 if (!changeBreadForBLT(bltSandwich)) {
                     return;
                 }
@@ -156,41 +382,33 @@ public class UserInterface {
                 if (!addOrChangeRegToppings1ForBLT(bltSandwich)) {
                     return;
                 }
-               if(!addOrChangeRegToppings2ForBLT(bltSandwich)) {
-                   return;
-               }
-               if(!addOrChangeSauceOptionsForBLT(bltSandwich)) {
-                   return;
-               }
+                if(!addOrChangeRegToppings2ForBLT(bltSandwich)) {
+                    return;
+                }
+                if(!addOrChangeSauceOptionsForBLT(bltSandwich)) {
+                    return;
+                }
 
-               int wantToasted;
+                int wantToasted;
 
-               while (true) {
-                   wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No)");
-                   if (wantToasted == 1) {
-                       bltSandwich.setToasted(true);
+                while (true) {
+                    wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No): ");
+                    if (wantToasted == 1) {
+                        bltSandwich.setToasted(true);
 
-                       break;
-                   } else if (wantToasted == 2) {
-                       bltSandwich.setToasted(false);
+                        break;
+                    } else if (wantToasted == 2) {
+                        bltSandwich.setToasted(false);
 
-                       break;
-                   } else {
-                       System.out.println("Not a valid input");
+                        break;
+                    } else {
+                        System.out.println("Not a valid input");
 
-                   }
-               }
+                    }
+                }
 
-               order.addItem(bltSandwich);
-//              order.addBltToOrder(bltSandwich);
-
-
-
+                order.addItem(bltSandwich);
                 newOrder = false;
-
-
-
-
 
 
             } else if (newSandwich == 2) {
@@ -211,7 +429,7 @@ public class UserInterface {
                     return;
                 }
 
-                int wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No)");
+                int wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No): ");
                 if(wantToasted == 1){
                     pcs.setToasted(true);
 
@@ -225,8 +443,6 @@ public class UserInterface {
             }
         }
     }
-
-
 
 
     //Signature Sandwich BLT Creation
@@ -375,8 +591,6 @@ public class UserInterface {
     }
 
 
-
-
     //Signature Sandwich PhillyCheeseSteak Creation
     private boolean changeBreadForPCS(PhillyCheeseSteak pcs){
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
@@ -498,248 +712,10 @@ public class UserInterface {
     }
 
 
-
-
-
-
-    //The order of making a sandwich
-    private void orderSandwich() {
-
-        int size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
-       Sandwich sandwich = new Sandwich(size);
-
-        addBreadToSandwich(sandwich);
-        addMeatToSandwich(sandwich);
-        addCheeseToSandwich(sandwich);
-        addNormalToppings(sandwich);
-        addSauceToSandwich(sandwich);
-        toastSandwich(sandwich);
-
-        order.addItem(sandwich);
-
-        System.out.println("A sandwich for : " + "\n" + sandwich);
-
-
-    }
-
-
-    // Selects which parts to add to Sandwich Separately
-    private void addBreadToSandwich(Sandwich sandwich) {
-
-        System.out.println("Here is the lists of bread: ");
-
-        int numbering = 1;
-
-        for (Bread b : Bread.getBreadTypes()) {
-            System.out.println(numbering + ". " + b);
-            numbering++;
-        }
-
-        int chosenBread = console.promptForInt("Which bread do you want?: ");
-        Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
-
-
-        sandwich.setBreadType(selectedBread);
-
-
-    }
-    private void addMeatToSandwich(Sandwich sandwich) {
-
-        boolean addMeat = true;
-
-        while (addMeat) {
-
-
-            int numbering2 = 1;
-
-            for (Meat meat : Meat.getMeatTopping()) {
-                System.out.println(numbering2 + " " + meat);
-                numbering2++;
-
-            }
-
-
-            int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
-
-            if (meaty == 0) {
-                addMeat = false;
-                continue;
-            }
-
-            Meat m = Meat.getMeatTopping().get(meaty - 1);
-
-
-            int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes): ");
-
-            if (extra == 1) {
-                for (Meat meat : Meat.getMeatTopping())
-                    meat.setExtra(true);
-            }
-            sandwich.addTopping(m);
-
-
-        }
-    }
-    private void addCheeseToSandwich(Sandwich sandwich) {
-
-        boolean addCheese = true;
-
-        while (addCheese) {
-            int numbering3 = 1;
-
-
-            for (Cheese cheese : Cheese.getCheeseToppings()) {
-                System.out.println(numbering3 + " " + cheese);
-                numbering3++;
-            }
-
-
-            int che = console.promptForInt("Which cheese do you want?: ");
-            if (che == 0) {
-                addCheese = false;
-                continue;
-            } else if(che >Cheese.getCheeseToppings().size()){
-                System.out.println("Not a valid input");
-            }
-            Cheese c = Cheese.getCheeseToppings().get(che - 1);
-
-
-            int extraCheese = console.promptForInt("Do you want extra " + c + " cheese?(1 for yes): ");
-            if (extraCheese == 1) {
-                for (Cheese cheese : Cheese.getCheeseToppings()) {
-                    cheese.setExtra(true);
-                }
-            }
-            sandwich.addTopping(c);
-        }
-
-    }
-    private void addNormalToppings(Sandwich sandwich) {
-
-
-        List<RegularToppings> normalT = new ArrayList<>();
-        boolean normalToppings = true;
-
-        while (normalToppings) {
-            int numbering4 = 1;
-            for (RegularToppings regular : RegularToppings.getRegularToppings()) {
-                System.out.println(numbering4 + " " + regular);
-                numbering4++;
-            }
-
-
-            int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
-
-
-                if (regular == 0) {
-                    break;
-                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
-                    System.out.println("Not a valid input");
-                    continue;
-                }
-
-                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
-
-                sandwich.addTopping(normal);
-                normalT.add(normal);
-
-                System.out.println("Would you like another topping? ");
-                int anotherTopping = console.promptForInt("1 for Yes, 0 for No: ");
-
-                if (anotherTopping == 0) {
-                    normalToppings = false;
-
-                } else if (anotherTopping != 1) {
-                    System.out.println("Not a valid input");
-
-                }
-
-            System.out.println(normalT);
-            }
-        }
-    private void addSauceToSandwich(Sandwich sandwich) {
-
-        boolean addingSauce = true;
-
-        while (addingSauce) {
-            int numbering5 = 1;
-
-
-            for (Sauce sauces : Sauce.getSauce()) {
-                System.out.println(numbering5 + " " + sauces);
-                numbering5++;
-            }
-
-            int addASauce = console.promptForInt("Which Sauce would you like to add?: ");
-            if (addASauce == 0) {
-                addingSauce = false;
-                continue;
-            }
-            Sauce s = Sauce.getSauce().get(addASauce - 1);
-
-            sandwich.addSauce(s);
-        }
-
-
-        boolean addingSideSauce = true;
-
-        while (addingSideSauce) {
-            int numbering6 = 1;
-
-            for (SideSauce side : SideSauce.getSideSauces()) {
-                System.out.println(numbering6 + " " + side.getName());
-            }
-            int addSideSauce = console.promptForInt("Which side sauce do you want to add?: ");
-
-            if (addSideSauce == 0) {
-                addingSideSauce = false;
-                continue;
-            }
-
-            SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
-
-
-            if (addSideSauce >= 1) {
-                int another = console.promptForInt("Would you like another?: ");
-                if (another == 0) {
-                    addingSideSauce = false;
-
-                }
-            }
-
-            sandwich.addSauce(ss);
-
-        }
-
-
-    }
-    private void toastSandwich(Sandwich sandwich) {
-
-        boolean check = true;
-
-        while (check) {
-            int toast = console.promptForInt("Would you like the sandwich toasted?: ");
-
-            if (toast == 1) {
-                sandwich.setToasted(true);
-                check = false;
-            } else if (toast == 2) {
-                sandwich.setToasted(false);
-                check = false;
-            } else {
-                System.out.println("Not a valid number");
-            }
-        }
-    }
-
-
-
-
     //Adds extra items
     private void addDrinkToOrder() {
 
         boolean addDrink = true;
-
 
 
         while (addDrink) {
@@ -749,48 +725,46 @@ public class UserInterface {
                 System.out.println(drinkNumber + " " + d.getName());
                 drinkNumber++;
             }
-            int chooseDrink = console.promptForInt("Which drink do you want?: ");
+            int chooseDrink = console.promptForInt("Which drink do you want? (0 to cancel): ");
 
             if (chooseDrink == 0) {
-                addDrink = false;
+                break;
             } else if (chooseDrink > Drink.getDrinkFlavor().size()) {
                 System.out.println("Invalid..please try again");
-                continue;
+
             } else {
-            drink  = Drink.getDrinkFlavor().get(chooseDrink - 1);
+                Drink drink = Drink.getDrinkFlavor().get(chooseDrink - 1);
+                while (true) {
+                    String size = console.promptForString("What size Drink do you want?(Small, Medium, Large):  ");
+                    if (size.equalsIgnoreCase("Small")) {
+                        drink.setSize("small");
+                        break;
+                    } else if (size.equalsIgnoreCase("Medium")) {
+                        drink.setSize("medium");
+                        break;
+                    } else if (size.equalsIgnoreCase("Large")) {
+                        drink.setSize("large");
+                        break;
+                    } else {
+                        System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET);
+
+                    }
+                }
                 addDrink = false;
-            }
+                    System.out.println(drink.getName() + " " + drink);
+                    drink.getPrice();
+                    order.addItem(drink);
 
 
-            while (true) {
-                String size = console.promptForString("What size Drink do you want?(Small, Medium, Large):  ");
-                if (size.equalsIgnoreCase("Small")) {
-                    drink.setSize("small");
-                    break;
-                } else if (size.equalsIgnoreCase("Medium")) {
-                    drink.setSize("medium");
-                    break;
-                } else if (size.equalsIgnoreCase("Large")) {
-                    drink.setSize("large");
-                    break;
-                } else {
-                    System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET);
 
                 }
-
             }
-
-
-            order.addItem(drink);
-
-
-            System.out.println(drink.getName() + " " + drink);
-            drink.getPrice();
 
         }
 
 
-    }
+
+
     private void addChipsToOrder() {
         boolean addChip = true;
 
@@ -806,24 +780,25 @@ public class UserInterface {
             int chooseChip = console.promptForInt("Select the chip you want: ");
 
             if (chooseChip == 0) {
-                addChip = false;
+                break;
             } else if (chooseChip > Chip.getChips().size()) {
                 System.out.println("Not a valid number please try again");
-                continue;
+
             } else {
-                chips = Chip.getChips().get(chooseChip - 1);
+                Chip chips = Chip.getChips().get(chooseChip - 1);
                 addChip = false;
+
+
+                order.addItem(chips);
+
+
+                System.out.println(chips);
+
+
             }
-
-            order.addItem(chips);
-
-
-            System.out.println(chips);
 
 
         }
-
-
     }
 
 
@@ -865,11 +840,11 @@ public class UserInterface {
 
     //Clear when exiting midway through an order
     private void clearOrder(){
-        sandwich = null;
-        drink = null;
-        bltSandwich = null;
-        pcs = null;
-        chips = new Chip(" ");
+        Sandwich sandwich = null;
+       Drink drink = null;
+        BLT bltSandwich = null;
+        PhillyCheeseSteak pcs = null;
+        Chip chips = new Chip(" ");
     }
 
 

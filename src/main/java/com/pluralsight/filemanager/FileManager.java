@@ -26,8 +26,13 @@ public class FileManager {
 
         try {BufferedWriter bw = new BufferedWriter(new FileWriter((formattedDate), true));
             if(order != null){
+                bw.write("--------------------------------------------\n");
+                bw.write("DELI-DELI SANDWICH SHOP\n");
+                bw.write("--------------------------------------------\n");
+                bw.write("Cashier: IntelliJ\n");
+
                 for(MenuItem item : order.getMenuItems()){
-                    bw.write(item.description() + "\n");
+                    bw.write("\n" + item.description() + "\n");
                 }
 
 
@@ -35,7 +40,8 @@ public class FileManager {
             }
 
             if(order != null && order.getTotal() != 0){
-                bw.write(String.format("\ntotal amount paid $%.2f ordered by -> %s", order.getTotal() , order.getCustomerName()));
+                bw.write(String.format("\nTotal amount paid $%.2f ordered by -> %s\n", order.getTotal() , order.getCustomerName()));
+                bw.write("Thank you for buying at DELI-DELI SANDWICH SHOP");
 
             }
 

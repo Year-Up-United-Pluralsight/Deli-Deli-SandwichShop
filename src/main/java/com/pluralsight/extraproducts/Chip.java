@@ -18,6 +18,11 @@ public class Chip implements MenuItem {
         this.price = getPrice();
     }
 
+    public Chip(){
+        this.name =getName();
+        this.price = getPrice();
+    }
+
     public String getName() {
         return name;
     }
