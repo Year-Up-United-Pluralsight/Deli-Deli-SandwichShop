@@ -17,6 +17,8 @@ public class AddToOptionChoice<T> {
 
 
     public T toCollection(String prompt, List<T> options) {
+
+
         while (true) {
 
             int choice = console.promptForInt(prompt + "add another? (1-Yes, 2-No): ");
@@ -26,6 +28,7 @@ public class AddToOptionChoice<T> {
             } else if (choice == 1) {
                 for (int i = 0; i < options.size(); i++) {
                     System.out.println((i + 1) + " " + options.get(i));
+
                 }
             } else if (choice == 2) {
                 System.out.println("Not adding");

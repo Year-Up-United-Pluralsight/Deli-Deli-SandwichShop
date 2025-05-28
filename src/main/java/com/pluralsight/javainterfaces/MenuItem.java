@@ -1,7 +1,7 @@
 package com.pluralsight.javainterfaces;
 
-public interface isMenuItem{
+public interface MenuItem {
     double getPrice();
-    void description();
+    String description();
 
 }

@@ -1,8 +1,7 @@
 package com.pluralsight.extraproducts;
 
 
-import com.pluralsight.javainterfaces.isMenuItem;
-import com.pluralsight.userinterface.UserInterface;
+import com.pluralsight.javainterfaces.MenuItem;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,26 +9,26 @@ import java.util.List;
 
 public class Order  {
 
-    private static String customerName;
-    private static LocalDateTime orderTime;
-    private static  List<isMenuItem> menuItems = new ArrayList<>();
+    private  String customerName;
+    private  LocalDateTime orderTime;
+    private  List<MenuItem> menuItems = new ArrayList<>();
 
 
     public Order(String customerName, LocalDateTime orderTime) {
-        Order.customerName = customerName;
-        Order.orderTime = orderTime;
+        this.customerName = customerName;
+        this.orderTime = orderTime;
     }
 
 
     public Order(LocalDateTime orderTime){
-        Order.customerName = getCustomerName();
-        Order.orderTime = orderTime;
+        this.customerName = getCustomerName();
+        this.orderTime = orderTime;
     }
 
 
 
 
-    public static void addItem(isMenuItem menuItem){
+    public void addItem(MenuItem menuItem){
 
         menuItems.add(menuItem);
 
@@ -50,10 +49,10 @@ public class Order  {
         return customerName;
     }
 
-    public static double getTotal(){
+    public double getTotal(){
         double total = 0;
 
-        for(isMenuItem menuItem : menuItems){
+        for(MenuItem menuItem : menuItems){
             total += menuItem.getPrice();
 
         }
@@ -64,7 +63,7 @@ public class Order  {
     }
 
 
-public static List<isMenuItem> getMenuItems(){
+public List<MenuItem> getMenuItems(){
 
 
         return menuItems;
@@ -72,13 +71,11 @@ public static List<isMenuItem> getMenuItems(){
 
 }
 
-public static void clearMenuItem(){
+public void clearMenuItem(){
 
        menuItems.clear();
 
 }
-
-
 
 
 }

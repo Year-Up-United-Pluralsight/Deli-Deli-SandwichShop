@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Sandwich implements isToasted, addToCheckOut, isMenuItem {
+public class Sandwich implements MenuItem {
     private int size;
     private Bread breadType;
     private List<Meat> meats = new ArrayList<>();
@@ -15,8 +15,6 @@ public class Sandwich implements isToasted, addToCheckOut, isMenuItem {
     private List<Sauce> sauceList = new ArrayList<>();
     double price;
     private boolean toasted;
-    private boolean addToCheckOut;
-    private boolean checkedOut;
 
 
     public Sandwich(int size) {
@@ -28,8 +26,10 @@ public class Sandwich implements isToasted, addToCheckOut, isMenuItem {
         return size;
     }
 
-    public Bread getBreadType() {
-        return breadType;
+    public void setBreadType(Bread breadType) {
+        this.breadType = breadType;
+        this.price += breadType.getPrice(size);
+
     }
 
     public List<Meat> getMeats() {
@@ -51,15 +51,6 @@ public class Sandwich implements isToasted, addToCheckOut, isMenuItem {
     public boolean isToasted() {
         return toasted;
     }
-
-    public boolean isAddToCheckOut() {
-        return addToCheckOut;
-    }
-
-    public boolean isCheckedOut() {
-        return checkedOut;
-    }
-
 
 
     public void addSauce(Sauce sauce) {
@@ -110,51 +101,38 @@ public void addTopping(Toppings topping) {
     }
 
     @Override
-    public void description() {
-
+    public String description() {
+        return toString();
     }
 
-    @Override
+
     public void setToasted(boolean toasted) {
         this.toasted = toasted;
     }
 
     @Override
     public String toString() {
-        String toastedString = toasted ? "Toasted" : "Not Toasted";
-        return String.format("%s %s %s %s %s %s %s: $%.2f", size, breadType, meats, cheeses, regularToppings, sauceList, toastedString, price);
+        return String.format("%s %s %s %s %s %s %s: $%.2f", size, breadType, meats, cheeses, regularToppings, sauceList, toasted ? "Toasted" : "Not Toasted", price);
     }
 
 
-    @Override
-    public void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
-        if(checkedOut){
-            checkedOut();
-        }
+
+//    public void checkedOut(){
+//        if(this.checkedOut){
+//            size = 0;
+//            price = 0.0;
+//            breadType = null;
+//            meats = new ArrayList<>();
+//            cheeses = new ArrayList<>();
+//            regularToppings = new ArrayList<>();
+//            sauceList = new ArrayList<>();
+//            toasted = false;
+//
+//
+//        }
 
     }
 
-    public void checkedOut(){
-        if(this.checkedOut){
-            size = 0;
-            price = 0.0;
-            breadType = null;
-            meats = new ArrayList<>();
-            cheeses = new ArrayList<>();
-            regularToppings = new ArrayList<>();
-            sauceList = new ArrayList<>();
-            toasted = false;
 
-
-        }
-
-    }
-
-    @Override
-    public void addingToCheckOut(boolean addCheckOut) {
-        this.addToCheckOut = addCheckOut;
-    }
-}
 
 

@@ -26,6 +26,12 @@ public class Bread{
         return breads;
     }
 
+    public String getName(){
+
+        return name;
+
+    }
+
 
     public double getPrice(int size){
         if(size == 4){

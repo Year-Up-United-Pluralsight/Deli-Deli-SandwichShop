@@ -5,12 +5,10 @@ import java.util.List;
 
 import com.pluralsight.javainterfaces.*;
 
-public class Drink implements chooseSize, isMenuItem, addToCheckOut{
+public class Drink implements chooseSize, MenuItem{
 
     private String size;
     private  String name;
-    private boolean checkedOut;
-    private boolean addToCheckout;
     private double price;
 
 
@@ -65,22 +63,22 @@ public class Drink implements chooseSize, isMenuItem, addToCheckOut{
         return String.format( "A size %s %s flavor drink: $%.2f", size,name,getPrice());
     }
 
-    @Override
-    public void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
-        if(checkedOut){
-            price = 0.0;
-            size = "";
-            name = "";
-        }
+//    @Override
+//    public void setCheckedOut(boolean checkedOut) {
+//        this.checkedOut = checkedOut;
+//        if(checkedOut){
+//            price = 0.0;
+//            size = "";
+//            name = "";
+//        }
 
 
-    }
 
-    @Override
-    public void addingToCheckOut(boolean addCheckOut) {
-        this.addToCheckout = addCheckOut;
-    }
+
+//    @Override
+//    public void addingToCheckOut(boolean addCheckOut) {
+//        this.addToCheckout = addCheckOut;
+//    }
 
     @Override
     public double getPrice() {
@@ -98,8 +96,8 @@ public class Drink implements chooseSize, isMenuItem, addToCheckOut{
     }
 
     @Override
-    public void description() {
-        System.out.println("A drink");
+    public String description() {
+       return toString();
     }
 
 

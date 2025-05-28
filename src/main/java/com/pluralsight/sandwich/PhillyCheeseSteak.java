@@ -13,7 +13,7 @@ public class PhillyCheeseSteak extends Sandwich implements customizeToppings {
         super.addTopping(new Meat("Steak"));
         super.addTopping(new Cheese("American"));
 //        super.addTopping(new RegularToppings("Peppers"));
-//        super.addSauce(new Sauce("Mayo"));
+        super.addSauce(new Sauce("Mayo"));
         super.setToasted(true);
     }
 

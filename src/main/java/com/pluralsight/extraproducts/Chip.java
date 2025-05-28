@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.pluralsight.javainterfaces.*;
 
-public class Chip implements addToCheckOut, isMenuItem{
+public class Chip implements MenuItem {
 
     private String name;
     private double price;
@@ -32,8 +32,9 @@ public class Chip implements addToCheckOut, isMenuItem{
     }
 
     @Override
-    public void description() {
-        System.out.println("These are bags of Chips");
+    public String description() {
+        return toString();
+        //System.out.println("These are bags of Chips");
     }
 
     public void setPrice(double price) {
@@ -44,7 +45,7 @@ public class Chip implements addToCheckOut, isMenuItem{
         List<Chip> chips = new ArrayList<>();
 
             chips.add((new Chip("Lays")));
-            chips.add((new Chip("Frito")));
+            chips.add((new Chip("Fritos")));
             chips.add((new Chip("Doritos")));
             chips.add((new Chip("Cheetos")));
 
@@ -55,17 +56,8 @@ public class Chip implements addToCheckOut, isMenuItem{
 
     @Override
     public String toString() {
-        return String.format("%s: $%.2f", name , price);
+        return String.format("A bag of %s: $%.2f", name , price);
     }
 
-    @Override
-    public void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
 
-    }
-
-    @Override
-    public void addingToCheckOut(boolean addCheckOut) {
-        this.addToCheckOut = addCheckOut;
-    }
 }
