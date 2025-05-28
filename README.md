@@ -1,5 +1,12 @@
-# DELI-cious-Sandwhich
-YearUp Capstone 2
+# DELI-DELI-SANDWICH SHOP
+YearUp Capstone 2:
+
+
+This is DELI-DELI-SANDWICH SHOP, when you run this program
+it will prompt the user to input their name. This name will be saved inside of
+
+
+
 
 
 
