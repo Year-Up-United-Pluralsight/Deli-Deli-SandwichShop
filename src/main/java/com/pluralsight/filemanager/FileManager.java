@@ -27,7 +27,7 @@ public class FileManager {
     private LocalDateTime fileName = LocalDateTime.now();
 
     private String formattedDate = fileName.format(dateTimeFormatter) + ".txt";
-    private final Order order = new Order("Name", LocalDateTime.now());
+    private final Order order = new Order(LocalDateTime.now());
 
     public String getFormattedDate() {
         return formattedDate;
@@ -48,38 +48,12 @@ public class FileManager {
     public void saveReceipt(List<isMenuItem> menuItemList){
 
         try {BufferedWriter bw = new BufferedWriter(new FileWriter((formattedDate), true));
-
-
-
-
             if(menuItemList != null){
                 bw.write(menuItemList + "\n");
-
-
             }
-//            double total = 0;
-//            if(sandwich != null ){
-//                bw.write(sandwich + "\n");
-//
-//
-//            }
-//
-//            if(bltSandwich != null){
-//                bw.write(bltSandwich + "\n");
-//
-//            }
-//
-//            if(chip != null){
-//                bw.write(chip + "\n");
-//
-//            }
-//            if(drink != null){
-//                bw.write(drink + "\n");
-//
-//            }
 
-            if(order.getTotal() != -1){
-                bw.write(String.format("\ntotal amount paid: $%.2f", order.getTotal()));
+            if(Order.getTotal() != -1){
+                bw.write(String.format("\ntotal amount paid %s", order));
 
             }
 

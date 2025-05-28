@@ -14,8 +14,7 @@ import com.pluralsight.sandwich.PhillyCheeseSteak;
 import com.pluralsight.sandwich.Sandwich;
 import com.pluralsight.toppings.*;
 
-import java.awt.*;
-import java.io.File;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +28,13 @@ public class UserInterface {
     private PhillyCheeseSteak pcs;
     private Drink drink = new Drink("");
     private Chip chips = new Chip(" ");
-    private final Order order = new Order("name", LocalDateTime.now());
     private Bread bread;
 
 
     public void init() {
         fileManager = new FileManager();
-
+        String customerName = console.promptForString("What is your name?: ");
+        new Order(customerName, LocalDateTime.now());
 
         userInterface();
 
@@ -172,7 +171,7 @@ public class UserInterface {
                    }
                }
 
-               order.addItem(bltSandwich);
+               Order.addItem(bltSandwich);
 //              order.addBltToOrder(bltSandwich);
 
 
@@ -211,7 +210,7 @@ public class UserInterface {
 //                    sandwich.setToasted(false);
                 }
 
-                order.addItem(pcs);
+                Order.addItem(pcs);
 //                order.addSandwichToOrder(pcs);
                 newOrder = false;
 
@@ -508,7 +507,7 @@ public class UserInterface {
         addSauceToSandwich(sandwich);
         toastSandwich(sandwich);
 
-        order.addItem(sandwich);
+        Order.addItem(sandwich);
 
         System.out.println("A sandwich for : " + customerName + "\n" + sandwich);
 
@@ -778,7 +777,7 @@ public class UserInterface {
             }
 
 
-            order.addItem(drink);
+            Order.addItem(drink);
 
 
             System.out.println(drink.getName() + " " + drink);
@@ -813,7 +812,7 @@ public class UserInterface {
                 addChip = false;
             }
 
-            order.addItem(chips);
+            Order.addItem(chips);
 
 
             System.out.println(chips);
@@ -826,56 +825,25 @@ public class UserInterface {
 
 
     public void checkOut() {
-//        double theTotalPrice = 0;
-//
 
 
+        if(Order.getMenuItems() != null && Order.getTotal() != 0){
 
+           System.out.printf("The total price is %.2f\n", Order.getTotal());
 
-
-
-//
-//        if(bltSandwich != null && bltSandwich.getBreadType() != null){
-//            System.out.println(bltSandwich);
-//            theTotalPrice += bltSandwich.getPrice();
-//        }
-//
-//
-//        if (drink != null && drink.getSize() != null) {
-//            System.out.println(drink);
-//            theTotalPrice += drink.getPrice("");
-//        }
-//
-//        if (!chips.getName().equals(" ")) {
-//            System.out.println(chips);
-//            theTotalPrice += chips.getPrice();
-//        }
-//
-//                  if(order.getDrinkList() != null | order.getChipList() != null| order.getSandwichList() != null| order.getBltList() != null) {
-//                System.out.printf("The total price is %.2f\n", order.getPrice());
-////        }
-//
-
-//            System.out.printf("The total price is %.2f\n", order.g);
-//        }
-
-
-
-
-
-
+        }
 
             int confirmation;
         boolean checkingOut = true;
-        if(drink != null && drink.getSize() != null | !chips.getName().equals(" ") | sandwich != null | bltSandwich != null) {
+        if(Order.getMenuItems() != null && Order.getTotal() != 0) {
             while (checkingOut) {
                 confirmation = console.promptForInt("Would you like to proceed?( 1 to proceed, 0 to go back): ");
                 if (confirmation > 1) {
                     System.out.println("Not a valid number");
 
                 } else if (confirmation == 1) {
-                    fileManager.saveReceipt(order.getMenuItems());
-//                    order.clearOrder();
+                    fileManager.saveReceipt(Order.getMenuItems());
+                    Order.clearMenuItem();
                     checkingOut = false;
 
                 } else {
@@ -894,9 +862,6 @@ public class UserInterface {
         bltSandwich = null;
         pcs = null;
         chips = new Chip(" ");
-
-
-
     }
 
 

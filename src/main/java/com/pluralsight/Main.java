@@ -21,18 +21,6 @@ public class Main {
         UI.init();
 
 
-//        Order order = new Order("hey", LocalDateTime.now());
-////
-////            Drink drink = new Drink("Soda");
-////            Chip chip = new Chip("PopCorn");
-////            Sandwich sandwich = new Sandwich(8);
-////
-////            order.addItem(drink);
-////            order.addItem(chip);
-////            order.addItem(sandwich);
-
-//        System.out.println(order.getTotal());
-
 
     }
 

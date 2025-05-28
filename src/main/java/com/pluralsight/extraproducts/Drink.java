@@ -99,7 +99,7 @@ public class Drink implements chooseSize, isMenuItem, addToCheckOut{
 
     @Override
     public void description() {
-        System.out.println("These are Drinks");
+        System.out.println("A drink");
     }
 
 
