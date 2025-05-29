@@ -26,7 +26,7 @@ public class Sandwich implements MenuItem {
         return size;
     }
 
-    public void getBreadType(Bread breadType) {
+    public void setBreadType(Bread breadType) {
         this.breadType = breadType;
         this.price += breadType.getPrice(size);
 
@@ -69,12 +69,6 @@ public class Sandwich implements MenuItem {
 
     }
 
-    public void addBread(Bread bread) {
-
-        this.price += bread.getPrice(size);
-
-
-    }
 
 public void addTopping(Toppings topping) {
     if (topping instanceof Meat) {

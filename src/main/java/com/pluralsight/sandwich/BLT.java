@@ -5,15 +5,18 @@ import com.pluralsight.order.MenuItem;
 import com.pluralsight.order.Sandwich;
 import com.pluralsight.toppings.*;
 
+import java.util.List;
+
 public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
     private int size;
+    private Bread bread;
 
 
 
     public BLT() {
         super(8);
-        super.addBread(new Bread("White"));
+        super.setBreadType(new Bread("White"));
         super.addTopping(new Meat("Bacon"));
         super.addTopping(new Cheese("Cheddar"));
         super.addTopping(new RegularToppings("Tomato"));
@@ -23,6 +26,11 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
 
     }
+
+    public Bread getBread() {
+        return bread;
+    }
+
 
     @Override
     public int getSize() {
@@ -40,15 +48,35 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
     @Override
     public void replaceTopping(RegularToppings replacedTopping) {
-        super.getRegularToppings().replaceAll(regularToppings -> replacedTopping);
+
     }
 
     @Override
-    public void replaceBread(Bread replacedBread) {
-
-        super.getBreadType().add(replacedBread); // add the new bread
-
+    public void replaceToppingAtIndex0(RegularToppings replacedTopping) {
+        List<RegularToppings> toppings = super.getRegularToppings();
+        if (toppings.size() == 1) {
+            toppings.set(0, replacedTopping); // Replace the topping at index 0
+        } else {
+            System.out.println("No toppings to replace at index 0.");
+        }
     }
+
+    @Override
+    public void replaceToppingAtIndex1(RegularToppings replacedTopping) {
+        List<RegularToppings> toppings = super.getRegularToppings();
+        if (toppings.size() == 2) {
+            toppings.set(1, replacedTopping); // Replace the topping at index 1
+        } else {
+            System.out.println("No topping to replace at index 1.");
+        }
+    }
+
+//    @Override
+//    public void replaceBread(Bread replacedBread) {
+//
+//        super.getBreadType().add(replacedBread); // add the new bread
+//
+//    }
 
     @Override
     public void removeSauce(Sauce sauce) {

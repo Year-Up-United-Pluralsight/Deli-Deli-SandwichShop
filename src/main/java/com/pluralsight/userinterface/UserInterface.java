@@ -6,8 +6,6 @@ import com.pluralsight.order.Chip;
 import com.pluralsight.order.Drink;
 import com.pluralsight.order.Order;
 import com.pluralsight.filemanager.FileManager;
-import com.pluralsight.generics.AddToOptionChoice;
-import com.pluralsight.generics.OptionChoice;
 import com.pluralsight.order.MenuItem;
 import com.pluralsight.sandwich.BLT;
 import com.pluralsight.sandwich.Bread;
@@ -50,7 +48,7 @@ public class UserInterface {
                 Would you like to order?\s
                 1. Yes!\s
                 0. No, I'll leave (Quit)\s
-                Enter here:\s""" ;
+                Enter here:\s""";
 
         int choose;
         do {
@@ -58,8 +56,6 @@ public class UserInterface {
             switch (choose) {
                 case 1:
                     menuOrders();
-                    break;
-                case 2:
                     break;
                 default:
                     System.out.println("Quitting...");
@@ -74,7 +70,7 @@ public class UserInterface {
 
     //Menu Orders
     private void menuOrders() {
-        String orderSelections =  """ 
+        String orderSelections = """ 
                 Please select your order\s
                  1. Yes, Let's make a sandwich!\s
                  2. Order from a Menu
@@ -153,7 +149,7 @@ public class UserInterface {
         }
         int chosenBread = console.promptForInt("Which bread do you want?: ");
         Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
-        sandwich.getBreadType(selectedBread);
+        sandwich.setBreadType(selectedBread);
         System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
     }
 
@@ -192,11 +188,9 @@ public class UserInterface {
                 for (Meat meat : Meat.getMeatTopping())
                     meat.setExtra(true);
 
-                System.out.println( ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
             sandwich.addTopping(m);
-
-
 
 
         }
@@ -221,7 +215,7 @@ public class UserInterface {
             if (che == 0) {
                 addCheese = false;
                 continue;
-            } else if(che >Cheese.getCheeseToppings().size()){
+            } else if (che > Cheese.getCheeseToppings().size()) {
                 System.out.println("Not a valid input");
             }
             Cheese c = Cheese.getCheeseToppings().get(che - 1);
@@ -345,8 +339,6 @@ public class UserInterface {
     }
 
 
-
-
     //Toasted // Not Toasted
     private void toastSandwich(Sandwich sandwich) {
 
@@ -368,16 +360,13 @@ public class UserInterface {
     }
 
 
-
-
-
     //Signature Sandwiches
     private void signatureSandwiches() {
         String defaults = """
                  Here are the default orders:
                  1. BLT: 8" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted.
                  2. Philly Cheese Steak: 8" White Bread, Steak, American Cheese, Peppers, Mayo Toasted
-                 Do you want pre-made sandwich (1-yes or 2-no):  \s
+                 Do you want pre-made sandwich (1-yes or 0-no):  \s
                 \s""";
 
         int newSandwich;
@@ -391,40 +380,29 @@ public class UserInterface {
                 System.out.println("***NOTE*** When building a sandwich, press 0 to cancel out of the process");
 
 
-                int bltOrder = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
+                int bltOrder = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no(0-Back)): ");
 
-                if(bltOrder == 1) {
-                    BLT bltSandwich = new BLT();
-                    if (!changeBreadForBLT(bltSandwich)) {
-                        return;
-                    }
-                    if (!addOrChangeMeatForBLT(bltSandwich)) {
-                        return;
-                    }
-                    if (!addOrChangeCheeseForBLT(bltSandwich)) {
-                        return;
-                    }
-                    if (!addOrChangeRegToppings1ForBLT(bltSandwich)) {
-                        return;
-                    }
-                    if (!addOrChangeRegToppings2ForBLT(bltSandwich)) {
-                        return;
-                    }
-                    if (!addOrChangeSauceOptionsForBLT(bltSandwich)) {
-                        return;
-                    }
+                BLT bltSandwich = new BLT();
+                if (bltOrder == 1) {
+                    changeBreadForBLT(bltSandwich);
+                    addOrChangeMeatForBLT(bltSandwich);
+                    addOrChangeCheeseForBLT(bltSandwich);
+                    addOrChangeRegToppings1ForBLT(bltSandwich);
+                    addOrChangeRegToppings2ForBLT(bltSandwich);
+                    addOrChangeSauceOptionsForBLT(bltSandwich);
+
 
                     int wantToasted;
 
                     while (true) {
                         wantToasted = console.promptForInt("This sandwich comes Toasted...Do you want to remove this?(1 - Yes, 2 - No): ");
                         if (wantToasted == 1) {
-                            bltSandwich.setToasted(true);
+                            bltSandwich.setToasted(false);
                             System.out.println(ColorCodes.BOLD + "\nThis sandwich is now toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                             break;
                         } else if (wantToasted == 2) {
-                            bltSandwich.setToasted(false);
+                            bltSandwich.setToasted(true);
                             System.out.println(ColorCodes.BOLD + "\nThis sandwich is not toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                             break;
                         } else {
@@ -436,7 +414,6 @@ public class UserInterface {
                     order.addItem(bltSandwich);
                     newOrder = false;
                 } else {
-                    BLT bltSandwich = new BLT();
 
                     order.addItem(bltSandwich);
 
@@ -444,30 +421,19 @@ public class UserInterface {
                 }
 
 
-
-
             } else if (newSandwich == 2) {
 
                 System.out.println("Philly Cheese Steak: 8\" White Bread, Steak, American Cheese, Peppers, Mayo Toasted");
-                int createPcs = console.promptForInt("Do you want to replace or add to this?(1-yes 2-no): ");
+                int createPcs = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
 
-                if(createPcs == 1) {
-                    PhillyCheeseSteak pcs = new PhillyCheeseSteak();
-                    if (!changeBreadForPCS(pcs)) {
-                        return;
-                    }
-                    if (!addOrChangeMeatForPCS(pcs)) {
-                        return;
-                    }
-                    if (!addOrChangeCheeseForPCS(pcs)) {
-                        return;
-                    }
-                    if (!addOrChangeRegToppingForPCS(pcs)) {
-                        return;
-                    }
-                    if (!addOrChangeSauceForPCS(pcs)) {
-                        return;
-                    }
+                PhillyCheeseSteak pcs = new PhillyCheeseSteak();
+                if (createPcs == 1) {
+                        changeBreadForPCS(pcs);
+                        addOrChangeMeatForPCS(pcs);
+                        addOrChangeCheeseForPCS(pcs);
+                        addOrChangeRegToppingForPCS(pcs);
+                        addOrChangeSauceForPCS(pcs);
+
 
                     int wantToasted = console.promptForInt("This sandwich comes Toasted...Do you want to remove this?. (1 - Yes, 2 - No): ");
                     if (wantToasted == 1) {
@@ -482,7 +448,6 @@ public class UserInterface {
                     order.addItem(pcs);
                     newOrder = false;
                 } else {
-                    PhillyCheeseSteak pcs = new PhillyCheeseSteak();
 
                     order.addItem(pcs);
 
@@ -500,179 +465,447 @@ public class UserInterface {
 
     //Signature Sandwich BLT Creation
     //Change Out Bread
-    private boolean changeBreadForBLT(BLT bltSandwich) {
-
-        OptionChoice<Bread> breadOptions = new OptionChoice<>();
-
-        Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), );
-        if (selectedBread == null) {
-            System.out.println("exiting..");
-            bltSandwich.clear();
-            return false;
-        } else {
-            if(selectedBread != Bread.getBreadTypes().getFirst()) {
-                bltSandwich.replaceBread(selectedBread);
+    private void changeBreadForBLT(BLT bltSandwich) {
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding White Bread: Do you want to change the bread type?: ")) {
+            System.out.println("Here is the lists of bread: ");
+            int numbering = 1;
+            for (Bread b : Bread.getBreadTypes()) {
+                System.out.println(numbering + ". " + b);
+                numbering++;
             }
+            int chosenBread = console.promptForInt("Which bread do you want?: ");
+            Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
+            bltSandwich.setBreadType(selectedBread);
+            System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
-
-            return true;
         }
+
     }
 
     //Add more Meat/Change Out Meat
-    private boolean addOrChangeMeatForBLT(BLT bltSandwich){
+    private void addOrChangeMeatForBLT(BLT bltSandwich) {
+        boolean choice = true;
+        boolean addMeat = true;
+        List<Meat> addedMeats = new ArrayList<>();
+        if (choice == console.getBoolean("Adding Bacon: Do you want to change this Meat?: ")) {
+            while (addMeat) {
+                int numbering2 = 1;
 
-        OptionChoice<Meat> meatOptions = new OptionChoice<>();
-        Meat selectedMeat = meatOptions.selectOption( "Adding Bacon", Meat.getMeatTopping(), Meat.getMeatTopping().getFirst());
-        if(selectedMeat == null) {
-            System.out.println("exiting...");
-            bltSandwich.clear();
-            return false;
+                for (Meat meat : Meat.getMeatTopping()) {
+                    System.out.println(numbering2 + " " + meat);
+                    numbering2++;
+
+                }
+
+                int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+
+                if (meaty == 0) {
+                    addMeat = false;
+                    continue;
+                }
+
+                Meat m = Meat.getMeatTopping().get(meaty - 1);
+
+                System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+
+                if (extra == 1) {
+                    for (Meat meat : Meat.getMeatTopping())
+                        meat.setExtra(true);
+
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                }
+                bltSandwich.replaceMeat(m);
+                addedMeats.add(m);
+                System.out.println(addedMeats);
+
+            }
+        } else {
+            while (addMeat) {
+                if (choice == console.getBoolean("Do you want to add different meat?: ")) {
+                    int numbering3 = 1;
+                    for (Meat meat : Meat.getMeatTopping()) {
+                        System.out.println(numbering3 + " " + meat);
+                        numbering3++;
+
+                    }
+
+                    int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+                    if (meaty == 0) {
+                            addMeat = false;
+                            continue;
+                    }
+
+                    Meat m = Meat.getMeatTopping().get(meaty - 1);
+
+                    System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+
+                    if (extra == 1) {
+                        for (Meat meat : Meat.getMeatTopping())
+                            meat.setExtra(true);
+
+                        System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                    bltSandwich.addTopping(m);
+                    addedMeats.add(m);
+                } else {
+                    break;
+                }
+            }
         }
-
-            bltSandwich.replaceMeat(selectedMeat);
-
-
-
-        AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
-        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , Meat.getMeatTopping());
-
-        if(newlyAddedMeat != null){
-            bltSandwich.addTopping(newlyAddedMeat);
-
-        }
-
-        return true;
-
     }
+
 
     //Add more Cheese or Change Out Cheese
-    private boolean addOrChangeCheeseForBLT(BLT bltSandwich){
-        OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
-        Cheese selectedCheese = cheeseOptions.selectOption( "Adding Cheddar Cheese", Cheese.getCheeseToppings(), Cheese.getCheeseToppings().getFirst());
-        if(selectedCheese == null){
-            System.out.println("exiting...");
-            bltSandwich.clear();
-            return false;
-        } else {
-            bltSandwich.replaceCheese(selectedCheese);
+    private void addOrChangeCheeseForBLT(BLT bltSandwich) {
+        boolean addCheese = true;
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this? ")) {
+            while (addCheese) {
+                int numbering3 = 1;
 
+
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
+                    System.out.println(numbering3 + " " + cheese);
+                    numbering3++;
+                }
+
+
+                int che;
+                try {
+                    che = console.promptForInt("What type of cheese do you want?: ");
+
+                    if (che == 0) {
+                        addCheese = false;
+
+
+                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
+                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                        bltSandwich.replaceCheese(c);
+                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                        int extraCheese = console.promptForInt("Do you want extra cheese?(1-Yes, 2-NO): ");
+
+                            if(extraCheese == 1){
+                                for(Cheese cheese: Cheese.getCheeseToppings()){
+                                    cheese.setExtra(true);
+                                }
+
+                                System.out.println(ColorCodes.BOLD + "\n Extra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                            }
+
+
+                    } else {
+                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter in a number");
+                }
+            }
+
+
+        } else if (choice == console.getBoolean("Do you want to add more cheese?: ")) {
+            while (addCheese) {
+                int numbering4 = 1;
+
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
+                    System.out.println(numbering4 + " " + cheese);
+                    numbering4++;
+                }
+
+                int che;
+                try {
+                    che = console.promptForInt("What type of cheese do you want to add?: ");
+
+                    if (che == 0) {
+                        addCheese = false;
+
+
+                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
+                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                        bltSandwich.addTopping(c);
+                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                        int extraCheese = console.promptForInt("Do you want extra cheese?(1-Yes, 2-NO: ");
+
+                        if(extraCheese == 1){
+                            for(Cheese cheese: Cheese.getCheeseToppings()){
+                                cheese.setExtra(true);
+                            }
+                            System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                        }
+                    } else {
+                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter in a number");
+                }
+
+
+
+            }
         }
-
-        AddToOptionChoice<Cheese> addCheese = new AddToOptionChoice<>();
-        Cheese newlyAddedCheese = addCheese.toCollection("Do you want to " , Cheese.getCheeseToppings());
-        if(newlyAddedCheese != null) {
-            bltSandwich.addTopping(newlyAddedCheese);
-
-        }
-
-        return  true;
-
 
 
     }
 
-    //Add more Regular Toppings or Change out Topping
-    private boolean addOrChangeRegToppings1ForBLT(BLT bltSandwich){
 
-        OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption("Adding Lettuce", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().getFirst());
-        if(selectRegular == null) {
-            System.out.println("exiting...");
-            bltSandwich.clear();
-            return false;
-        }else {
-            if(selectRegular != RegularToppings.getRegularToppings().getFirst()){
-                bltSandwich.replaceTopping(selectRegular);
+    //Add more Regular Toppings or Change out Topping
+    private void addOrChangeRegToppings1ForBLT(BLT bltSandwich) {
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Lettuce, Do you want to change this?: ")) {
+            List<RegularToppings> normalT = new ArrayList<>();
+            boolean normalToppings = true;
+
+            while (normalToppings) {
+                int numbering4 = 1;
+                for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                    System.out.println(numbering4 + " " + regular);
+                    numbering4++;
+                }
+
+
+                int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+                if (regular == 0) {
+                    break;
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                    System.out.println("Not a valid input");
+                    continue;
+                }
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                bltSandwich.replaceTopping(normal);
+                normalT.add(normal);
+                System.out.println(normalT);
+                normalToppings = false;
+
             }
 
+
         }
-
-
-
-        AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
-        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to " , RegularToppings.getRegularToppings());
-        if(newlyAddedReg != null){
-            bltSandwich.addTopping(newlyAddedReg);
-        }
-
-        return true;
-
     }
 
     //Add more Regular Toppings or Change out Topping
-    private boolean addOrChangeRegToppings2ForBLT(BLT bltSandwich){
+    private void addOrChangeRegToppings2ForBLT(BLT bltSandwich) {
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Tomato, Do you want to change this?: ")) {
+            List<RegularToppings> normalT = new ArrayList<>();
+            boolean normalToppings = true;
 
-        OptionChoice<RegularToppings> secondTopping = new OptionChoice<>();
-        RegularToppings selectSecondTopping = secondTopping.selectOption( "Adding Tomatoes", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().get(1));
-        if(selectSecondTopping == null) {
-            System.out.println("exiting...");
-            bltSandwich.clear();
-            return false;
-        } else {
-            if (selectSecondTopping != RegularToppings.getRegularToppings().getFirst()) {
-                bltSandwich.replaceTopping(selectSecondTopping);
+            while (normalToppings) {
+                int numbering4 = 1;
+                for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                    System.out.println(numbering4 + " " + regular);
+                    numbering4++;
+                }
+
+
+                int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+                if (regular == 0) {
+                    break;
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                    System.out.println("Not a valid input");
+                    continue;
+                }
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                bltSandwich.replaceToppingAtIndex1(normal);
+                normalT.add(normal);
+
+                System.out.println("Would you like another topping? ");
+                int anotherTopping = console.promptForInt("1 for Yes, 0 for No: ");
+
+                if (anotherTopping == 0) {
+                    normalToppings = false;
+
+                } else if (anotherTopping != 1) {
+                    System.out.println("Not a valid input");
+
+                }
+
+                System.out.println(normalT);
+
+
             }
+        } else if (choice == console.getBoolean("Do you want to add more toppings?: ")) {
+            List<RegularToppings> normalT = new ArrayList<>();
+            boolean normalToppings = true;
+
+            while (normalToppings) {
+                int numbering5 = 1;
+                for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                    System.out.println(numbering5 + " " + regular);
+                    numbering5++;
+                }
 
 
+                int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+                if (regular == 0) {
+                    break;
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                    System.out.println("Not a valid input");
+                    continue;
+                }
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                bltSandwich.addTopping(normal);
+                normalT.add(normal);
+
+                boolean anotherTopping = true;
+                if (anotherTopping == console.getBoolean("Would you like another topping?: ")) {
+                    continue;
+                } else {
+                    normalToppings = false;
+                }
+                System.out.println(normalT);
+            }
         }
-
-
-        AddToOptionChoice<RegularToppings> addSecondRegTopping = new AddToOptionChoice<>();
-        RegularToppings newlyAddedSecondRegTopping = addSecondRegTopping.toCollection( "Do you want to " , RegularToppings.getRegularToppings());
-        if(newlyAddedSecondRegTopping != null){
-
-            bltSandwich.addTopping(newlyAddedSecondRegTopping);
-
-        }
-
-        return true;
-
     }
 
     //Add more Sauce or Change out Sauce
-    private boolean addOrChangeSauceOptionsForBLT(BLT bltSandwich){
+    private void addOrChangeSauceOptionsForBLT(BLT bltSandwich) {
+        boolean addingSauce = true;
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Ranch, do you want to change this?: ")) {
+            while (addingSauce) {
+                int numbering5 = 1;
 
-        OptionChoice<Sauce> sauceOption = new OptionChoice<>();
-        Sauce selctSauce = sauceOption.selectOption( "Adding Ranch", Sauce.getSauce(), Sauce.getSauce().getFirst());
-        if(selctSauce == null) {
-            System.out.println("exiting...");
-            bltSandwich.clear();
-            return false;
+
+                for (Sauce sauces : Sauce.getSauce()) {
+                    System.out.println(numbering5 + " " + sauces);
+                    numbering5++;
+                }
+
+                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+                if (addASauce == 0) {
+                    addingSauce = false;
+                    continue;
+                }
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+
+                bltSandwich.replaceSauce(s);
+            }
+
+
+            boolean addingSideSauce = true;
+
+            while (addingSideSauce) {
+                int numbering6 = 1;
+
+                for (SideSauce side : SideSauce.getSideSauces()) {
+                    System.out.println(numbering6 + " " + side.getName());
+                }
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+
+                if (addSideSauce == 0) {
+                    addingSideSauce = false;
+                    continue;
+                }
+
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+
+
+                if (addSideSauce >= 1) {
+                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
+                    if (another == 0) {
+                        addingSideSauce = false;
+
+                    }
+                }
+
+                bltSandwich.addSauce(ss);
+
+            }
+
+
+        } else if(choice == console.getBoolean("Do you want to add another sauce?: ")){
+
+            while (addingSauce) {
+                int numbering5 = 1;
+
+
+                for (Sauce sauces : Sauce.getSauce()) {
+                    System.out.println(numbering5 + " " + sauces);
+                    numbering5++;
+                }
+
+                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+                if (addASauce == 0) {
+                    addingSauce = false;
+                    continue;
+                }
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+
+                bltSandwich.addSauce(s);
+            }
+
+
+            boolean addingSideSauce = true;
+
+            while (addingSideSauce) {
+                int numbering6 = 1;
+
+                for (SideSauce side : SideSauce.getSideSauces()) {
+                    System.out.println(numbering6 + " " + side.getName());
+                }
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+
+                if (addSideSauce == 0) {
+                    addingSideSauce = false;
+                    continue;
+                }
+
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+
+
+                if (addSideSauce >= 1) {
+                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
+                    if (another == 0) {
+                        addingSideSauce = false;
+
+                    }
+                }
+
+                bltSandwich.addSauce(ss);
+
+            }
+
+
+
         }
-            bltSandwich.replaceSauce(selctSauce);
-
-
-
-        AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
-        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to " , Sauce.getSauce());
-        if(newlyAddedSauce != null){
-            bltSandwich.addSauce(newlyAddedSauce);
-
-        }
-
-        return true;
-
-
-
     }
+
+
 
 
     //Signature Sandwich PhillyCheeseSteak Creation
     //Change Out Bread
-    private boolean changeBreadForPCS(PhillyCheeseSteak pcs){
-        OptionChoice<Bread> breadOptions = new OptionChoice<>();
+    private void changeBreadForPCS(PhillyCheeseSteak pcs){
 
-        Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), new Bread("White"));
-        if (selectedBread == null) {
-            System.out.println("exiting..");
-            pcs.clear();
-            return false;
-        } else {
-            pcs.replaceBread(selectedBread);
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding White Bread: Do you want to change the bread type?: ")) {
+            System.out.println("Here is the lists of bread: ");
+            int numbering = 1;
+            for (Bread b : Bread.getBreadTypes()) {
+                System.out.println(numbering + ". " + b);
+                numbering++;
+            }
+            int chosenBread = console.promptForInt("Which bread do you want?: ");
+            Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
+            pcs.setBreadType(selectedBread);
+            System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
-
-            return true;
         }
 
 
@@ -680,111 +913,367 @@ public class UserInterface {
     }
 
     //Add more Meat/Change Out Meat
-    private boolean addOrChangeMeatForPCS(PhillyCheeseSteak pcs){
+    private void addOrChangeMeatForPCS(PhillyCheeseSteak pcs){
+        boolean choice = true;
+        boolean addMeat = true;
+        if (choice == console.getBoolean("Adding Steak: Do you want to change this Meat?: ")) {
+            while (addMeat) {
+                int numbering2 = 1;
 
-        OptionChoice<Meat> meatOptions = new OptionChoice<>();
-        Meat selectedMeat = meatOptions.selectOption("Adding Steak", Meat.getMeatTopping(), new Meat("Steak"));
-        if(selectedMeat == null) {
-            System.out.println("exiting...");
-            pcs.clear();
-            return false;
+                for (Meat meat : Meat.getMeatTopping()) {
+                    System.out.println(numbering2 + " " + meat);
+                    numbering2++;
+
+                }
+
+                int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+
+                if (meaty == 0) {
+                    addMeat = false;
+                    continue;
+                }
+
+                Meat m = Meat.getMeatTopping().get(meaty - 1);
+
+                System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+
+                if (extra == 1) {
+                    for (Meat meat : Meat.getMeatTopping())
+                        meat.setExtra(true);
+
+                }
+                System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                pcs.addTopping(m);
+                addMeat = false;
+
+//                int addMore = console.promptForInt("Do you want to add another meat? (1-yes 2-No): ");
+//                if(addMore == 1){
+//
+//
+//                }
+
+            }
+        } else {
+            while (addMeat) {
+                if (choice == console.getBoolean("Do you want to add different meat?: ")) {
+                    int numbering3 = 1;
+                    for (Meat meat : Meat.getMeatTopping()) {
+                        System.out.println(numbering3 + " " + meat);
+                        numbering3++;
+
+                    }
+
+                    int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+                    if (meaty == 0) {
+                        addMeat = false;
+                        continue;
+                    }
+
+                    Meat m = Meat.getMeatTopping().get(meaty - 1);
+
+                    System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+
+                    if (extra == 1) {
+                        for (Meat meat : Meat.getMeatTopping())
+                            meat.setExtra(true);
+
+                        System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                    pcs.addTopping(m);
+                } else {
+                    break;
+                }
+            }
         }
-
-        pcs.replaceMeat(selectedMeat);
-
-
-
-        AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
-        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , Meat.getMeatTopping());
-
-        if(newlyAddedMeat != null){
-            pcs.addTopping(newlyAddedMeat);
-
-        }
-
-        return true;
-
     }
 
     //Add more Cheese or Change Out Cheese
-    private boolean addOrChangeCheeseForPCS(PhillyCheeseSteak pcs){
+    private void addOrChangeCheeseForPCS(PhillyCheeseSteak pcs){
+        boolean addCheese = true;
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this? ")) {
+            while (addCheese) {
+                int numbering3 = 1;
 
-        OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
-        Cheese selectedCheese = cheeseOptions.selectOption( "Adding American Cheese", Cheese.getCheeseToppings(), new Cheese("American" ));
-        if(selectedCheese == null){
-            System.out.println("exiting...");
-            pcs.clear();
-            return false;
-        } else {
-            pcs.replaceCheese(selectedCheese);
 
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
+                    System.out.println(numbering3 + " " + cheese);
+                    numbering3++;
+                }
+
+
+                int che;
+                try {
+                    che = console.promptForInt("What type of cheese do you want to add?: ");
+
+                    if (che == 0) {
+                        addCheese = false;
+
+
+                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
+                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                        pcs.replaceCheese(c);
+                        int extraCheese = console.promptForInt("Do you want extra cheese?: ");
+
+                        if(extraCheese == 1){
+                            for(Cheese cheese: Cheese.getCheeseToppings()){
+                                cheese.setExtra(true);
+                                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                            }
+                        }
+
+                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    } else {
+                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter in a number");
+                }
+            }
+
+
+        } else if (choice == console.getBoolean("Do you want to add more cheese?: ")) {
+            while (addCheese) {
+                int numbering4 = 1;
+
+                for (Cheese cheese : Cheese.getCheeseToppings()) {
+                    System.out.println(numbering4 + " " + cheese);
+                    numbering4++;
+                }
+
+                int che;
+                try {
+                    che = console.promptForInt("What type of cheese do you want to add?: ");
+
+                    if (che == 0) {
+                        addCheese = false;
+
+
+                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
+                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                        pcs.replaceCheese(c);
+                        int extraCheese = console.promptForInt("Do you want extra cheese?: ");
+
+                        if(extraCheese == 1){
+                            for(Cheese cheese: Cheese.getCheeseToppings()){
+                                cheese.setExtra(true);
+                                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                            }
+                        }
+
+                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    } else {
+                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter in a number");
+                }
+
+
+
+            }
         }
-
-        AddToOptionChoice<Cheese> addCheese = new AddToOptionChoice<>();
-        Cheese newlyAddedCheese = addCheese.toCollection( "Do you want to " , Cheese.getCheeseToppings());
-        if(newlyAddedCheese != null) {
-            pcs.addTopping(newlyAddedCheese);
-
-        }
-
-        return  true;
-
-
 
     }
 
     //Add more Regular Toppings or Change out Topping
-    private boolean addOrChangeRegToppingForPCS(PhillyCheeseSteak pcs){
+    private void addOrChangeRegToppingForPCS(PhillyCheeseSteak pcs){
 
-        OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().getFirst());
-        if(selectRegular == null){
-            System.out.println("exiting...");
-            pcs.clear();
-            return false;
-        } else {
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Lettuce, Do you want to change this?: ")) {
+            List<RegularToppings> normalT = new ArrayList<>();
+            boolean normalToppings = true;
 
-            pcs.removeTopping(selectRegular);
+            while (normalToppings) {
+                int numbering4 = 1;
+                for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                    System.out.println(numbering4 + " " + regular);
+                    numbering4++;
+                }
 
+
+                int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+                if (regular == 0) {
+                    break;
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                    System.out.println("Not a valid input");
+                    continue;
+                }
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                pcs.replaceToppingAtIndex0(normal);
+                normalT.add(normal);
+
+                boolean anotherTopping = true;
+                if (anotherTopping == console.getBoolean("Would you like another topping?: ")) {
+                    continue;
+                } else {
+                    normalToppings = false;
+                }
+
+                System.out.println(normalT);
+
+            }
+
+        } else if (choice == console.getBoolean("Do you want to add more toppings?: ")) {
+            List<RegularToppings> normalT = new ArrayList<>();
+            boolean normalToppings = true;
+
+            while (normalToppings) {
+                int numbering5 = 1;
+                for (RegularToppings regular : RegularToppings.getRegularToppings()) {
+                    System.out.println(numbering5 + " " + regular);
+                    numbering5++;
+                }
+
+
+                int regular = console.promptForInt("Which regular topping do you want?(0 to skip): ");
+
+
+                if (regular == 0) {
+                    break;
+                } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
+                    System.out.println("Not a valid input");
+                    continue;
+                }
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                pcs.replaceToppingAtIndex1(normal);
+                normalT.add(normal);
+
+                boolean anotherTopping = true;
+                if (anotherTopping == console.getBoolean("Would you like another topping?: ")) {
+                    continue;
+                } else {
+                    normalToppings = false;
+                }
+                System.out.println(normalT);
+
+            }
         }
-
-        AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
-        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to ", RegularToppings.getRegularToppings());
-        if(newlyAddedReg != null){
-            pcs.addTopping(newlyAddedReg);
-
-        }
-        return true;
-
 
 
     }
 
     //Add more Sauce or Change out Sauce
-    private boolean addOrChangeSauceForPCS(PhillyCheeseSteak pcs){
+    private void addOrChangeSauceForPCS(PhillyCheeseSteak pcs) {
+        boolean addingSauce = true;
+        boolean choice = true;
+        if (choice == console.getBoolean("Adding Mayo, do you want to change this?: ")) {
+            while (addingSauce) {
+                int numbering5 = 1;
 
-        OptionChoice<Sauce> sauceOption = new OptionChoice<>();
-        Sauce selctSauce = sauceOption.selectOption("Adding Mayo", Sauce.getSauce(), new Sauce("Mayo" ));
-        if(selctSauce == null) {
-            System.out.println("exiting...");
-            pcs.clear();
-            return false;
+
+                for (Sauce sauces : Sauce.getSauce()) {
+                    System.out.println(numbering5 + " " + sauces);
+                    numbering5++;
+                }
+
+                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+                if (addASauce == 0) {
+                    addingSauce = false;
+                    continue;
+                }
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+
+                pcs.addSauce(s);
+            }
+
+
+            boolean addingSideSauce = true;
+
+            while (addingSideSauce) {
+                int numbering6 = 1;
+
+                for (SideSauce side : SideSauce.getSideSauces()) {
+                    System.out.println(numbering6 + " " + side.getName());
+                }
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+
+                if (addSideSauce == 0) {
+                    addingSideSauce = false;
+                    continue;
+                }
+
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+
+
+                if (addSideSauce >= 1) {
+                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
+                    if (another == 0) {
+                        addingSideSauce = false;
+
+                    }
+                }
+
+                pcs.addSauce(ss);
+
+            }
+
+
+        } else if(choice == console.getBoolean("Do you want to add another sauce?: ")){
+
+            while (addingSauce) {
+                int numbering5 = 1;
+
+
+                for (Sauce sauces : Sauce.getSauce()) {
+                    System.out.println(numbering5 + " " + sauces);
+                    numbering5++;
+                }
+
+                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+                if (addASauce == 0) {
+                    addingSauce = false;
+                    continue;
+                }
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+
+                pcs.addSauce(s);
+            }
+
+
+            boolean addingSideSauce = true;
+
+            while (addingSideSauce) {
+                int numbering6 = 1;
+
+                for (SideSauce side : SideSauce.getSideSauces()) {
+                    System.out.println(numbering6 + " " + side.getName());
+                }
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+
+                if (addSideSauce == 0) {
+                    addingSideSauce = false;
+                    continue;
+                }
+
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+
+
+                if (addSideSauce >= 1) {
+                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
+                    if (another == 0) {
+                        addingSideSauce = false;
+
+                    }
+                }
+
+                pcs.addSauce(ss);
+
+            }
+
+
+
         }
-
-        pcs.replaceSauce(selctSauce);
-
-
-
-        AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
-        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to ", Sauce.getSauce());
-        if(newlyAddedSauce != null){
-            pcs.addSauce(newlyAddedSauce);
-        }
-
-        return true;
-
-
-
     }
 
 
