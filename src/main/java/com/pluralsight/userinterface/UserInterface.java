@@ -850,7 +850,7 @@ public class UserInterface {
                 System.out.println(menuItem.description());
             }
 
-           System.out.printf("The total price is %.2f\n +" , order.getTotal());
+           System.out.printf("The total price is %.2f\n" , order.getTotal());
 
         }
 
