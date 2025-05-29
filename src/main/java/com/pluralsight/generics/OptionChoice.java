@@ -17,9 +17,9 @@ public class OptionChoice<T> {
 
         while (true) {
 
-            int choice = console.promptForInt(prompt + " Change it? (1-Yes, 2-No): ");
+           int choice = console.promptForInt(prompt + " Change it? (1-Yes, 2-No): ");
 
-            if(choice ==0){
+            if(choice == 0){
                 return null;
             } else if(choice == 2){
                 return original;
@@ -30,7 +30,7 @@ public class OptionChoice<T> {
 
 
                 while (true) {
-                    int selection = console.promptForInt("Select the corresponding number: ");
+                    int selection = console.promptForInt("Select the corresponding number(0 to quit): ");
 
                     if (selection == 0) {
                         int quit = console.promptForInt("Do you want to quit? 1 or 2: ");

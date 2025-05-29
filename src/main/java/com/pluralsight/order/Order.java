@@ -1,8 +1,6 @@
 package com.pluralsight.order;
 
 
-import com.pluralsight.javainterfaces.MenuItem;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

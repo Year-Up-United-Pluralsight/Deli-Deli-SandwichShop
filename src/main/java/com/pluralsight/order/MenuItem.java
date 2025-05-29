@@ -1,4 +1,4 @@
-package com.pluralsight.javainterfaces;
+package com.pluralsight.order;
 
 public interface MenuItem {
     double getPrice();

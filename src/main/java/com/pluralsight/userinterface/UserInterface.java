@@ -8,7 +8,7 @@ import com.pluralsight.order.Order;
 import com.pluralsight.filemanager.FileManager;
 import com.pluralsight.generics.AddToOptionChoice;
 import com.pluralsight.generics.OptionChoice;
-import com.pluralsight.javainterfaces.MenuItem;
+import com.pluralsight.order.MenuItem;
 import com.pluralsight.sandwich.BLT;
 import com.pluralsight.sandwich.Bread;
 import com.pluralsight.sandwich.PhillyCheeseSteak;
@@ -45,6 +45,7 @@ public class UserInterface {
     private void welcomeScreen() {
 
         String welcomeMessage = ColorCodes.FLORAL_WHITE + """
+                
                 Welcome to Deli-Deli's Sandwich Shop.\s
                 Would you like to order?\s
                 1. Yes!\s
@@ -135,7 +136,7 @@ public class UserInterface {
 
         order.addItem(sandwich);
 
-        System.out.println("A sandwich for : " + "\n" + sandwich);
+//        System.out.println("A sandwich for : " + "\n" + order.getCustomerName());
 
 
     }
@@ -153,6 +154,7 @@ public class UserInterface {
         int chosenBread = console.promptForInt("Which bread do you want?: ");
         Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
         sandwich.getBreadType(selectedBread);
+        System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
     }
 
     //Meat
@@ -181,14 +183,20 @@ public class UserInterface {
 
             Meat m = Meat.getMeatTopping().get(meaty - 1);
 
+            System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
 
             int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
 
             if (extra == 1) {
                 for (Meat meat : Meat.getMeatTopping())
                     meat.setExtra(true);
+
+                System.out.println( ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
             sandwich.addTopping(m);
+
+
 
 
         }
@@ -223,9 +231,12 @@ public class UserInterface {
             if (extraCheese == 1) {
                 for (Cheese cheese : Cheese.getCheeseToppings()) {
                     cheese.setExtra(true);
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + c + " added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                 }
             }
             sandwich.addTopping(c);
+
+
         }
 
     }
@@ -366,8 +377,7 @@ public class UserInterface {
                  Here are the default orders:
                  1. BLT: 8" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted.
                  2. Philly Cheese Steak: 8" White Bread, Steak, American Cheese, Peppers, Mayo Toasted
-                \s
-                 Do you want pre-made sandwich 1 or 2:  \s
+                 Do you want pre-made sandwich (1-yes or 2-no):  \s
                 \s""";
 
         int newSandwich;
@@ -376,77 +386,113 @@ public class UserInterface {
             newSandwich = console.promptForInt(defaults);
 
             if (newSandwich == 1) {
-                BLT bltSandwich = new BLT(8);
-                if (!changeBreadForBLT(bltSandwich)) {
-                    return;
-                }
-                if (!addOrChangeMeatForBLT(bltSandwich)) {
-                    return;
-                }
-                if (!addOrChangeCheeseForBLT(bltSandwich)) {
-                    return;
-                }
-                if (!addOrChangeRegToppings1ForBLT(bltSandwich)) {
-                    return;
-                }
-                if(!addOrChangeRegToppings2ForBLT(bltSandwich)) {
-                    return;
-                }
-                if(!addOrChangeSauceOptionsForBLT(bltSandwich)) {
-                    return;
-                }
 
-                int wantToasted;
+                System.out.println("BLT: 8\" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted\n");
+                System.out.println("***NOTE*** When building a sandwich, press 0 to cancel out of the process");
 
-                while (true) {
-                    wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No): " + ColorCodes.RESET);
-                    if (wantToasted == 1) {
-                        bltSandwich.setToasted(true);
 
-                        break;
-                    } else if (wantToasted == 2) {
-                        bltSandwich.setToasted(false);
+                int bltOrder = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
 
-                        break;
-                    } else {
-                        System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET);
-
+                if(bltOrder == 1) {
+                    BLT bltSandwich = new BLT();
+                    if (!changeBreadForBLT(bltSandwich)) {
+                        return;
                     }
+                    if (!addOrChangeMeatForBLT(bltSandwich)) {
+                        return;
+                    }
+                    if (!addOrChangeCheeseForBLT(bltSandwich)) {
+                        return;
+                    }
+                    if (!addOrChangeRegToppings1ForBLT(bltSandwich)) {
+                        return;
+                    }
+                    if (!addOrChangeRegToppings2ForBLT(bltSandwich)) {
+                        return;
+                    }
+                    if (!addOrChangeSauceOptionsForBLT(bltSandwich)) {
+                        return;
+                    }
+
+                    int wantToasted;
+
+                    while (true) {
+                        wantToasted = console.promptForInt("This sandwich comes Toasted...Do you want to remove this?(1 - Yes, 2 - No): ");
+                        if (wantToasted == 1) {
+                            bltSandwich.setToasted(true);
+                            System.out.println(ColorCodes.BOLD + "\nThis sandwich is now toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+                            break;
+                        } else if (wantToasted == 2) {
+                            bltSandwich.setToasted(false);
+                            System.out.println(ColorCodes.BOLD + "\nThis sandwich is not toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                            break;
+                        } else {
+                            System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET);
+
+                        }
+                    }
+
+                    order.addItem(bltSandwich);
+                    newOrder = false;
+                } else {
+                    BLT bltSandwich = new BLT();
+
+                    order.addItem(bltSandwich);
+
+                    System.out.println(bltSandwich);
                 }
 
-                order.addItem(bltSandwich);
-                newOrder = false;
+
 
 
             } else if (newSandwich == 2) {
-                PhillyCheeseSteak pcs = new PhillyCheeseSteak();
-                if(!changeBreadForPCS(pcs)) {
-                    return;
-                }
-                if(!addOrChangeMeatForPCS(pcs)) {
-                    return;
-                }
-                if(!addOrChangeCheeseForPCS(pcs)) {
-                    return;
-                }
-                if(!addOrChangeRegToppingForPCS(pcs)) {
-                    return;
-                }
-                if(!addOrChangeSauceForPCS(pcs)) {
-                    return;
+
+                System.out.println("Philly Cheese Steak: 8\" White Bread, Steak, American Cheese, Peppers, Mayo Toasted");
+                int createPcs = console.promptForInt("Do you want to replace or add to this?(1-yes 2-no): ");
+
+                if(createPcs == 1) {
+                    PhillyCheeseSteak pcs = new PhillyCheeseSteak();
+                    if (!changeBreadForPCS(pcs)) {
+                        return;
+                    }
+                    if (!addOrChangeMeatForPCS(pcs)) {
+                        return;
+                    }
+                    if (!addOrChangeCheeseForPCS(pcs)) {
+                        return;
+                    }
+                    if (!addOrChangeRegToppingForPCS(pcs)) {
+                        return;
+                    }
+                    if (!addOrChangeSauceForPCS(pcs)) {
+                        return;
+                    }
+
+                    int wantToasted = console.promptForInt("This sandwich comes Toasted...Do you want to remove this?. (1 - Yes, 2 - No): ");
+                    if (wantToasted == 1) {
+                        pcs.setToasted(true);
+
+                    } else if (wantToasted == 2) {
+                        pcs.setToasted(false);
+
+                    } else {
+                        System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET);
+                    }
+                    order.addItem(pcs);
+                    newOrder = false;
+                } else {
+                    PhillyCheeseSteak pcs = new PhillyCheeseSteak();
+
+                    order.addItem(pcs);
+
+                    System.out.println(pcs);
+
+
                 }
 
-                int wantToasted = console.promptForInt("This sandwich comes Toasted...Is this what you want. (1 - Yes, 2 - No): ");
-                if(wantToasted == 1){
-                    pcs.setToasted(true);
-
-                } else if (wantToasted == 2) {
-                    pcs.setToasted(false);
-
-                }
-                order.addItem(pcs);
-                newOrder = false;
-
+            } else {
+                break;
             }
         }
     }
@@ -458,13 +504,15 @@ public class UserInterface {
 
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
 
-        Bread selectedBread = breadOptions.selectOption(ColorCodes.SNOW + "Adding white Bread", Bread.getBreadTypes(), new Bread("White" + ColorCodes.RESET));
+        Bread selectedBread = breadOptions.selectOption("Adding white Bread", Bread.getBreadTypes(), );
         if (selectedBread == null) {
             System.out.println("exiting..");
             bltSandwich.clear();
             return false;
         } else {
-            bltSandwich.replaceBread(selectedBread);
+            if(selectedBread != Bread.getBreadTypes().getFirst()) {
+                bltSandwich.replaceBread(selectedBread);
+            }
 
 
             return true;
@@ -475,7 +523,7 @@ public class UserInterface {
     private boolean addOrChangeMeatForBLT(BLT bltSandwich){
 
         OptionChoice<Meat> meatOptions = new OptionChoice<>();
-        Meat selectedMeat = meatOptions.selectOption(ColorCodes.BRIGHT_BLUE + "Adding Bacon", Meat.getMeatTopping(), new Meat("Bacon" + ColorCodes.RESET));
+        Meat selectedMeat = meatOptions.selectOption( "Adding Bacon", Meat.getMeatTopping(), Meat.getMeatTopping().getFirst());
         if(selectedMeat == null) {
             System.out.println("exiting...");
             bltSandwich.clear();
@@ -487,7 +535,7 @@ public class UserInterface {
 
 
         AddToOptionChoice<Meat> addMeat = new AddToOptionChoice<>();
-        Meat newlyAddedMeat = addMeat.toCollection(ColorCodes.ORANGE + "Do you want to " , Meat.getMeatTopping());
+        Meat newlyAddedMeat = addMeat.toCollection("Do you want to " , Meat.getMeatTopping());
 
         if(newlyAddedMeat != null){
             bltSandwich.addTopping(newlyAddedMeat);
@@ -501,7 +549,7 @@ public class UserInterface {
     //Add more Cheese or Change Out Cheese
     private boolean addOrChangeCheeseForBLT(BLT bltSandwich){
         OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
-        Cheese selectedCheese = cheeseOptions.selectOption(ColorCodes.RESET + ColorCodes.BRIGHT_YELLOW + "Adding Cheddar Cheese", Cheese.getCheeseToppings(), new Cheese("Cheddar" + ColorCodes.RESET));
+        Cheese selectedCheese = cheeseOptions.selectOption( "Adding Cheddar Cheese", Cheese.getCheeseToppings(), Cheese.getCheeseToppings().getFirst());
         if(selectedCheese == null){
             System.out.println("exiting...");
             bltSandwich.clear();
@@ -528,20 +576,22 @@ public class UserInterface {
     private boolean addOrChangeRegToppings1ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption(ColorCodes.BRIGHT_GREEN + "Adding Lettuce", RegularToppings.getRegularToppings(), new RegularToppings("Lettuce" + ColorCodes.RESET));
+        RegularToppings selectRegular = regularOptions.selectOption("Adding Lettuce", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().getFirst());
         if(selectRegular == null) {
             System.out.println("exiting...");
             bltSandwich.clear();
             return false;
         }else {
-            bltSandwich.addTopping(selectRegular);
+            if(selectRegular != RegularToppings.getRegularToppings().getFirst()){
+                bltSandwich.replaceTopping(selectRegular);
+            }
 
         }
 
 
 
         AddToOptionChoice<RegularToppings> addRegToppings = new AddToOptionChoice<>();
-        RegularToppings newlyAddedReg = addRegToppings.toCollection(ColorCodes.LAVENDER +"Do you want to " , RegularToppings.getRegularToppings());
+        RegularToppings newlyAddedReg = addRegToppings.toCollection("Do you want to " , RegularToppings.getRegularToppings());
         if(newlyAddedReg != null){
             bltSandwich.addTopping(newlyAddedReg);
         }
@@ -554,18 +604,22 @@ public class UserInterface {
     private boolean addOrChangeRegToppings2ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> secondTopping = new OptionChoice<>();
-        RegularToppings selectSecondTopping = secondTopping.selectOption(ColorCodes.RESET + ColorCodes.IVORY + "Adding Tomatoes", RegularToppings.getRegularToppings(), new RegularToppings("Tomato" + ColorCodes.RESET));
+        RegularToppings selectSecondTopping = secondTopping.selectOption( "Adding Tomatoes", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().get(1));
         if(selectSecondTopping == null) {
             System.out.println("exiting...");
             bltSandwich.clear();
             return false;
-        } else{
-            bltSandwich.addTopping(selectSecondTopping);
+        } else {
+            if (selectSecondTopping != RegularToppings.getRegularToppings().getFirst()) {
+                bltSandwich.replaceTopping(selectSecondTopping);
+            }
+
+
         }
 
 
         AddToOptionChoice<RegularToppings> addSecondRegTopping = new AddToOptionChoice<>();
-        RegularToppings newlyAddedSecondRegTopping = addSecondRegTopping.toCollection(ColorCodes.MINT + "Do you want to " , RegularToppings.getRegularToppings());
+        RegularToppings newlyAddedSecondRegTopping = addSecondRegTopping.toCollection( "Do you want to " , RegularToppings.getRegularToppings());
         if(newlyAddedSecondRegTopping != null){
 
             bltSandwich.addTopping(newlyAddedSecondRegTopping);
@@ -580,19 +634,18 @@ public class UserInterface {
     private boolean addOrChangeSauceOptionsForBLT(BLT bltSandwich){
 
         OptionChoice<Sauce> sauceOption = new OptionChoice<>();
-        Sauce selctSauce = sauceOption.selectOption(ColorCodes.PINK + "Adding Ranch", Sauce.getSauce(), new Sauce("Ranch" + ColorCodes.RESET));
+        Sauce selctSauce = sauceOption.selectOption( "Adding Ranch", Sauce.getSauce(), Sauce.getSauce().getFirst());
         if(selctSauce == null) {
             System.out.println("exiting...");
             bltSandwich.clear();
             return false;
         }
-
             bltSandwich.replaceSauce(selctSauce);
 
 
 
         AddToOptionChoice<Sauce> addSauce = new AddToOptionChoice<>();
-        Sauce newlyAddedSauce = addSauce.toCollection(ColorCodes.TEAL + "Do you want to " , Sauce.getSauce());
+        Sauce newlyAddedSauce = addSauce.toCollection("Do you want to " , Sauce.getSauce());
         if(newlyAddedSauce != null){
             bltSandwich.addSauce(newlyAddedSauce);
 
@@ -684,13 +737,14 @@ public class UserInterface {
     private boolean addOrChangeRegToppingForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
-        RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", RegularToppings.getRegularToppings(), new RegularToppings("Peppers" ));
+        RegularToppings selectRegular = regularOptions.selectOption("Adding Peppers", RegularToppings.getRegularToppings(), RegularToppings.getRegularToppings().getFirst());
         if(selectRegular == null){
             System.out.println("exiting...");
             pcs.clear();
             return false;
         } else {
-            pcs.addTopping(selectRegular);
+
+            pcs.removeTopping(selectRegular);
 
         }
 
@@ -799,6 +853,9 @@ public class UserInterface {
 
     }
 
+
+
+
     //Add Chips
     private void addChipsToOrder() {
 
@@ -870,8 +927,8 @@ public class UserInterface {
 
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
-
                     checkingOut = false;
+                    welcomeScreen();
 
                 } else {
                     checkingOut = false;

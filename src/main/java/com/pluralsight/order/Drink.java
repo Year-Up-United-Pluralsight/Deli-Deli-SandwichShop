@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.pluralsight.javainterfaces.*;
 
-public class Drink implements chooseSize, MenuItem{
+public class Drink implements drinkChooseSize, MenuItem{
 
     private String size;
     private  String name;

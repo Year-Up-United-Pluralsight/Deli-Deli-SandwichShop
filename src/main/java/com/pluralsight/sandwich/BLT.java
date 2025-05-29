@@ -1,6 +1,7 @@
 package com.pluralsight.sandwich;
 
 import com.pluralsight.javainterfaces.*;
+import com.pluralsight.order.MenuItem;
 import com.pluralsight.order.Sandwich;
 import com.pluralsight.toppings.*;
 
@@ -8,15 +9,17 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
     private int size;
 
-    public BLT(int size) {
-        super(size);
+
+
+    public BLT() {
+        super(8);
         super.addBread(new Bread("White"));
         super.addTopping(new Meat("Bacon"));
         super.addTopping(new Cheese("Cheddar"));
-//        super.addTopping(new RegularToppings("Tomato"));
-//        super.addTopping(new RegularToppings("Lettuce"));
+        super.addTopping(new RegularToppings("Tomato"));
+        super.addTopping(new RegularToppings("Lettuce"));
         super.addSauce(new Sauce("Ranch"));
-//        super.setToasted(true);
+        super.setToasted(true);
 
 
     }
@@ -32,7 +35,7 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
     @Override
     public void removeTopping(Toppings topping) {
-
+        super.getRegularToppings().removeFirst();
     }
 
     @Override
@@ -40,11 +43,12 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
         super.getRegularToppings().replaceAll(regularToppings -> replacedTopping);
     }
 
-//    @Override
-//    public void replaceBread(Bread replacedBread) {
-//        super.getBreadType().replaceAll(bread -> replacedBread);
-//
-//    }
+    @Override
+    public void replaceBread(Bread replacedBread) {
+
+        super.getBreadType().add(replacedBread); // add the new bread
+
+    }
 
     @Override
     public void removeSauce(Sauce sauce) {
@@ -81,6 +85,5 @@ public class BLT extends Sandwich implements customizeToppings, MenuItem {
 
         super.setToasted(toasted);
     }
-
 
 }

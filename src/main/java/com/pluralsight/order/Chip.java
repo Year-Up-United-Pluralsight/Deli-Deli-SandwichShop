@@ -2,7 +2,6 @@ package com.pluralsight.order;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.pluralsight.javainterfaces.*;
 
 public class Chip implements MenuItem {
 

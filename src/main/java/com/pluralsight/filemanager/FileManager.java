@@ -1,7 +1,7 @@
 package com.pluralsight.filemanager;
 
 import com.pluralsight.order.Order;
-import com.pluralsight.javainterfaces.MenuItem;
+import com.pluralsight.order.MenuItem;
 
 
 import java.io.BufferedWriter;

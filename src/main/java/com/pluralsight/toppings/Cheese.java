@@ -2,7 +2,6 @@ package com.pluralsight.toppings;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.pluralsight.javainterfaces.isExtra;
 
 public class Cheese extends Toppings implements isExtra  {
 
