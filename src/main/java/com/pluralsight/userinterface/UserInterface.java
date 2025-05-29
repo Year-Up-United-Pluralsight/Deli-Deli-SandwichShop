@@ -22,7 +22,10 @@ import java.util.List;
 
 public class UserInterface {
 
+    //Helps with prompting the user
     private final Console console = new Console();
+
+    //Manages the Receipt
     private FileManager fileManager;
 
     //Creates an Order
@@ -115,6 +118,8 @@ public class UserInterface {
             }
         }
     }
+
+
     //The order of making a sandwich
     private void orderSandwich() {
 
@@ -134,7 +139,10 @@ public class UserInterface {
 
 
     }
+
+
     // Selects which parts to add to Sandwich Separately
+    //Bread
     private void addBreadToSandwich(Sandwich sandwich) {
         System.out.println("Here is the lists of bread: ");
         int numbering = 1;
@@ -146,6 +154,8 @@ public class UserInterface {
         Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
         sandwich.getBreadType(selectedBread);
     }
+
+    //Meat
     private void addMeatToSandwich(Sandwich sandwich) {
 
         boolean addMeat = true;
@@ -183,6 +193,8 @@ public class UserInterface {
 
         }
     }
+
+    //Cheese
     private void addCheeseToSandwich(Sandwich sandwich) {
 
         boolean addCheese = true;
@@ -217,6 +229,8 @@ public class UserInterface {
         }
 
     }
+
+    //NormalToppings
     private void addNormalToppings(Sandwich sandwich) {
 
 
@@ -260,6 +274,8 @@ public class UserInterface {
             System.out.println(normalT);
         }
     }
+
+    //Sauce
     private void addSauceToSandwich(Sandwich sandwich) {
 
         boolean addingSauce = true;
@@ -320,7 +336,7 @@ public class UserInterface {
 
 
 
-
+    //Toasted // Not Toasted
     private void toastSandwich(Sandwich sandwich) {
 
         boolean check = true;
@@ -437,6 +453,7 @@ public class UserInterface {
 
 
     //Signature Sandwich BLT Creation
+    //Change Out Bread
     private boolean changeBreadForBLT(BLT bltSandwich) {
 
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
@@ -453,6 +470,8 @@ public class UserInterface {
             return true;
         }
     }
+
+    //Add more Meat/Change Out Meat
     private boolean addOrChangeMeatForBLT(BLT bltSandwich){
 
         OptionChoice<Meat> meatOptions = new OptionChoice<>();
@@ -478,6 +497,8 @@ public class UserInterface {
         return true;
 
     }
+
+    //Add more Cheese or Change Out Cheese
     private boolean addOrChangeCheeseForBLT(BLT bltSandwich){
         OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
         Cheese selectedCheese = cheeseOptions.selectOption(ColorCodes.RESET + ColorCodes.BRIGHT_YELLOW + "Adding Cheddar Cheese", Cheese.getCheeseToppings(), new Cheese("Cheddar" + ColorCodes.RESET));
@@ -502,6 +523,8 @@ public class UserInterface {
 
 
     }
+
+    //Add more Regular Toppings or Change out Topping
     private boolean addOrChangeRegToppings1ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
@@ -526,6 +549,8 @@ public class UserInterface {
         return true;
 
     }
+
+    //Add more Regular Toppings or Change out Topping
     private boolean addOrChangeRegToppings2ForBLT(BLT bltSandwich){
 
         OptionChoice<RegularToppings> secondTopping = new OptionChoice<>();
@@ -550,6 +575,8 @@ public class UserInterface {
         return true;
 
     }
+
+    //Add more Sauce or Change out Sauce
     private boolean addOrChangeSauceOptionsForBLT(BLT bltSandwich){
 
         OptionChoice<Sauce> sauceOption = new OptionChoice<>();
@@ -579,6 +606,7 @@ public class UserInterface {
 
 
     //Signature Sandwich PhillyCheeseSteak Creation
+    //Change Out Bread
     private boolean changeBreadForPCS(PhillyCheeseSteak pcs){
         OptionChoice<Bread> breadOptions = new OptionChoice<>();
 
@@ -597,6 +625,8 @@ public class UserInterface {
 
 
     }
+
+    //Add more Meat/Change Out Meat
     private boolean addOrChangeMeatForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Meat> meatOptions = new OptionChoice<>();
@@ -622,6 +652,8 @@ public class UserInterface {
         return true;
 
     }
+
+    //Add more Cheese or Change Out Cheese
     private boolean addOrChangeCheeseForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Cheese> cheeseOptions = new OptionChoice<>();
@@ -647,6 +679,8 @@ public class UserInterface {
 
 
     }
+
+    //Add more Regular Toppings or Change out Topping
     private boolean addOrChangeRegToppingForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<RegularToppings> regularOptions = new OptionChoice<>();
@@ -671,6 +705,8 @@ public class UserInterface {
 
 
     }
+
+    //Add more Sauce or Change out Sauce
     private boolean addOrChangeSauceForPCS(PhillyCheeseSteak pcs){
 
         OptionChoice<Sauce> sauceOption = new OptionChoice<>();
@@ -696,7 +732,11 @@ public class UserInterface {
 
 
     }
+
+
+
     //Adds extra items
+    //Add Drinks
     private void addDrinkToOrder() {
         boolean addDrink = true;
         while (addDrink) {
@@ -759,7 +799,7 @@ public class UserInterface {
 
     }
 
-
+    //Add Chips
     private void addChipsToOrder() {
 
         boolean addChip = true;

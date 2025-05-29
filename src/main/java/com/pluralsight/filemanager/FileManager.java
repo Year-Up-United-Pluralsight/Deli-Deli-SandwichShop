@@ -17,6 +17,9 @@ public class FileManager {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
     private final LocalDateTime fileName = LocalDateTime.now();
     private final String formattedDate = fileName.format(dateTimeFormatter) + ".txt";
+    private final DateTimeFormatter getDateTime = DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm");
+    private final LocalDateTime todaySDate = LocalDateTime.now();
+    private final String today = todaySDate.format(getDateTime);
 
 
 
@@ -41,7 +44,9 @@ public class FileManager {
 
             if(order != null && order.getTotal() != 0){
                 bw.write(String.format("\nOrdered by -> %s" ,order.getCustomerName()));
-                bw.write("\nThank you for buying at DELI-DELI SANDWICH SHOP");
+                bw.write("\nThank you for buying at DELI-DELI SANDWICH SHOP\n");
+
+                bw.write(String.format("\nTODAY'S DATE: %s\n" , today));
 
             }
 
