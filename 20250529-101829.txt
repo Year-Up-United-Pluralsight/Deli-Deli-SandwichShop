@@ -1,0 +1,22 @@
+--------------------------------------------
+DELI-DELI SANDWICH SHOP
+--------------------------------------------
+Cashier: DELI-DELI-MANAGER
+
+A size 12"  Rye  with [Ham, Salami] [American, Cheddar] [Lettuce, Peppers, Jalapeños, Pickles] [Ranch, au jus] Toasted: $19.00
+A size 8"  White  with [Bacon] [Cheddar] [Lettuce, Tomato] [Ranch] Toasted: $17.50
+A size 8"  White  with [Steak] [American] [Peppers] [Mayo] Not Toasted: $10.50
+A size large Grape flavor drink: $3.00
+A size medium Lemon flavor drink: $2.50
+A size small Mango flavor drink: $2.00
+A size large pineapple flavor drink: $3.00
+A bag of Lays: $1.50
+A bag of Fritos: $1.50
+A bag of Doritos: $1.50
+A bag of Cheetos: $1.50
+TOTAL: $63.50
+
+Ordered by -> CustomerName
+Thank you for buying at DELI-DELI SANDWICH SHOP
+
+TODAY'S DATE: 2025/05/29 - 10:18
