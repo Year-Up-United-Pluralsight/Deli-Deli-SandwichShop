@@ -54,6 +54,7 @@ public class UserInterface {
             choose = console.promptForInt(welcomeMessage);
             if (choose == 1) {
                 menuOrders();
+                break;
             } else {
                 System.out.println("Quitting...");
             }
@@ -97,14 +98,14 @@ public class UserInterface {
                     break;
                 case 5:
                     checkOut();
-                    break;
+                    return;
                 default:
                     System.out.println("Are you sure you want to cancel the order?(You cannot undo this)");
                     int confirmation = console.promptForInt("Press 1 to confirm cancellation: ");
                     if (confirmation == 1) {
-                        System.out.println("Order Canceled");
+                        System.out.println("\n" + ColorCodes.BOLD + "Order Canceled" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                         order.clearMenuItem();
-                        isTrue = false;
+                        welcomeScreen();
                     } else if (confirmation > 1 | confirmation < 0) {
                         System.out.println("not a valid number");
                     }
@@ -136,6 +137,7 @@ public class UserInterface {
                 toastSandwich(sandwich);
 
                 order.addItem(sandwich);
+                break;
 
 
             }
@@ -162,10 +164,11 @@ public class UserInterface {
                 } else if (chosenBread <= Bread.getBreadTypes().size()) {
                     Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
                     sandwich.setBreadType(selectedBread);
-                    System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     break;
                 } else {
-                    System.out.println("Invalid number...please choose a number between 1 and " + Bread.getBreadTypes().size());
+                    System.out.println(ColorCodes.RED + "Invalid number...please choose a number between 1 and " +
+                            Bread.getBreadTypes().size() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                 }
         }
     }
@@ -193,23 +196,28 @@ public class UserInterface {
                 addMeat = false;
                 continue;
             }
+            if (meaty >= 1 && meaty <= Meat.getMeatTopping().size()) {
 
-            Meat m = Meat.getMeatTopping().get(meaty - 1);
+                Meat m = Meat.getMeatTopping().get(meaty - 1);
 
-            System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                System.out.println("\n " + ColorCodes.BOLD + m + " added  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
-            int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
+                int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
 
-            if (extra == 1) {
-                for (Meat meat : Meat.getMeatTopping())
-                    meat.setExtra(true);
+                if (extra == 1) {
+                    for (Meat meat : Meat.getMeatTopping())
+                        meat.setExtra(true);
 
-                System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                }
+                sandwich.addTopping(m);
+
+
+            } else {
+                System.out.println(ColorCodes.RED + "Error...Incorrect number.. Please use a number between 1 and " +
+                        Meat.getMeatTopping().size() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
-            sandwich.addTopping(m);
-
-
         }
     }
 
@@ -231,22 +239,23 @@ public class UserInterface {
             int che = console.promptForInt("Which cheese do you want?: ");
             if (che == 0) {
                 addCheese = false;
-                continue;
-            } else if (che > Cheese.getCheeseToppings().size()) {
-                System.out.println("Not a valid input");
-            }
-            Cheese c = Cheese.getCheeseToppings().get(che - 1);
+            } else if (che >=1 && che <= Cheese.getCheeseToppings().size()) {
+                Cheese c = Cheese.getCheeseToppings().get(che - 1);
 
+                System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
-            int extraCheese = console.promptForInt("Do you want extra " + c + " cheese?(1 for yes, 0 for no): ");
-            if (extraCheese == 1) {
-                for (Cheese cheese : Cheese.getCheeseToppings()) {
-                    cheese.setExtra(true);
-
+                int extraCheese = console.promptForInt("Do you want extra " + c + " cheese?(1 for yes, 0 for no): ");
+                if (extraCheese == 1) {
+                    for (Cheese cheese : Cheese.getCheeseToppings()) {
+                        cheese.setExtra(true);
+                    }
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                 }
-                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                sandwich.addTopping(c);
+            } else{
+                System.out.println(ColorCodes.RED + "Not a valid Input...Please try again" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
-            sandwich.addTopping(c);
+
 
 
         }
@@ -273,28 +282,31 @@ public class UserInterface {
 
             if (regular == 0) {
                 break;
-            } else if (regular < 1 || regular > RegularToppings.getRegularToppings().size()) {
-                System.out.println("Not a valid input");
-                continue;
+            } else if (regular >= 1 && regular <= RegularToppings.getRegularToppings().size()) {
+
+                RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
+
+                sandwich.addTopping(normal);
+                normalT.add(normal);
+
+                System.out.println(ColorCodes.BOLD + "\n" + normal + " added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+                System.out.println("Would you like another topping? ");
+                int anotherTopping = console.promptForInt("1 for Yes, 0 for No: ");
+
+                if (anotherTopping == 0) {
+                    normalToppings = false;
+
+                } else if (anotherTopping != 1) {
+                    System.out.println("Not a valid input");
+
+                }
+
+                System.out.println("\n" + ColorCodes.BOLD + normalT + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+            } else {
+                System.out.println(ColorCodes.RED + "Incorrect number..Please use a number between 1 and " +
+                        RegularToppings.getRegularToppings().size() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
-
-            RegularToppings normal = RegularToppings.getRegularToppings().get(regular - 1);
-
-            sandwich.addTopping(normal);
-            normalT.add(normal);
-
-            System.out.println("Would you like another topping? ");
-            int anotherTopping = console.promptForInt("1 for Yes, 0 for No: ");
-
-            if (anotherTopping == 0) {
-                normalToppings = false;
-
-            } else if (anotherTopping != 1) {
-                System.out.println("Not a valid input");
-
-            }
-
-            System.out.println(normalT);
         }
     }
 
@@ -317,9 +329,14 @@ public class UserInterface {
                 addingSauce = false;
                 continue;
             }
-            Sauce s = Sauce.getSauce().get(addASauce - 1);
+            if (addASauce >= 1 && addASauce <= Sauce.getSauce().size()) {
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
 
-            sandwich.addSauce(s);
+                sandwich.addSauce(s);
+                System.out.println(ColorCodes.BOLD + "\n" + s + " added" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+            } else {
+                System.out.println(ColorCodes.RED + "Error..Incorrect number...Please use a number between 1 and " + Sauce.getSauce().size() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+            }
         }
 
 
@@ -331,31 +348,31 @@ public class UserInterface {
             for (SideSauce side : SideSauce.getSideSauces()) {
                 System.out.println(numbering6 + " " + side.getName());
             }
-            int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
+            int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to skip): ");
 
             if (addSideSauce == 0) {
                 addingSideSauce = false;
                 continue;
             }
+            if (addSideSauce >= 1 && addSideSauce <= SideSauce.getSideSauces().size()) {
 
-            SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
-
-
-            if (addSideSauce >= 1) {
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+                sandwich.addSauce(ss);
+                System.out.println(ColorCodes.BOLD + "\n" +  ss + " added" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                 int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
-                if (another == 0) {
+                if (another != 1) {
                     addingSideSauce = false;
 
+                } else {
+                    System.out.println((ColorCodes.RED + "Error please pick a number between 1 and " +
+                            SideSauce.getSideSauces().size() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE));
+
+
                 }
+
             }
-
-            sandwich.addSauce(ss);
-
         }
-
-
     }
-
 
     //Toasted // Not Toasted
     private void toastSandwich(Sandwich sandwich) {
@@ -1414,8 +1431,8 @@ public class UserInterface {
                     }
                 }
                     addDrink = false;
-                    System.out.println(drink.getName() + " " + drink);
-                    drink.getPrice();
+                    System.out.println(ColorCodes.BOLD + "\n" + drink.getName() + " " + drink + " "  +  "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
                     order.addItem(drink);
             }
 
@@ -1457,7 +1474,7 @@ public class UserInterface {
                 order.addItem(chips);
 
 
-                System.out.println(chips);
+                System.out.println("\n" + ColorCodes.BOLD + chips + ColorCodes.RESET +ColorCodes.FLORAL_WHITE + "\n");
 
 
             }
@@ -1474,10 +1491,11 @@ public class UserInterface {
 
             for(MenuItem menuItem : order.getMenuItems()){
 
-                System.out.println(menuItem.description());
+                System.out.println("\n" + ColorCodes.BOLD + menuItem.description() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
             }
 
-           System.out.printf("The total price is %.2f\n" , order.getTotal());
+
+           System.out.printf(ColorCodes.BOLD + "\n The total price is %.2f\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE , order.getTotal());
 
         }
 
@@ -1497,11 +1515,13 @@ public class UserInterface {
 
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
-                    checkingOut = false;
                     welcomeScreen();
+                    return;
+
 
                 } else {
                     checkingOut = false;
+                    System.out.println("\n" + ColorCodes.BOLD + "Cancelling" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                 }
 
             }
