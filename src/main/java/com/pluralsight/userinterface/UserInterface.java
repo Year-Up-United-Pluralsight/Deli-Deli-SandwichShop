@@ -1,5 +1,6 @@
 package com.pluralsight.userinterface;
 
+
 import com.pluralsight.console.ColorCodes;
 import com.pluralsight.console.Console;
 import com.pluralsight.order.Chip;
@@ -12,8 +13,6 @@ import com.pluralsight.sandwich.Bread;
 import com.pluralsight.sandwich.PhillyCheeseSteak;
 import com.pluralsight.order.Sandwich;
 import com.pluralsight.toppings.*;
-
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +52,10 @@ public class UserInterface {
         int choose;
         do {
             choose = console.promptForInt(welcomeMessage);
-            switch (choose) {
-                case 1:
-                    menuOrders();
-                    break;
-                default:
-                    System.out.println("Quitting...");
-                    break;
+            if (choose == 1) {
+                menuOrders();
+            } else {
+                System.out.println("Quitting...");
             }
 
 
@@ -120,37 +116,58 @@ public class UserInterface {
     //The order of making a sandwich
     private void orderSandwich() {
 
-        int size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
-        Sandwich sandwich = new Sandwich(size);
+        int size;
+        while (true) {
+            size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
+            if (size == 0) {
+                break;
+            } else if (size != 4 && size != 8 && size != 12) {
+                System.out.println(ColorCodes.RED + size + " was not part of the list..." + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
-        addBreadToSandwich(sandwich);
-        addMeatToSandwich(sandwich);
-        addCheeseToSandwich(sandwich);
-        addNormalToppings(sandwich);
-        addSauceToSandwich(sandwich);
-        toastSandwich(sandwich);
+            } else {
 
-        order.addItem(sandwich);
+                Sandwich sandwich = new Sandwich(size);
 
-//        System.out.println("A sandwich for : " + "\n" + order.getCustomerName());
+                addBreadToSandwich(sandwich);
+                addMeatToSandwich(sandwich);
+                addCheeseToSandwich(sandwich);
+                addNormalToppings(sandwich);
+                addSauceToSandwich(sandwich);
+                toastSandwich(sandwich);
+
+                order.addItem(sandwich);
 
 
+            }
+        }
     }
 
 
     // Selects which parts to add to Sandwich Separately
     //Bread
     private void addBreadToSandwich(Sandwich sandwich) {
-        System.out.println("Here is the lists of bread: ");
-        int numbering = 1;
-        for (Bread b : Bread.getBreadTypes()) {
-            System.out.println(numbering + ". " + b);
-            numbering++;
+
+
+        while (true) {
+            System.out.println("Here is the lists of bread: ");
+            int numbering = 1;
+            for (Bread b : Bread.getBreadTypes()) {
+                System.out.println(numbering + ". " + b);
+                numbering++;
+            }
+            int chosenBread = console.promptForInt("Which bread do you want?(0 to exit out): ");
+
+                if (chosenBread == 0) {
+                    return;
+                } else if (chosenBread <= Bread.getBreadTypes().size()) {
+                    Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
+                    sandwich.setBreadType(selectedBread);
+                    System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    break;
+                } else {
+                    System.out.println("Invalid number...please choose a number between 1 and " + Bread.getBreadTypes().size());
+                }
         }
-        int chosenBread = console.promptForInt("Which bread do you want?: ");
-        Bread selectedBread = Bread.getBreadTypes().get(chosenBread - 1);
-        sandwich.setBreadType(selectedBread);
-        System.out.println("\n " + ColorCodes.BOLD + selectedBread + " Bread selected \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
     }
 
     //Meat
@@ -225,8 +242,9 @@ public class UserInterface {
             if (extraCheese == 1) {
                 for (Cheese cheese : Cheese.getCheeseToppings()) {
                     cheese.setExtra(true);
-                    System.out.println(ColorCodes.BOLD + "\nExtra " + c + " added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
                 }
+                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
             }
             sandwich.addTopping(c);
 
@@ -365,8 +383,8 @@ public class UserInterface {
         String defaults = """
                  Here are the default orders:
                  1. BLT: 8" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted.
-                 2. Philly Cheese Steak: 8" White Bread, Steak, American Cheese, Peppers, Mayo Toasted
-                 Do you want pre-made sandwich (1-yes or 0-no):  \s
+                 2. Philly Cheese Steak: 8" White Bread, Steak, American Cheese, Peppers, Mayo, Toasted
+                Which pre-made sandwich do you want (1-BLT or 2-Philly Cheese Steak):   \s
                 \s""";
 
         int newSandwich;
@@ -375,12 +393,12 @@ public class UserInterface {
             newSandwich = console.promptForInt(defaults);
 
             if (newSandwich == 1) {
+                System.out.println(ColorCodes.BOLD + "You chose BLT: 8\" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
-                System.out.println("BLT: 8\" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted\n");
-                System.out.println("***NOTE*** When building a sandwich, press 0 to cancel out of the process");
+                System.out.println(ColorCodes.RED + "\n***NOTE*** Press 0 to cancel out of the process and return to this menu\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
-                int bltOrder = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no(0-Back)): ");
+                int bltOrder = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
 
                 BLT bltSandwich = new BLT();
                 if (bltOrder == 1) {
@@ -406,7 +424,7 @@ public class UserInterface {
                             System.out.println(ColorCodes.BOLD + "\nThis sandwich is not toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                             break;
                         } else {
-                            System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET);
+                            System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                         }
                     }
@@ -423,7 +441,8 @@ public class UserInterface {
 
             } else if (newSandwich == 2) {
 
-                System.out.println("Philly Cheese Steak: 8\" White Bread, Steak, American Cheese, Peppers, Mayo Toasted");
+                System.out.println(ColorCodes.BOLD + "\nPhilly Cheese Steak: 8\" White Bread, Steak, American Cheese, Peppers, Mayo Toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
                 int createPcs = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
 
                 PhillyCheeseSteak pcs = new PhillyCheeseSteak();
@@ -443,7 +462,7 @@ public class UserInterface {
                         pcs.setToasted(false);
 
                     } else {
-                        System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET);
+                        System.out.println(ColorCodes.RED + "Not a valid input" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     }
                     order.addItem(pcs);
                     newOrder = false;
@@ -461,6 +480,11 @@ public class UserInterface {
             }
         }
     }
+
+
+
+
+
 
 
     //Signature Sandwich BLT Creation
@@ -488,70 +512,87 @@ public class UserInterface {
         boolean choice = true;
         boolean addMeat = true;
         List<Meat> addedMeats = new ArrayList<>();
+
+        // User Chooses if they want to replace existing meat
         if (choice == console.getBoolean("Adding Bacon: Do you want to change this Meat?: ")) {
+            //Choice 1: Replace Meat
             while (addMeat) {
                 int numbering2 = 1;
+
 
                 for (Meat meat : Meat.getMeatTopping()) {
                     System.out.println(numbering2 + " " + meat);
                     numbering2++;
-
                 }
 
                 int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+
 
                 if (meaty == 0) {
                     addMeat = false;
                     continue;
                 }
 
-                Meat m = Meat.getMeatTopping().get(meaty - 1);
 
+                Meat m = Meat.getMeatTopping().get(meaty - 1);
                 System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
                 int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
-
                 if (extra == 1) {
+
                     for (Meat meat : Meat.getMeatTopping())
                         meat.setExtra(true);
-
                     System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                 }
+
+
                 bltSandwich.replaceMeat(m);
                 addedMeats.add(m);
                 System.out.println(addedMeats);
 
+
+                addMeat = console.getBoolean("Do you want to add more meat?");
             }
         } else {
+         //Choice 2: Not Replacing
             while (addMeat) {
-                if (choice == console.getBoolean("Do you want to add different meat?: ")) {
+                if (console.getBoolean("Do you want to add a different meat?: ")) {
                     int numbering3 = 1;
+
+
                     for (Meat meat : Meat.getMeatTopping()) {
                         System.out.println(numbering3 + " " + meat);
                         numbering3++;
-
                     }
+
 
                     int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
                     if (meaty == 0) {
-                            addMeat = false;
-                            continue;
+                        addMeat = false;
+                        continue;
                     }
+
 
                     Meat m = Meat.getMeatTopping().get(meaty - 1);
-
                     System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
 
+
+                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
                     if (extra == 1) {
+
                         for (Meat meat : Meat.getMeatTopping())
                             meat.setExtra(true);
-
                         System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     }
+
+
                     bltSandwich.addTopping(m);
                     addedMeats.add(m);
+                    System.out.println(addedMeats);
+
+
+                    addMeat = console.getBoolean("Do you want to add more meat?");
                 } else {
                     break;
                 }
@@ -560,11 +601,16 @@ public class UserInterface {
     }
 
 
+
     //Add more Cheese or Change Out Cheese
     private void addOrChangeCheeseForBLT(BLT bltSandwich) {
-        boolean addCheese = true;
         boolean choice = true;
-        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this? ")) {
+        boolean addCheese = true;
+        List<Cheese> addedCheese = new ArrayList<>();
+
+
+        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this cheese?: ")) {
+            // Choice 1: Replace Cheese
             while (addCheese) {
                 int numbering3 = 1;
 
@@ -574,82 +620,78 @@ public class UserInterface {
                     numbering3++;
                 }
 
+                int che = console.promptForInt("What type of cheese do you want? (0 to move on or skip): ");
 
-                int che;
-                try {
-                    che = console.promptForInt("What type of cheese do you want?: ");
-
-                    if (che == 0) {
-                        addCheese = false;
-
-
-                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
-                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
-                        bltSandwich.replaceCheese(c);
-                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                        int extraCheese = console.promptForInt("Do you want extra cheese?(1-Yes, 2-NO): ");
-
-                            if(extraCheese == 1){
-                                for(Cheese cheese: Cheese.getCheeseToppings()){
-                                    cheese.setExtra(true);
-                                }
-
-                                System.out.println(ColorCodes.BOLD + "\n Extra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                            }
-
-
-                    } else {
-                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    }
-                } catch (Exception e) {
-                    System.out.println("Invalid input. Please enter in a number");
+                if (che == 0) {
+                    addCheese = false;
+                    continue;
                 }
+
+
+                Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                System.out.println("\n " + ColorCodes.BOLD + c + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                int extraCheese = console.promptForInt("Do you want extra " + c + " cheese? (1 for yes, 2 for no): ");
+                if (extraCheese == 1) {
+                    for (Cheese cheese : Cheese.getCheeseToppings()) {
+                        cheese.setExtra(true);
+                    }
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                }
+
+
+                bltSandwich.replaceCheese(c);
+                addedCheese.add(c);
+                System.out.println(addedCheese);
+
+                addCheese = console.getBoolean("Do you want to add more cheese?");
             }
+        } else {
 
-
-        } else if (choice == console.getBoolean("Do you want to add more cheese?: ")) {
             while (addCheese) {
-                int numbering4 = 1;
+                if (console.getBoolean("Do you want to add a different cheese?: ")) {
+                    int numbering4 = 1;
 
-                for (Cheese cheese : Cheese.getCheeseToppings()) {
-                    System.out.println(numbering4 + " " + cheese);
-                    numbering4++;
-                }
 
-                int che;
-                try {
-                    che = console.promptForInt("What type of cheese do you want to add?: ");
+                    for (Cheese cheese : Cheese.getCheeseToppings()) {
+                        System.out.println(numbering4 + " " + cheese);
+                        numbering4++;
+                    }
 
+                    int che = console.promptForInt("What type of cheese do you want to add? (0 to move on or skip): ");
                     if (che == 0) {
                         addCheese = false;
-
-
-                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
-                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
-                        bltSandwich.addTopping(c);
-                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                        int extraCheese = console.promptForInt("Do you want extra cheese?(1-Yes, 2-NO: ");
-
-                        if(extraCheese == 1){
-                            for(Cheese cheese: Cheese.getCheeseToppings()){
-                                cheese.setExtra(true);
-                            }
-                            System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                        }
-                    } else {
-                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                        continue;
                     }
-                } catch (Exception e) {
-                    System.out.println("Invalid input. Please enter in a number");
+
+
+                    Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                    System.out.println("\n " + ColorCodes.BOLD + c + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                    int extraCheese = console.promptForInt("Do you want extra " + c + " cheese? (1 for yes, 2 for no): ");
+                    if (extraCheese == 1) {
+                        for (Cheese cheese : Cheese.getCheeseToppings()) {
+                            cheese.setExtra(true);
+                        }
+                        System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+
+
+                    bltSandwich.addTopping(c);
+                    addedCheese.add(c); // Add the cheese to the list
+                    System.out.println(addedCheese);
+
+                    addCheese = console.getBoolean("Do you want to add more cheese?");
+                } else {
+                    break;
                 }
-
-
-
             }
         }
-
-
     }
+
+
 
 
     //Add more Regular Toppings or Change out Topping
@@ -777,7 +819,10 @@ public class UserInterface {
     private void addOrChangeSauceOptionsForBLT(BLT bltSandwich) {
         boolean addingSauce = true;
         boolean choice = true;
+
+
         if (choice == console.getBoolean("Adding Ranch, do you want to change this?: ")) {
+
             while (addingSauce) {
                 int numbering5 = 1;
 
@@ -792,44 +837,49 @@ public class UserInterface {
                     addingSauce = false;
                     continue;
                 }
+
+
                 Sauce s = Sauce.getSauce().get(addASauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + s + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
 
                 bltSandwich.replaceSauce(s);
+
+
+                addingSauce = console.getBoolean("Do you want to add more sauce?");
             }
 
 
             boolean addingSideSauce = true;
-
             while (addingSideSauce) {
                 int numbering6 = 1;
 
+
                 for (SideSauce side : SideSauce.getSideSauces()) {
                     System.out.println(numbering6 + " " + side.getName());
+                    numbering6++;
                 }
-                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
 
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add? (0 to skip): ");
                 if (addSideSauce == 0) {
                     addingSideSauce = false;
                     continue;
                 }
 
                 SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + ss.getName() + " side sauce added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
-                if (addSideSauce >= 1) {
-                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
-                    if (another == 0) {
-                        addingSideSauce = false;
-
-                    }
+                int another = console.promptForInt("Would you like another? (1 for yes, 0 for no): ");
+                if (another == 0) {
+                    addingSideSauce = false;
                 }
 
-                bltSandwich.addSauce(ss);
 
+                bltSandwich.addSauce(ss);
             }
 
-
-        } else if(choice == console.getBoolean("Do you want to add another sauce?: ")){
+        } else {
 
             while (addingSauce) {
                 int numbering5 = 1;
@@ -845,44 +895,48 @@ public class UserInterface {
                     addingSauce = false;
                     continue;
                 }
+
+
                 Sauce s = Sauce.getSauce().get(addASauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + s + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
 
                 bltSandwich.addSauce(s);
+
+
+                addingSauce = console.getBoolean("Do you want to add more sauce?");
             }
 
 
             boolean addingSideSauce = true;
-
             while (addingSideSauce) {
                 int numbering6 = 1;
 
+
                 for (SideSauce side : SideSauce.getSideSauces()) {
                     System.out.println(numbering6 + " " + side.getName());
+                    numbering6++;
                 }
-                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
 
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add? (0 to skip): ");
                 if (addSideSauce == 0) {
                     addingSideSauce = false;
                     continue;
                 }
 
+
                 SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + ss.getName() + " side sauce added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
-                if (addSideSauce >= 1) {
-                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
-                    if (another == 0) {
-                        addingSideSauce = false;
-
-                    }
+                int another = console.promptForInt("Would you like another? (1 for yes, 0 for no): ");
+                if (another == 0) {
+                    addingSideSauce = false;
                 }
 
+
                 bltSandwich.addSauce(ss);
-
             }
-
-
-
         }
     }
 
@@ -916,55 +970,61 @@ public class UserInterface {
     private void addOrChangeMeatForPCS(PhillyCheeseSteak pcs){
         boolean choice = true;
         boolean addMeat = true;
-        if (choice == console.getBoolean("Adding Steak: Do you want to change this Meat?: ")) {
+        List<Meat> addedMeats = new ArrayList<>();
+
+        // User Chooses if they want to replace existing meat
+        if (choice == console.getBoolean("Adding Bacon: Do you want to change this Meat?: ")) {
+            //Choice 1: Replace Meat
             while (addMeat) {
                 int numbering2 = 1;
+
 
                 for (Meat meat : Meat.getMeatTopping()) {
                     System.out.println(numbering2 + " " + meat);
                     numbering2++;
-
                 }
 
                 int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
+
 
                 if (meaty == 0) {
                     addMeat = false;
                     continue;
                 }
 
-                Meat m = Meat.getMeatTopping().get(meaty - 1);
 
+                Meat m = Meat.getMeatTopping().get(meaty - 1);
                 System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
                 int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
-
                 if (extra == 1) {
+
                     for (Meat meat : Meat.getMeatTopping())
                         meat.setExtra(true);
-
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                 }
-                System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                pcs.addTopping(m);
-                addMeat = false;
 
-//                int addMore = console.promptForInt("Do you want to add another meat? (1-yes 2-No): ");
-//                if(addMore == 1){
-//
-//
-//                }
 
+                pcs.replaceMeat(m);
+                addedMeats.add(m);
+                System.out.println(addedMeats);
+
+
+                addMeat = console.getBoolean("Do you want to add more meat?");
             }
         } else {
+            //Choice 2: Not Replacing
             while (addMeat) {
-                if (choice == console.getBoolean("Do you want to add different meat?: ")) {
+                if (console.getBoolean("Do you want to add a different meat?: ")) {
                     int numbering3 = 1;
+
+
                     for (Meat meat : Meat.getMeatTopping()) {
                         System.out.println(numbering3 + " " + meat);
                         numbering3++;
-
                     }
+
 
                     int meaty = console.promptForInt("Which meat do you want? (0 to move on or skip): ");
                     if (meaty == 0) {
@@ -972,18 +1032,26 @@ public class UserInterface {
                         continue;
                     }
 
+
                     Meat m = Meat.getMeatTopping().get(meaty - 1);
-
                     System.out.println("\n " + ColorCodes.BOLD + m + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
 
+
+                    int extra = console.promptForInt("Do you want extra " + m + " " + "(1 for yes, 0 for no): ");
                     if (extra == 1) {
+
                         for (Meat meat : Meat.getMeatTopping())
                             meat.setExtra(true);
-
                         System.out.println(ColorCodes.BOLD + "\nExtra " + m + " added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     }
+
+
                     pcs.addTopping(m);
+                    addedMeats.add(m);
+                    System.out.println(addedMeats);
+
+
+                    addMeat = console.getBoolean("Do you want to add more meat?");
                 } else {
                     break;
                 }
@@ -993,9 +1061,13 @@ public class UserInterface {
 
     //Add more Cheese or Change Out Cheese
     private void addOrChangeCheeseForPCS(PhillyCheeseSteak pcs){
-        boolean addCheese = true;
         boolean choice = true;
-        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this? ")) {
+        boolean addCheese = true;
+        List<Cheese> addedCheese = new ArrayList<>();
+
+
+        if (choice == console.getBoolean("Adding Cheddar Cheese: Do you want to change this cheese?: ")) {
+            // Choice 1: Replace Cheese
             while (addCheese) {
                 int numbering3 = 1;
 
@@ -1005,76 +1077,73 @@ public class UserInterface {
                     numbering3++;
                 }
 
+                int che = console.promptForInt("What type of cheese do you want? (0 to move on or skip): ");
 
-                int che;
-                try {
-                    che = console.promptForInt("What type of cheese do you want to add?: ");
-
-                    if (che == 0) {
-                        addCheese = false;
-
-
-                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
-                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
-                        pcs.replaceCheese(c);
-                        int extraCheese = console.promptForInt("Do you want extra cheese?: ");
-
-                        if(extraCheese == 1){
-                            for(Cheese cheese: Cheese.getCheeseToppings()){
-                                cheese.setExtra(true);
-                                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                            }
-                        }
-
-                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    } else {
-                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    }
-                } catch (Exception e) {
-                    System.out.println("Invalid input. Please enter in a number");
+                if (che == 0) {
+                    addCheese = false;
+                    continue;
                 }
+
+
+                Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                System.out.println("\n " + ColorCodes.BOLD + c + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                int extraCheese = console.promptForInt("Do you want extra " + c + " cheese? (1 for yes, 2 for no): ");
+                if (extraCheese == 1) {
+                    for (Cheese cheese : Cheese.getCheeseToppings()) {
+                        cheese.setExtra(true);
+                    }
+                    System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                }
+
+
+                pcs.replaceCheese(c);
+                addedCheese.add(c);
+                System.out.println(addedCheese);
+
+                addCheese = console.getBoolean("Do you want to add more cheese?");
             }
+        } else {
 
-
-        } else if (choice == console.getBoolean("Do you want to add more cheese?: ")) {
             while (addCheese) {
-                int numbering4 = 1;
+                if (console.getBoolean("Do you want to add a different cheese?: ")) {
+                    int numbering4 = 1;
 
-                for (Cheese cheese : Cheese.getCheeseToppings()) {
-                    System.out.println(numbering4 + " " + cheese);
-                    numbering4++;
-                }
 
-                int che;
-                try {
-                    che = console.promptForInt("What type of cheese do you want to add?: ");
+                    for (Cheese cheese : Cheese.getCheeseToppings()) {
+                        System.out.println(numbering4 + " " + cheese);
+                        numbering4++;
+                    }
 
+                    int che = console.promptForInt("What type of cheese do you want to add? (0 to move on or skip): ");
                     if (che == 0) {
                         addCheese = false;
-
-
-                    } else if (che >= 1 && che <= Cheese.getCheeseToppings().size()) {
-                        Cheese c = Cheese.getCheeseToppings().get(che - 1);
-                        pcs.replaceCheese(c);
-                        int extraCheese = console.promptForInt("Do you want extra cheese?: ");
-
-                        if(extraCheese == 1){
-                            for(Cheese cheese: Cheese.getCheeseToppings()){
-                                cheese.setExtra(true);
-                                System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                            }
-                        }
-
-                        System.out.println(ColorCodes.BOLD + "\n" + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
-                    } else {
-                        System.out.println( ColorCodes.BOLD + "\nInvalid Input, Please enter a number between 1 and " + Cheese.getCheeseToppings().size() + "\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                        continue;
                     }
-                } catch (Exception e) {
-                    System.out.println("Invalid input. Please enter in a number");
+
+
+                    Cheese c = Cheese.getCheeseToppings().get(che - 1);
+                    System.out.println("\n " + ColorCodes.BOLD + c + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                    int extraCheese = console.promptForInt("Do you want extra " + c + " cheese? (1 for yes, 2 for no): ");
+                    if (extraCheese == 1) {
+                        for (Cheese cheese : Cheese.getCheeseToppings()) {
+                            cheese.setExtra(true);
+                        }
+                        System.out.println(ColorCodes.BOLD + "\nExtra " + c + " cheese added\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    }
+
+
+                    pcs.addTopping(c);
+                    addedCheese.add(c); // Add the cheese to the list
+                    System.out.println(addedCheese);
+
+                    addCheese = console.getBoolean("Do you want to add more cheese?");
+                } else {
+                    break;
                 }
-
-
-
             }
         }
 
@@ -1167,59 +1236,9 @@ public class UserInterface {
     private void addOrChangeSauceForPCS(PhillyCheeseSteak pcs) {
         boolean addingSauce = true;
         boolean choice = true;
-        if (choice == console.getBoolean("Adding Mayo, do you want to change this?: ")) {
-            while (addingSauce) {
-                int numbering5 = 1;
 
 
-                for (Sauce sauces : Sauce.getSauce()) {
-                    System.out.println(numbering5 + " " + sauces);
-                    numbering5++;
-                }
-
-                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
-                if (addASauce == 0) {
-                    addingSauce = false;
-                    continue;
-                }
-                Sauce s = Sauce.getSauce().get(addASauce - 1);
-
-                pcs.addSauce(s);
-            }
-
-
-            boolean addingSideSauce = true;
-
-            while (addingSideSauce) {
-                int numbering6 = 1;
-
-                for (SideSauce side : SideSauce.getSideSauces()) {
-                    System.out.println(numbering6 + " " + side.getName());
-                }
-                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
-
-                if (addSideSauce == 0) {
-                    addingSideSauce = false;
-                    continue;
-                }
-
-                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
-
-
-                if (addSideSauce >= 1) {
-                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
-                    if (another == 0) {
-                        addingSideSauce = false;
-
-                    }
-                }
-
-                pcs.addSauce(ss);
-
-            }
-
-
-        } else if(choice == console.getBoolean("Do you want to add another sauce?: ")){
+        if (choice == console.getBoolean("Adding Ranch, do you want to change this?: ")) {
 
             while (addingSauce) {
                 int numbering5 = 1;
@@ -1235,44 +1254,106 @@ public class UserInterface {
                     addingSauce = false;
                     continue;
                 }
-                Sauce s = Sauce.getSauce().get(addASauce - 1);
 
-                pcs.addSauce(s);
+
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + s + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                pcs.replaceSauce(s);
+
+
+                addingSauce = console.getBoolean("Do you want to add more sauce?");
             }
 
 
             boolean addingSideSauce = true;
-
             while (addingSideSauce) {
                 int numbering6 = 1;
 
+
                 for (SideSauce side : SideSauce.getSideSauces()) {
                     System.out.println(numbering6 + " " + side.getName());
+                    numbering6++;
                 }
-                int addSideSauce = console.promptForInt("Which side sauce do you want to add?(0 to sip): ");
 
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add? (0 to skip): ");
                 if (addSideSauce == 0) {
                     addingSideSauce = false;
                     continue;
                 }
 
                 SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + ss.getName() + " side sauce added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
 
-                if (addSideSauce >= 1) {
-                    int another = console.promptForInt("Would you like another? (1 for yes 0 for no): ");
-                    if (another == 0) {
-                        addingSideSauce = false;
-
-                    }
+                int another = console.promptForInt("Would you like another? (1 for yes, 0 for no): ");
+                if (another == 0) {
+                    addingSideSauce = false;
                 }
 
-                pcs.addSauce(ss);
 
+                pcs.addSauce(ss);
+            }
+
+        } else {
+
+            while (addingSauce) {
+                int numbering5 = 1;
+
+
+                for (Sauce sauces : Sauce.getSauce()) {
+                    System.out.println(numbering5 + " " + sauces);
+                    numbering5++;
+                }
+
+                int addASauce = console.promptForInt("Which Sauce would you like to add? (0 to skip): ");
+                if (addASauce == 0) {
+                    addingSauce = false;
+                    continue;
+                }
+
+
+                Sauce s = Sauce.getSauce().get(addASauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + s + " selected  \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                pcs.addSauce(s);
+
+
+                addingSauce = console.getBoolean("Do you want to add more sauce?");
             }
 
 
+            boolean addingSideSauce = true;
+            while (addingSideSauce) {
+                int numbering6 = 1;
 
+
+                for (SideSauce side : SideSauce.getSideSauces()) {
+                    System.out.println(numbering6 + " " + side.getName());
+                    numbering6++;
+                }
+
+                int addSideSauce = console.promptForInt("Which side sauce do you want to add? (0 to skip): ");
+                if (addSideSauce == 0) {
+                    addingSideSauce = false;
+                    continue;
+                }
+
+
+                SideSauce ss = SideSauce.getSideSauces().get(addSideSauce - 1);
+                System.out.println("\n " + ColorCodes.BOLD + ss.getName() + " side sauce added \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+
+                int another = console.promptForInt("Would you like another? (1 for yes, 0 for no): ");
+                if (another == 0) {
+                    addingSideSauce = false;
+                }
+
+
+                pcs.addSauce(ss);
+            }
         }
     }
 
@@ -1329,7 +1410,7 @@ public class UserInterface {
 
                     } else {
 
-                        System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET);
+                        System.out.println(ColorCodes.RED + "Not a valid size" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     }
                 }
                     addDrink = false;
@@ -1410,7 +1491,7 @@ public class UserInterface {
                 confirmation = console.promptForInt("Would you like to proceed?( 1 to proceed, 0 to go back): ");
                 if (confirmation > 1) {
 
-                    System.out.println(ColorCodes.RED + "Not a valid number" + ColorCodes.RESET);
+                    System.out.println(ColorCodes.RED + "Not a valid number" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                 } else if (confirmation == 1) {
 

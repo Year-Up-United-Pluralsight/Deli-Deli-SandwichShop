@@ -15,4 +15,6 @@ public interface customizeToppings {
     void removeCheese(Cheese cheese);
     void replaceCheese(Cheese replacedCheese);
     void replaceToasted(boolean toasted);
+    void replaceToppingAtIndex0(RegularToppings replacedTopping);
+    void replaceToppingAtIndex1(RegularToppings regularToppings);
 }
