@@ -54,7 +54,7 @@ public class UserInterface {
             choose = console.promptForInt(welcomeMessage);
             if (choose == 1) {
                 menuOrders();
-                break;
+
             } else {
                 System.out.println("Quitting...");
             }
@@ -104,7 +104,7 @@ public class UserInterface {
                     if (confirmation == 1) {
                         System.out.println("\n" + ColorCodes.BOLD + "Order Canceled" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                         order.clearMenuItem();
-                        welcomeScreen();
+                       return;
                     } else if (confirmation > 1 | confirmation < 0) {
                         System.out.println("not a valid number");
                     }
@@ -399,7 +399,9 @@ public class UserInterface {
         String defaults = """
                  Here are the default orders:
                  1. BLT: 8" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted.
+                
                  2. Philly Cheese Steak: 8" White Bread, Steak, American Cheese, Peppers, Mayo, Toasted
+                
                 Which pre-made sandwich do you want (1-BLT or 2-Philly Cheese Steak):   \s
                 \s""";
 
@@ -451,13 +453,17 @@ public class UserInterface {
 
                     order.addItem(bltSandwich);
 
-                    System.out.println(bltSandwich);
+                    System.out.println("\n" +ColorCodes.BOLD + bltSandwich + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                 }
 
 
             } else if (newSandwich == 2) {
 
+
+
                 System.out.println(ColorCodes.BOLD + "\nPhilly Cheese Steak: 8\" White Bread, Steak, American Cheese, Peppers, Mayo Toasted\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+
+                System.out.println(ColorCodes.RED + "\n***NOTE*** Press 0 to cancel out of the process and return to this menu\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                 int createPcs = console.promptForInt("Do you want to customize this sandwich?(1-yes 2-no): ");
 
@@ -486,7 +492,7 @@ public class UserInterface {
 
                     order.addItem(pcs);
 
-                    System.out.println(pcs);
+                    System.out.println("\n" +ColorCodes.BOLD + pcs + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
 
 
                 }
