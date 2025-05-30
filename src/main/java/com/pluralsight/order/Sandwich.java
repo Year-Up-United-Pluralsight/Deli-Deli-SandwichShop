@@ -16,6 +16,7 @@ public class Sandwich implements MenuItem {
     double price;
     private boolean toasted;
 
+    //Everything here is what a single Sandwich can have
 
     public Sandwich(int size) {
         this.size = size;

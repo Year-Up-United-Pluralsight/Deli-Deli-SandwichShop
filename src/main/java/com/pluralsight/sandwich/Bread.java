@@ -9,6 +9,7 @@ public class Bread{
     private final String name;
     private final double price;
 
+    //This holds everything that bread  needs/ has
 
     public Bread(String name) {
         this.name = name;

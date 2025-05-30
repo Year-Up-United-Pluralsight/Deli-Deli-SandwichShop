@@ -18,3 +18,5 @@ public interface customizeToppings {
     void replaceToppingAtIndex0(RegularToppings replacedTopping);
     void replaceToppingAtIndex1(RegularToppings regularToppings);
 }
+
+//This class will help in the future to add and remove toppings and sauce.

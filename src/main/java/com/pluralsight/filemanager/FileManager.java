@@ -23,6 +23,7 @@ public class FileManager {
     private final String today = todaySDate.format(getDateTime);
 
 
+    //This will save the file to a receipts folder inside of SRC
 
 
     public void saveReceipt(Order order){

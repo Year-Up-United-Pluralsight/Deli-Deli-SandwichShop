@@ -31,6 +31,7 @@ public class UserInterface {
 
     //initial starting point
     public void init() {
+        //This is were the User is taken first, They cant see this screen, but they will then be moved to the welcome screen
         fileManager = new FileManager();
 
         welcomeScreen();
@@ -40,6 +41,8 @@ public class UserInterface {
 
     //Sandwich Shop Start
     private void welcomeScreen() {
+
+        //Start Screen and how the application gets going.
 
         String welcomeMessage = ColorCodes.FLORAL_WHITE + """
                 
@@ -67,6 +70,9 @@ public class UserInterface {
 
     //Menu Orders
     private void menuOrders() {
+        //The main menu, After an Order has been created using a Customer Name
+        //Everything here can be added to the order, and then checked out.
+        //Users can cancel their order as well.
         String orderSelections = """ 
                 Please select your order\s
                  1. Yes, Let's make a sandwich!\s
@@ -116,6 +122,7 @@ public class UserInterface {
     //The order of making a sandwich
     private void orderSandwich() {
 
+        //This is the start of a Sandwich is the root where all the methods combine into here to form the sandwich.
         int size;
         while (true) {
             size = console.promptForInt("What size sandwich do you want [4, 8, 12]: ");
@@ -147,7 +154,8 @@ public class UserInterface {
     // Selects which parts to add to Sandwich Separately
     //Bread
     private void addBreadToSandwich(Sandwich sandwich) {
-
+        //Creating the Bread to start the creation of a sandwich
+        //After this method, if the user presses 0 on anything, they can skip the current topping.
 
         while (true) {
             System.out.println("Here is the lists of bread: ");
@@ -175,6 +183,7 @@ public class UserInterface {
     //Meat
     private void addMeatToSandwich(Sandwich sandwich) {
 
+        //Allows the user to pick a Meat, and add extra of that Meat and allows the user to add more meat on top of that
         boolean addMeat = true;
 
         while (addMeat) {
@@ -222,7 +231,7 @@ public class UserInterface {
 
     //Cheese
     private void addCheeseToSandwich(Sandwich sandwich) {
-
+        //This method allows the user to add Cheese and an Extra of the same Cheese, then allows the user to pick again
         boolean addCheese = true;
 
         while (addCheese) {
@@ -264,7 +273,7 @@ public class UserInterface {
     //NormalToppings
     private void addNormalToppings(Sandwich sandwich) {
 
-
+        //This entire method allows the user to keep adding on toppings as much as they want.
         List<RegularToppings> normalT = new ArrayList<>();
         boolean normalToppings = true;
 
@@ -312,6 +321,7 @@ public class UserInterface {
     //Sauce
     private void addSauceToSandwich(Sandwich sandwich) {
 
+        //This entire method allows for the user to choose if they want to add Sauce/Side Sauce to their sandwich
         boolean addingSauce = true;
 
         while (addingSauce) {
@@ -375,7 +385,7 @@ public class UserInterface {
 
     //Toasted // Not Toasted
     private void toastSandwich(Sandwich sandwich) {
-
+        //Lets the user toast a sandwich
         boolean check = true;
 
         while (check) {
@@ -396,6 +406,7 @@ public class UserInterface {
 
     //Signature Sandwiches
     private void signatureSandwiches() {
+       //Signature Sandwiches for the user to choose from or customize.
         String defaults = """
                  Here are the default orders:
                  1. BLT: 8" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted.
@@ -410,7 +421,9 @@ public class UserInterface {
         while (newOrder) {
             newSandwich = console.promptForInt(defaults);
 
+
             if (newSandwich == 1) {
+                //Lists out to the user the option they picked
                 System.out.println(ColorCodes.BOLD + "You chose BLT: 8\" White Bread, Bacon, Cheddar, Lettuce, Tomato, Ranch, Toasted \n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                 System.out.println(ColorCodes.RED + "\n***NOTE*** Press 0 to cancel out of the process and return to this menu\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
@@ -420,6 +433,8 @@ public class UserInterface {
 
                 BLT bltSandwich = new BLT();
                 if (bltOrder == 1) {
+                    //Lists out all the changes that needs to happen to make this sandwich by customizing it.
+                    //These are methods
                     changeBreadForBLT(bltSandwich);
                     addOrChangeMeatForBLT(bltSandwich);
                     addOrChangeCheeseForBLT(bltSandwich);
@@ -1388,28 +1403,33 @@ public class UserInterface {
         while (addDrink) {
             System.out.println("Here are the drinks:");
             int drinkNumber = 1;
+            //Loops through the drinks
             for (Drink d : Drink.getDrinkFlavor()) {
-
                 System.out.println(drinkNumber + " " + d.getName());
                 drinkNumber++;
 
             }
 
+            //Asks the User to choose which drink they want from the list
             int chooseDrink = console.promptForInt("Which drink do you want? (0 to cancel): " );
 
+            //If they change their mind, 0 will back them out
             if (chooseDrink == 0) {
                 break;
 
+                //If they chose an invalid number, They need to try again
             } else if (chooseDrink > Drink.getDrinkFlavor().size()) {
 
                 System.out.println("Invalid..please try again");
 
             } else {
 
+                //Need to minus one because of how we handle the loop at the start of the method
                 Drink drink = Drink.getDrinkFlavor().get(chooseDrink - 1);
 
                 while (true) {
 
+                    //Asks the user to input a string, to find out the size drink they want
                     String size = console.promptForString("What size Drink do you want?(Small, Medium, Large):  ");
 
                     if (size.equalsIgnoreCase("Small")) {
@@ -1455,9 +1475,11 @@ public class UserInterface {
 
         while (addChip) {
 
-            System.out.println("Which chip would you like to have?");
-            int numberingChip = 1;
 
+            System.out.println("Which chip would you like to have?");
+            int numberingChip = 1; //Makes sure that the number starts at 1 rather than 0
+
+            //Loops through all the chips and displays them.
             for (Chip c : Chip.getChips()) {
                 System.out.println(numberingChip + " " + c.getName());
                 numberingChip++;
@@ -1472,13 +1494,15 @@ public class UserInterface {
                 System.out.println("Not a valid number please try again");
 
             } else {
-                Chip chips = Chip.getChips().get(chooseChip - 1);
+                Chip chips = Chip.getChips().get(chooseChip - 1); //Because the number starts at 1 rather than 0, we need to minus 1 from chosen chip
                 addChip = false;
 
 
+                //Add to the order
                 order.addItem(chips);
 
 
+                //Out print to the user
                 System.out.println("\n" + ColorCodes.BOLD + chips + ColorCodes.RESET +ColorCodes.FLORAL_WHITE + "\n");
 
 
@@ -1492,14 +1516,16 @@ public class UserInterface {
     //Check Out
     public void checkOut() {
 
+        // Finds out if there is any order to be checked out
         if(order.getMenuItems() != null && order.getTotal() != 0){
-
+            // Loops through all order items
             for(MenuItem menuItem : order.getMenuItems()){
-
+                //Out prints the items.
                 System.out.println("\n" + ColorCodes.BOLD + menuItem.description() + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
             }
 
 
+            //Out prints the total price
            System.out.printf(ColorCodes.BOLD + "\n The total price is %.2f\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE , order.getTotal());
 
         }
@@ -1508,16 +1534,18 @@ public class UserInterface {
 
         boolean checkingOut = true;
 
+        //Finds out if the total isn't 0 and displays it out
         if(order.getMenuItems() != null && order.getTotal() != 0) {
             while (checkingOut) {
 
+                //Asks if the User is sure they want to proceed with the check out
                 confirmation = console.promptForInt("Would you like to proceed?( 1 to proceed, 0 to go back): ");
                 if (confirmation > 1) {
-
+                    //If they inputted an invalid number, it won't go through
                     System.out.println(ColorCodes.RED + "Not a valid number" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
 
                 } else if (confirmation == 1) {
-
+                    //If they chose 1, then saves it and gives a receipt
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
                     welcomeScreen();
@@ -1525,6 +1553,7 @@ public class UserInterface {
 
 
                 } else {
+                    //If they cancel, they can choose to add more to the order.
                     checkingOut = false;
                     System.out.println("\n" + ColorCodes.BOLD + "Cancelling" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE + "\n");
                 }
