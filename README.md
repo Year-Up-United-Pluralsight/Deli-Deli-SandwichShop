@@ -45,5 +45,20 @@ Another space down we get a thank-you message. Then one more space down we get t
 
 ![AddToOptionChoice](https://github.com/user-attachments/assets/88278e68-8df2-4136-ac7c-7f3a7475df23)
 
+![Receipt ](https://github.com/user-attachments/assets/1bbf2a94-af35-4caf-900a-5fd4005f4d84)
+
+![Deli-Deli-Sandwich Shop](https://github.com/user-attachments/assets/99500860-a0b3-4541-b1b5-feb7e6dbaa32)
+
+![Deli-Deli-Sandwich Shop2](https://github.com/user-attachments/assets/c8598c13-d09f-4e52-957b-b6b24858bca7)
+
+![Deli-Deli-Sandwich Shop3](https://github.com/user-attachments/assets/1d42a4bf-b587-4122-8225-4fa7be655f9a)
+
+![Deli-Deli-Sandwich Shop4](https://github.com/user-attachments/assets/677feef5-a25d-4ce8-a035-cc7d947d6d8d)
+
+
+![Deli-Deli-Sandwich Shop5](https://github.com/user-attachments/assets/d34f635c-bbcb-4ba1-af75-5dade2ad1bf4)
+
+
+
 
 
