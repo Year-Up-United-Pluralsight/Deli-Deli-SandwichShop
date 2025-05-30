@@ -52,18 +52,19 @@ public class UserInterface {
                 0. No, I'll leave (Quit)\s
                 Enter here:\s""";
 
-        int choose;
-        do {
-            choose = console.promptForInt(welcomeMessage);
+
+        while (true){
+            int choose = console.promptForInt(welcomeMessage);
             if (choose == 1) {
                 menuOrders();
 
             } else {
                 System.out.println("Quitting...");
+                break;
             }
 
 
-        } while (choose != 0);
+        }
 
 
     }
@@ -1527,10 +1528,9 @@ public class UserInterface {
 
                 } else if (confirmation == 1) {
                     //If they chose 1, then saves it and gives a receipt
-                    System.out.println(ColorCodes.BOLD + "\nOrder has been completed! Thank you\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
+                    System.out.println(ColorCodes.BOLD + "\n Your order has been completed! Thank you\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
-                    welcomeScreen();
                     return;
 
 
