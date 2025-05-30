@@ -5,6 +5,7 @@ import com.pluralsight.order.MenuItem;
 
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -15,8 +16,8 @@ public class FileManager {
 
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
-    private final LocalDateTime fileName = LocalDateTime.now();
-    private final String formattedDate = fileName.format(dateTimeFormatter) + ".txt";
+    private final LocalDateTime localDateTime = LocalDateTime.now();
+    private final String fileName = localDateTime.format(dateTimeFormatter) + ".txt";
     private final DateTimeFormatter getDateTime = DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm");
     private final LocalDateTime todaySDate = LocalDateTime.now();
     private final String today = todaySDate.format(getDateTime);
@@ -26,7 +27,14 @@ public class FileManager {
 
     public void saveReceipt(Order order){
 
-        try {BufferedWriter bw = new BufferedWriter(new FileWriter((formattedDate), true));
+        File folder = new File("src/receipts");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        String pathToFolder = "src/receipts/" + fileName;
+
+        try {BufferedWriter bw = new BufferedWriter(new FileWriter((pathToFolder), true));
             if(order != null){
                 bw.write("--------------------------------------------\n");
                 bw.write("DELI-DELI SANDWICH SHOP\n");
