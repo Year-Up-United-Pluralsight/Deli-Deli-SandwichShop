@@ -78,10 +78,9 @@ public class UserInterface {
                 Enter here:\s""";
 
         int choose;
-        boolean isTrue = true;
         String customerName = console.promptForString("What is your name?: ");
         order = new Order(customerName, LocalDateTime.now());
-        while (isTrue) {
+        while (true) {
             choose = console.promptForInt(orderSelections);
             switch (choose) {
                 case 1:
