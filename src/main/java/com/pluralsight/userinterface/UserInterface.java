@@ -403,7 +403,6 @@ public class UserInterface {
         }
     }
 
-
     //Signature Sandwiches
     private void signatureSandwiches() {
        //Signature Sandwiches for the user to choose from or customize.
@@ -519,11 +518,6 @@ public class UserInterface {
     }
 
 
-
-
-
-
-
     //Signature Sandwich BLT Creation
     //Change Out Bread
     private void changeBreadForBLT(BLT bltSandwich) {
@@ -637,8 +631,6 @@ public class UserInterface {
         }
     }
 
-
-
     //Add more Cheese or Change Out Cheese
     private void addOrChangeCheeseForBLT(BLT bltSandwich) {
         boolean choice = true;
@@ -727,9 +719,6 @@ public class UserInterface {
             }
         }
     }
-
-
-
 
     //Add more Regular Toppings or Change out Topping
     private void addOrChangeRegToppings1ForBLT(BLT bltSandwich) {
@@ -976,9 +965,6 @@ public class UserInterface {
             }
         }
     }
-
-
-
 
     //Signature Sandwich PhillyCheeseSteak Creation
     //Change Out Bread
@@ -1394,8 +1380,6 @@ public class UserInterface {
         }
     }
 
-
-
     //Adds extra items
     //Add Drinks
     private void addDrinkToOrder() {
@@ -1464,9 +1448,6 @@ public class UserInterface {
         }
 
     }
-
-
-
 
     //Add Chips
     private void addChipsToOrder() {
@@ -1546,6 +1527,7 @@ public class UserInterface {
 
                 } else if (confirmation == 1) {
                     //If they chose 1, then saves it and gives a receipt
+                    System.out.println(ColorCodes.BOLD + "\nOrder has been completed! Thank you\n" + ColorCodes.RESET + ColorCodes.FLORAL_WHITE);
                     fileManager.saveReceipt(order);
                     order.clearMenuItem();
                     welcomeScreen();
