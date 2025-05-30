@@ -31,7 +31,7 @@ public class UserInterface {
 
     //initial starting point
     public void init() {
-        //This is were the User is taken first, They cant see this screen, but they will then be moved to the welcome screen
+        //This is where the User is taken first, They cant see this screen, but they will then be moved to the welcome screen
         fileManager = new FileManager();
 
         welcomeScreen();
@@ -1538,7 +1538,7 @@ public class UserInterface {
         if(order.getMenuItems() != null && order.getTotal() != 0) {
             while (checkingOut) {
 
-                //Asks if the User is sure they want to proceed with the check out
+                //Asks if the User is sure they want to proceed with the check-out
                 confirmation = console.promptForInt("Would you like to proceed?( 1 to proceed, 0 to go back): ");
                 if (confirmation > 1) {
                     //If they inputted an invalid number, it won't go through
